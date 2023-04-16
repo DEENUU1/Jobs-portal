@@ -46,3 +46,22 @@ class CountryModelTestCase(TestCase):
         self.assertEqual(
             self.country.name, "Poland"
         )
+
+
+class LocalizationModelTestCase(TestCase):
+    def setUp(self) -> None:
+        self.country = Country.objects.create(
+            name = "Poland"
+        )
+        self.localization = Localization.objects.create(
+            country = self.country,
+            city = "Warsaw"
+        )
+
+    def test_localization_model_creation(self):
+        self.assertEqual(
+            self.localization.country, self.country
+        )
+        self.assertEqual(
+            self.localization.city, "Warsaw"
+        )
