@@ -66,11 +66,25 @@ class Contract(models.Model):
         return self.contract_type
 
 
+class Requirements(models.Model):
+    name = models.CharField(max_length=50)
+
+    class Meta:
+        ordering = ('name',)
+        verbose_name = 'Requirement'
+        verbose_name_plural = 'Requirements'
+    
+    
+    def __str__(self):
+        return self.name 
+
+
 class Offer(models.Model):
     name = models.CharField(max_length=50)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
     contract = models.ManyToManyField(Contract)
+    requirements = models.ManyToManyField(Requirements)
     localization = models.ForeignKey(Localization, on_delete=models.CASCADE)
     description = models.CharField(max_length=1000)
     salary_from = models.IntegerField(null=True, blank=True)
