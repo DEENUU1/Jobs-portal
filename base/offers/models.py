@@ -1,5 +1,7 @@
 from django.db import models
 from accounts.models import CustomUser
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 class Position(models.Model):
     position_name = models.CharField(max_length=50)
@@ -96,3 +98,17 @@ class Offer(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Application(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    phone_number = PhoneNumberField()
+    message = models.CharField(max_length=1000)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+    expected_pay = models.DecimalField(max_digits=10, decimal_places=2)
+    date_created = models.DateTimeField(auto_now_add=True)
+    portfolio = models.URLField(null=True, blank=True)
+    linkedin = models.URLField(null=True, blank=True)
+    cv = models.FileField(upload_to='resumes', null=True, blank=True)

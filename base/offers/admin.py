@@ -5,7 +5,8 @@ from .models import (
     Country,
     Localization,
     Contract,
-    Offer
+    Offer,
+    Application
 )
 
 admin.site.register(Position)
@@ -14,3 +15,4 @@ admin.site.register(Country)
 admin.site.register(Localization)
 admin.site.register(Contract)
 admin.site.register(Offer)
+admin.site.register(Application)
