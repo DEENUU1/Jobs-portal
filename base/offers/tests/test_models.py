@@ -13,42 +13,66 @@ from accounts.models import CustomUser
 
 
 class PositionModelTestCase(TestCase):
+    """
+    Test Case for Position model
+    """
     def setUp(self) -> None:
         self.position = Position.objects.create(
             position_name = "Python"
         )
     
-    def test_position_model_creation(self):
+    def test_position_model_creation(self) -> None:
+        """
+        Test creation object of Position model
+        :return: None
+        """
         self.assertEqual(
             self.position.position_name, "Python"
         )
 
 
 class LevelModelTestCase(TestCase):
+    """
+    Test Case for Level model
+    """
     def setUp(self) -> None:
         self.level = Level.objects.create(
             level_name = "Junior"
         )
     
-    def test_level_model_creation(self):
+    def test_level_model_creation(self) -> None:
+        """
+        Test creation object of Level model
+        :return: None
+        """
         self.assertEqual(
             self.level.level_name, "Junior"
         )
 
 
 class CountryModelTestCase(TestCase):
+    """
+    Test Case for Country model
+    """
     def setUp(self) -> None:
         self.country = Country.objects.create(
             name = "Poland"
         )
     
-    def test_country_model_creation(self):
+    def test_country_model_creation(self) -> None:
+        """
+        Test creation object of Country model
+        :return: None
+        """
         self.assertEqual(
             self.country.name, "Poland"
         )
 
 
 class LocalizationModelTestCase(TestCase):
+    """
+    Test Case for Localization model
+    """
     def setUp(self) -> None:
         self.country = Country.objects.create(
             name = "Poland"
@@ -58,7 +82,11 @@ class LocalizationModelTestCase(TestCase):
             city = "Warsaw"
         )
 
-    def test_localization_model_creation(self):
+    def test_localization_model_creation(self) -> None:
+        """
+        Test creation object of Localization model
+        :return: None
+        """
         self.assertEqual(
             self.localization.country, self.country
         )
@@ -68,30 +96,47 @@ class LocalizationModelTestCase(TestCase):
 
 
 class ContractModelTestCase(TestCase):
+    """
+    Test Case for Contract model
+    """
     def setUp(self) -> None:
         self.contract = Contract.objects.create(
             contract_type = "B2B"
         )
     
-    def test_contract_model_creation(self):
+    def test_contract_model_creation(self) -> None:
+        """
+        Test creation object of Contract model
+        :return: None
+        """
         self.assertEqual(
             self.contract.contract_type, "B2B"
         )
 
 
 class RequirementsModelTestCase(TestCase):
+    """
+    Test Case for Requirements model
+    """
     def setUp(self) -> None:
         self.requirements = Requirements.objects.create(
             name = "Git"
         )
 
-    def test_requirements_model_creation(self):
+    def test_requirements_model_creation(self) -> None:
+        """
+        Test creation object of Requirements model
+        :return: None
+        """
         self.assertEqual(
             self.requirements.name, "Git"
         )
 
 
 class OfferModelTestCase(TestCase):
+    """
+    Test case for Offer model
+    """
     def setUp(self) -> None:
         self.name = "Junior Python Developer"
         self.position = Position.objects.create(
@@ -138,7 +183,11 @@ class OfferModelTestCase(TestCase):
         self.offer.contract.add(self.contract)
         self.offer.requirements.add(self.requirements)
     
-    def test_offer_model_creation(self):
+    def test_offer_model_creation(self) -> None:
+        """
+        Test creation object of Offer model
+        :return: None
+        """
         self.assertEqual(
             self.offer.name, self.name
         )
@@ -173,13 +222,19 @@ class OfferModelTestCase(TestCase):
             self.offer.company, self.company
         )
 
-    def test_salary_format(self):
+    def test_salary_format(self) -> None:
+        """
+        Test salary method from Offer Model
+        """
         self.assertEqual(
             self.offer.salary, "20000 - 25000"
         )
 
 
 class ApplicationTestCase(TestCase):
+    """
+    Test Case for Application Model
+    """
     def setUp(self) -> None:
         self.offer_model = OfferModelTestCase()
         self.offer_model.setUp()
@@ -205,7 +260,11 @@ class ApplicationTestCase(TestCase):
             linkedin = self.linkedin
         )
 
-    def test_application_model_creation(self):
+    def test_application_model_creation(self) -> None:
+        """
+        Test creation object of Application model
+        :return: None
+        """
         self.assertEqual(
             self.application.first_name, self.first_name
         )
