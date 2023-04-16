@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 base/media/
 .idea/
+base/accounts/migrations/
 # C extensions
 *.so
 
