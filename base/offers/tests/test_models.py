@@ -34,3 +34,15 @@ class LevelModelTestCase(TestCase):
         self.assertEqual(
             self.level.level_name, "Junior"
         )
+
+
+class CountryModelTestCase(TestCase):
+    def setUp(self) -> None:
+        self.country = Country.objects.create(
+            name = "Poland"
+        )
+    
+    def test_country_model_creation(self):
+        self.assertEqual(
+            self.country.name, "Poland"
+        )
