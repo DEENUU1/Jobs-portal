@@ -89,3 +89,91 @@ class RequirementsModelTestCase(TestCase):
         self.assertEqual(
             self.requirements.name, "Git"
         )
+
+
+class OfferModelTestCase(TestCase):
+    def setUp(self) -> None:
+        self.name = "Junior Python Developer"
+        self.position = Position.objects.create(
+            position_name = "Python"
+        )
+        self.level = Level.objects.create(
+            level_name = "Junior"
+        )
+        self.contract = Contract.objects.create(
+            contract_type = "B2B"
+        )
+        self.requirements = Requirements.objects.create(
+            name = "Git"
+        )
+        self.country = Country.objects.create(
+            name = "Poland"
+        )
+        self.localization = Localization.objects.create(
+            country = self.country,
+            city = "Warsaw"
+        )
+        self.description = "Junior Python Developer with 10 years exp"
+        self.salary_from = 20000
+        self.salary_to = 25000
+        self.remote = True
+        self.custom_user = CustomUser.objects.create(
+            role = 'company',
+            username = 'Nokia',
+            email="nokia123@wp.pl",
+            password="XXXXXXX"
+        )
+        self.company = self.custom_user
+        self.offer = Offer.objects.create(
+            name = self.name,
+            position = self.position,
+            level = self.level,
+            description = self.description,
+            localization = self.localization,
+            salary_from = self.salary_from,
+            salary_to = self.salary_to,
+            remote = self.remote,
+            company = self.company
+        )
+        self.offer.contract.add(self.contract)
+        self.offer.requirements.add(self.requirements)
+    
+    def test_offer_model_creation(self):
+        self.assertEqual(
+            self.offer.name, self.name
+        )
+        self.assertEqual(
+            self.offer.position, self.position
+        )
+        self.assertEqual(
+            self.offer.level, self.level
+        )
+        self.assertEqual(
+            list(self.offer.contract.all()), [self.contract]
+        )
+        self.assertEqual(
+            list(self.offer.requirements.all()), [self.requirements]
+        )
+        self.assertEqual(
+            self.offer.description, self.description
+        )
+        self.assertEqual(
+            self.offer.localization, self.localization
+        )
+        self.assertEqual(
+            self.offer.salary_from, self.salary_from
+        )
+        self.assertEqual(
+            self.offer.salary_to, self.salary_to
+        )
+        self.assertEqual(
+            self.offer.remote, self.remote
+        )
+        self.assertEqual(
+            self.offer.company, self.company
+        )
+
+    def test_salary_format(self):
+        self.assertEqual(
+            self.offer.salary, "20000 - 25000"
+        )
