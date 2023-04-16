@@ -177,3 +177,61 @@ class OfferModelTestCase(TestCase):
         self.assertEqual(
             self.offer.salary, "20000 - 25000"
         )
+
+
+class ApplicationTestCase(TestCase):
+    def setUp(self) -> None:
+        self.offer_model = OfferModelTestCase()
+        self.offer_model.setUp()
+        self.first_name = "Kacper"
+        self.last_name = "Kowalski"
+        self.email = "example@example.pl"
+        self.phone_number = "+48123123123"
+        self.message = "I really want this job"
+        self.offer = self.offer_model.offer
+        self.expected_pay = 15000
+        self.portfolio = "https://www.example.pl/portfolio"
+        self.linkedin = "https://www.linkedin.com/in/"
+        
+        self.application = Application.objects.create(
+            first_name = self.first_name,
+            last_name = self.last_name,
+            email = self.email,
+            phone_number = self.phone_number,
+            message = self.message,
+            offer = self.offer,
+            expected_pay = self.expected_pay,
+            portfolio = self.portfolio,
+            linkedin = self.linkedin
+        )
+
+    def test_application_model_creation(self):
+        self.assertEqual(
+            self.application.first_name, self.first_name
+        )
+        self.assertEqual(
+            self.application.last_name, self.last_name
+        )
+        self.assertEqual(
+            self.application.email, self.email
+        )
+        self.assertEqual(
+            self.application.phone_number, self.phone_number
+        )
+        self.assertEqual(
+            self.application.message, self.message
+        )
+        self.assertEqual(
+            self.application.offer, self.offer
+        )
+        self.assertEqual(
+            self.application.expected_pay, self.expected_pay
+        )
+        self.assertEqual(
+            self.application.portfolio, self.portfolio
+        )
+        self.assertEqual(
+            self.application.linkedin, self.linkedin
+        )
+
+    
