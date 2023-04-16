@@ -2,7 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+base/media/
+.idea/
+base/accounts/migrations/
 # C extensions
 *.so
 
