@@ -7,9 +7,11 @@ base/media/
 base/accounts/migrations/
 # C extensions
 *.so
-
+base/accounts/migrations/
+base/offers/migrations/
 # Distribution / packaging
 .Python
+base/base/migrations/
 build/
 develop-eggs/
 dist/
