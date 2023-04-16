@@ -11,3 +11,10 @@ class Level(models.Model):
 
 class Country(models.Model):
     name = models.CharField(max_length=50)
+
+
+class Localization(models.Model):
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    city = models.CharField(max_length=50)
+
+
