@@ -7,3 +7,7 @@ class Position(models.Model):
 
 class Level(models.Model):
     name = models.CharField(max_length=50)
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=50)
