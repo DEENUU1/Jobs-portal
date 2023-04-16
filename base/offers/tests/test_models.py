@@ -65,3 +65,15 @@ class LocalizationModelTestCase(TestCase):
         self.assertEqual(
             self.localization.city, "Warsaw"
         )
+
+
+class ContractModelTestCase(TestCase):
+    def setUp(self) -> None:
+        self.contract = Contract.objects.create(
+            contract_type = "B2B"
+        )
+    
+    def test_contract_model_creation(self):
+        self.assertEqual(
+            self.contract.contract_type, "B2B"
+        )
