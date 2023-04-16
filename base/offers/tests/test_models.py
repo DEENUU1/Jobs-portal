@@ -77,3 +77,15 @@ class ContractModelTestCase(TestCase):
         self.assertEqual(
             self.contract.contract_type, "B2B"
         )
+
+
+class RequirementsModelTestCase(TestCase):
+    def setUp(self) -> None:
+        self.requirements = Requirements.objects.create(
+            name = "Git"
+        )
+
+    def test_requirements_model_creation(self):
+        self.assertEqual(
+            self.requirements.name, "Git"
+        )
