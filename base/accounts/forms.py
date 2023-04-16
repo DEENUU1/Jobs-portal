@@ -1,7 +1,6 @@
 from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
-
 from django.contrib.auth import authenticate
 
 
@@ -26,7 +25,6 @@ class CustomUserForm(forms.ModelForm):
         if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError('Email already exists')
         return email
-
 
 
 class LoginForm(AuthenticationForm):

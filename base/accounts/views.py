@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 from .forms import CustomUserForm, LoginForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
+from django.contrib.auth.views import LogoutView
 
 
 class RegisterUserView(FormView):
@@ -25,6 +26,12 @@ class LoginUserView(FormView):
     def form_valid(self, form):
         login(self.request, form.get_user())
         return super().form_valid(form)
+
+
+class LogoutUser(LogoutView):
+    def get(self, request):
+        logout(request)
+        return redirect('home')
 
 
 def home(request):
