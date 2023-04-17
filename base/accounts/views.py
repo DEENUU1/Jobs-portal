@@ -9,7 +9,7 @@ from django.contrib.auth.views import LogoutView
 class RegisterUserView(FormView):
     template_name = "register_user.html"
     form_class = CustomUserForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("offers:home")
 
     def form_valid(self, form):
         user = form.save()
@@ -21,7 +21,7 @@ class RegisterUserView(FormView):
 class LoginUserView(FormView):
     template_name = "login.html"
     form_class = LoginForm
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("offers:home")
 
     def form_valid(self, form):
         login(self.request, form.get_user())
@@ -31,10 +31,4 @@ class LoginUserView(FormView):
 class LogoutUser(LogoutView):
     def get(self, request):
         logout(request)
-        return redirect('home')
-
-
-def home(request):
-    return render(
-        request, "home.html", {'user': request.user}
-    )
+        return redirect('offers:home')
