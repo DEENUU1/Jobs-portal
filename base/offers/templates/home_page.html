@@ -9,6 +9,11 @@
     <button type="submit">Filter by positions</button>
 </form>
 
+<form method="get" action=".">
+    {{level_form.as_p}}
+    <button type="submit">Filter by Experience</button>
+</form>
+
 <div class="container">
 {% for object in object_list %}
     <h2>Name: {{object.name}}</h2>
