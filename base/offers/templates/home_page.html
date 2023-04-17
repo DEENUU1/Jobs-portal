@@ -3,7 +3,12 @@
 {% block meta_title%} Jobs portal | Home page {% endblock %}
 
 {% block content %}
-    
+
+<form method="get" action=".">
+    {{positions_form.as_p}}
+    <button type="submit">Filter by positions</button>
+</form>
+
 {% for object in object_list %}
     <h2>Name: {{object.name}}</h2>
     Language: {{object.position}} <br>
@@ -12,7 +17,7 @@
     Requirements: {{object.requirements}} <br>
     Localization: {{object.localization}} <br>
     Description: {{object.description}} <br>
-    Salary: {{object.salary_from}} - {{object.salary_to}} <br>
+    Salary: {{object.salary}} <br>
     Date created: {{object.date_created}} <br>
     {% if object.remote %}
     Remote <br>
