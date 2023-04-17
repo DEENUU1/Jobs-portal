@@ -85,5 +85,20 @@ class CompaniesListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context =super().get_context_data(**kwargs)            
+        context = super().get_context_data(**kwargs)            
+        return context
+    
+
+class CompanyDetailView(DetailView):
+    model = CustomUser
+    template_name = 'company_detail.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        queryset = queryset.filter(role='company')
+        return queryset
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)    
+        context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])        
         return context

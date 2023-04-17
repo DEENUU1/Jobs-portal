@@ -6,7 +6,7 @@
 
 
 {% for object in object_list %}
-    <h2>Name: {{object.username}}</h2>
+    <a href="company/{{object.id}}"><h2>Name: {{object.username}}</h2></a>
     <img style="width: 50%" src="http://127.0.0.1:8000/media/{{object.image}}"> <br>
     Description: {{object.description}} <br>
 {% endfor %}
