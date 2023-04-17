@@ -2,6 +2,8 @@ from django import forms
 from .models import (
     Position,
     Level,
+    Localization,
+
 
 )
 from django.forms import ModelMultipleChoiceField
@@ -22,4 +24,13 @@ class LevelFilterForm(forms.Form):
         widget=forms.Select(),
         required=False,
         label="Choose level"
+    )
+
+
+class LocalizationFilterForm(forms.Form):
+    localization = forms.ModelChoiceField(
+        queryset=Localization.objects.all(),
+        widget=forms.Select(),
+        required=False,
+        label="Choose localization"
     )

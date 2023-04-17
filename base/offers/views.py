@@ -2,7 +2,7 @@ from django.views.generic import ListView
 from .models import Offer
 from typing import Any , Dict 
 from django.db.models import QuerySet
-from .forms import ChoosePositionsForm, LevelFilterForm
+from .forms import ChoosePositionsForm, LevelFilterForm, LocalizationFilterForm
 from accounts.models import CustomUser
 
 
@@ -21,6 +21,10 @@ class HomePageView(ListView):
         if level:
             queryset = queryset.filter(level=level)
 
+        localization = self.request.GET.get('localization')
+        if localization:
+            queryset = queryset.filter(localization=localization)
+
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -28,6 +32,7 @@ class HomePageView(ListView):
 
         context['positions_form'] = ChoosePositionsForm(self.request.GET)
         context['level_form'] = LevelFilterForm(self.request.GET)
+        context['localization_form'] = LocalizationFilterForm(self.request.GET)
 
         return context
     

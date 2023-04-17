@@ -14,6 +14,11 @@
     <button type="submit">Filter by Experience</button>
 </form>
 
+<form method="get" action=".">
+    {{localization_form.as_p}}
+    <button type="submit">Filter by localization</button>
+</form>
+
 <div class="container">
 {% for object in object_list %}
     <h2>Name: {{object.name}}</h2>
