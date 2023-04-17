@@ -9,6 +9,7 @@ from .forms import (
     ContractFilterForm,
     DateSortingForm,
     SearchForm,
+    RemoteFilterForm,
 
 )    
 from accounts.models import CustomUser
@@ -24,6 +25,10 @@ class HomePageView(ListView):
         name = self.request.GET.get('name')
         if name:
             queryset = queryset.filter(name__icontains=name)
+
+        remote = self.request.GET.get('remote')
+        if remote:
+            queryset = queryset.filter(remote=True)
 
         positions = self.request.GET.getlist('choose_positions')
         if positions:
@@ -59,7 +64,8 @@ class HomePageView(ListView):
         context['contract_form'] = ContractFilterForm(self.request.GET)
         context['date_sorting_form'] = DateSortingForm(self.request.GET)
         context['search_form'] = SearchForm(self.request.GET)
-        
+        context['remote_form'] = RemoteFilterForm(self.request.GET)
+
         return context
     
 

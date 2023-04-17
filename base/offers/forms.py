@@ -58,6 +58,14 @@ class DateSortingForm(forms.Form):
     )
 
 
+class RemoteFilterForm(forms.Form):
+    remote = forms.BooleanField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['remote'].label = "Remote"
+
+
 class SearchForm(forms.Form):
     name = forms.CharField(required=False)
     
