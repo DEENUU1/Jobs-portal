@@ -2,7 +2,15 @@ from django.views.generic import ListView
 from .models import Offer
 from typing import Any , Dict 
 from django.db.models import QuerySet
-from .forms import ChoosePositionsForm
+from .forms import (
+    ChoosePositionsForm,
+    LevelFilterForm, 
+    LocalizationFilterForm, 
+    ContractFilterForm,
+    DateSortingForm,
+    SearchForm,
+
+)    
 from accounts.models import CustomUser
 
 
@@ -13,17 +21,45 @@ class HomePageView(ListView):
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
 
+        name = self.request.GET.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+
         positions = self.request.GET.getlist('choose_positions')
         if positions:
             queryset = queryset.filter(position__in=positions)
-            
+
+        level = self.request.GET.get('level')
+        if level:
+            queryset = queryset.filter(level=level)
+
+        localization = self.request.GET.get('localization')
+        if localization:
+            queryset = queryset.filter(localization=localization)
+
+        contract = self.request.GET.get('contract')
+        if contract:
+            queryset = queryset.filter(contract=contract)
+
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            if order_by == "1":
+                queryset = queryset.order_by('date_created')
+            if order_by == "2":
+                queryset = queryset.order_by('-date_created')
+
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context =super().get_context_data(**kwargs)            
 
         context['positions_form'] = ChoosePositionsForm(self.request.GET)
-
+        context['level_form'] = LevelFilterForm(self.request.GET)
+        context['localization_form'] = LocalizationFilterForm(self.request.GET)
+        context['contract_form'] = ContractFilterForm(self.request.GET)
+        context['date_sorting_form'] = DateSortingForm(self.request.GET)
+        context['search_form'] = SearchForm(self.request.GET)
+        
         return context
     
 

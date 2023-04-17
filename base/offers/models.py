@@ -103,7 +103,14 @@ class Offer(models.Model):
             return f"od {self.salary_from}"
         else:
             return f"{self.salary_from} - {self.salary_to}"
-        
+    
+    @property 
+    def return_localization(self):
+        if self.remote == True:
+            return f"{self.localization} / remote"
+        else:
+            return f"{self.localization}"
+
     class Meta:
         ordering = ('name',)
         verbose_name = 'Offer'
