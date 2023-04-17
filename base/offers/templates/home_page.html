@@ -5,51 +5,75 @@
 {% block content %}
 
 
-<form method="get" action=".">
-    {{search_form|crispy}}
-    <button type=submit>Search</button>
-</form>
 
-<form method="get" action=".">
-    {{positions_form|crispy}}
-    <button type="submit">Filter by positions</button>
-</form>
+  
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtr offers</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+    <form method="get" action=".">
+        {{positions_form|crispy}}
+        {{level_form|crispy}}
+        {{localization_form|crispy}}
+        {{contract_form|crispy}}
+        {{date_sorting_form|crispy}}
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    </div>
+  </div>
 
-<form method="get" action=".">
-    {{level_form|crispy}}
-    <button type="submit">Filter by Experience</button>
-</form>
 
-<form method="get" action=".">
-    {{localization_form|crispy}}
-    <button type="submit">Filter by localization</button>
-</form>
 
-<form method="get" action=".">
-    {{contract_form|crispy}}
-    <button type="submit">Filter by contract type</button>
-</form>
+<div class="container">
+    <form method="get" action=".">
+        <div class="row">
+            <div class="col">
+                {{search_form|crispy}}
+            </div>
+            <div class="col">
+                <button class="btn btn-primary float-right" type="submit">Search</button>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" type="button"      data-bs-toggle="offcanvas"data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                More filters</button>
+        </div>
+    </form>   
+</div>
 
-<form method="get" action=".">
-    {{date_sorting_form|crispy}}
-    <button type="submit">Sort by date</button>
-</form>
 
 <div class="container">
 {% for object in object_list %}
-    <h2>Name: {{object.name}}</h2>
-    Language: {{object.position}} <br>
-    Experience: {{object.level}} <br>
-    Contact: {{object.contract}} <br>
-    Requirements: {{object.requirements}} <br>
-    Localization: {{object.localization}} <br>
-    Description: {{object.description}} <br>
-    Salary: {{object.salary}} <br>
-    Date created: {{object.date_created}} <br>
-    {% if object.remote %}
-    Remote <br>
-    {% endif %}
-    Company: {{object.company}}
+    <div class="card mb-5 mt-5" style="max-width: 1400px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+            <div class="d-flex justify-content-between">    
+              <h2 class="card-title">{{object.name}}</h2>
+              <h5 class="card-title">{{object.salary}}</h5>
+            </div>  
+              <div class="d-flex justify-content-between">
+                <p class="card-text"><small class="text-body-secondary">{{object.company}}</small></p>
+                <p class="card-text"><small class="text-body-secondary">{{object.date_created}}</small></p>
+                <p class="card-text"><small class="text-body-secondary">{{object.return_localization}}</small></p>
+                {% comment %} {% if object.remote %}
+                <p class="card-text"><small class="text-body-secondary">Remote</small></p>
+                {% endif %} {% endcomment %}
+                {% for requirement in object.requirements.all %}
+                    {% if forloop.counter <= 2 %}
+                        <p class="card-text"><small class="text-body-secondary">{{requirement.name}}</small></p>
+                    {% endif %}    
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endfor %}
 </div>
 

@@ -33,7 +33,7 @@ class LocalizationFilterForm(forms.Form):
         queryset=Localization.objects.all(),
         widget=forms.Select(),
         required=False,
-        label="Choose localization"
+        label="Choose localization",
     )
 
 
@@ -55,7 +55,6 @@ class DateSortingForm(forms.Form):
     order_by = forms.ChoiceField(
         choices=CHOICES,
         required=False,
-        label="Order by date"
     )
 
 
@@ -65,3 +64,5 @@ class SearchForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].required = False
+        self.fields['name'].label = ""
+        self.fields['name'].widget.attrs['placeholder'] = "Search by name"
