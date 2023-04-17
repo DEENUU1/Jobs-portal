@@ -3,13 +3,13 @@ from .models import Offer
 from typing import Any , Dict 
 from django.db.models import QuerySet
 from .forms import ChoosePositionsForm
+from accounts.models import CustomUser
 
 
 class HomePageView(ListView):
     model = Offer
-    paginate_by = 10
     template_name = 'home_page.html'
-    
+    paginate_by = 10
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
 
@@ -24,4 +24,19 @@ class HomePageView(ListView):
 
         context['positions_form'] = ChoosePositionsForm(self.request.GET)
 
+        return context
+    
+
+class CompaniesListView(ListView):
+    model = CustomUser
+    paginate_by = 10
+    template_name = 'companies_list.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        queryset = queryset.filter(role='company')
+        return queryset
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context =super().get_context_data(**kwargs)            
         return context
