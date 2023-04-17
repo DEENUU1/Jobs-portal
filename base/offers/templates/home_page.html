@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block meta_title%} Jobs portal | Home page {% endblock %}
+
+{% block content %}
+    
+{% for object in object_list %}
+    <h2>Name: {{object.name}}</h2>
+    Language: {{object.position}} <br>
+    Experience: {{object.level}} <br>
+    Contact: {{object.contract}} <br>
+    Requirements: {{object.requirements}} <br>
+    Localization: {{object.localization}} <br>
+    Description: {{object.description}} <br>
+    Salary: {{object.salary_from}} - {{object.salary_to}} <br>
+    Date created: {{object.date_created}} <br>
+    {% if object.remote %}
+    Remote <br>
+    {% endif %}
+    Company: {{object.company}}
+{% endfor %}
+
+{% endblock %}
