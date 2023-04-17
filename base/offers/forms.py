@@ -3,6 +3,7 @@ from .models import (
     Position,
     Level,
     Localization,
+    Contract,
 
 
 )
@@ -33,4 +34,13 @@ class LocalizationFilterForm(forms.Form):
         widget=forms.Select(),
         required=False,
         label="Choose localization"
+    )
+
+
+class ContractFilterForm(forms.Form):
+    contract = forms.ModelChoiceField(
+        queryset=Contract.objects.all(),
+        widget=forms.Select(),
+        required=False,
+        label="Choose contract"
     )
