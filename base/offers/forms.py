@@ -44,3 +44,18 @@ class ContractFilterForm(forms.Form):
         required=False,
         label="Choose contract"
     )
+
+
+class DateSortingForm(forms.Form):
+    CHOICES = (
+        ("1", "Newest"),
+        ("2", "Oldest")
+    )
+
+    order_by = forms.ChoiceField(
+        choices=CHOICES,
+        required=False,
+        label="Order by date"
+    )
+
+

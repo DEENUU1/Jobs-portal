@@ -7,7 +7,7 @@ from .forms import (
     LevelFilterForm, 
     LocalizationFilterForm, 
     ContractFilterForm,
-
+    DateSortingForm,
 
 )    
 from accounts.models import CustomUser
@@ -36,6 +36,13 @@ class HomePageView(ListView):
         if contract:
             queryset = queryset.filter(contract=contract)
 
+        order_by = self.request.GET.get('order_by')
+        if order_by:
+            if order_by == "1":
+                queryset = queryset.order_by('date_created')
+            if order_by == "2":
+                queryset = queryset.order_by('-date_created')
+
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -45,7 +52,8 @@ class HomePageView(ListView):
         context['level_form'] = LevelFilterForm(self.request.GET)
         context['localization_form'] = LocalizationFilterForm(self.request.GET)
         context['contract_form'] = ContractFilterForm(self.request.GET)
-        
+        context['date_sorting_form'] = DateSortingForm(self.request.GET)
+
         return context
     
 

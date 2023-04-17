@@ -24,6 +24,11 @@
     <button type="submit">Filter by contract type</button>
 </form>
 
+<form method="get" action=".">
+    {{date_sorting_form.as_p}}
+    <button type="submit">Sort by date</button>
+</form>
+
 <div class="container">
 {% for object in object_list %}
     <h2>Name: {{object.name}}</h2>
