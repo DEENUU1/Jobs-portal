@@ -9,6 +9,7 @@
     <button type="submit">Filter by positions</button>
 </form>
 
+<div class="container">
 {% for object in object_list %}
     <h2>Name: {{object.name}}</h2>
     Language: {{object.position}} <br>
@@ -24,5 +25,6 @@
     {% endif %}
     Company: {{object.company}}
 {% endfor %}
+</div>
 
 {% endblock %}
