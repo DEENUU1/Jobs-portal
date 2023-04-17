@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Offer
 from typing import Any , Dict 
 from django.db.models import QuerySet
@@ -67,7 +67,12 @@ class HomePageView(ListView):
         context['remote_form'] = RemoteFilterForm(self.request.GET)
 
         return context
-    
+
+
+class OfferDetailView(DetailView):
+    model = Offer
+    template_name = 'offer_detail.html'
+
 
 class CompaniesListView(ListView):
     model = CustomUser
