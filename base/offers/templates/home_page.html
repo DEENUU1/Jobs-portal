@@ -1,31 +1,37 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block meta_title%} Jobs portal | Home page {% endblock %}
 
 {% block content %}
 
+
 <form method="get" action=".">
-    {{positions_form.as_p}}
+    {{search_form|crispy}}
+    <button type=submit>Search</button>
+</form>
+
+<form method="get" action=".">
+    {{positions_form|crispy}}
     <button type="submit">Filter by positions</button>
 </form>
 
 <form method="get" action=".">
-    {{level_form.as_p}}
+    {{level_form|crispy}}
     <button type="submit">Filter by Experience</button>
 </form>
 
 <form method="get" action=".">
-    {{localization_form.as_p}}
+    {{localization_form|crispy}}
     <button type="submit">Filter by localization</button>
 </form>
 
 <form method="get" action=".">
-    {{contract_form.as_p}}
+    {{contract_form|crispy}}
     <button type="submit">Filter by contract type</button>
 </form>
 
 <form method="get" action=".">
-    {{date_sorting_form.as_p}}
+    {{date_sorting_form|crispy}}
     <button type="submit">Sort by date</button>
 </form>
 

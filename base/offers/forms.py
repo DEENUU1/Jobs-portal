@@ -4,7 +4,7 @@ from .models import (
     Level,
     Localization,
     Contract,
-
+    Offer
 
 )
 from django.forms import ModelMultipleChoiceField
@@ -59,3 +59,9 @@ class DateSortingForm(forms.Form):
     )
 
 
+class SearchForm(forms.Form):
+    name = forms.CharField(required=False)
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].required = False

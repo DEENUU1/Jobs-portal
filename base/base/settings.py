@@ -28,6 +28,9 @@ SECRET_KEY = os.getenv("SECURITY_CODE")
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -49,8 +52,8 @@ INSTALLED_APPS = [
     
 
     "phonenumber_field",
-
-
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [

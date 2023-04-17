@@ -8,6 +8,7 @@ from .forms import (
     LocalizationFilterForm, 
     ContractFilterForm,
     DateSortingForm,
+    SearchForm,
 
 )    
 from accounts.models import CustomUser
@@ -19,6 +20,10 @@ class HomePageView(ListView):
     paginate_by = 10
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
+
+        name = self.request.GET.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
 
         positions = self.request.GET.getlist('choose_positions')
         if positions:
@@ -53,7 +58,8 @@ class HomePageView(ListView):
         context['localization_form'] = LocalizationFilterForm(self.request.GET)
         context['contract_form'] = ContractFilterForm(self.request.GET)
         context['date_sorting_form'] = DateSortingForm(self.request.GET)
-
+        context['search_form'] = SearchForm(self.request.GET)
+        
         return context
     
 
