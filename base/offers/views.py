@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Offer, Application
 from typing import Any , Dict 
 from django.db.models import QuerySet
@@ -74,6 +74,44 @@ class OfferDetailView(DetailView):
     template_name = 'offer_detail.html'
 
 
+class OfferUpdateView(UpdateView):
+    model = Offer
+    fields = ['name', 'description', 'level', 'localization', 'contract', 'position', 'salary_from', 'salary_to', 'remote']
+    template_name = 'offer_update.html'
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(company=self.request.user.id)
+        return queryset
+
+
+class OfferCreateView(CreateView):
+    model = Offer
+    fields = ['name', 'description', 'level', 'requirements', 'localization', 'contract', 'position', 'salary_from', 'salary_to', 'remote']
+    template_name = 'offer_create.html'
+    success_url = "/"
+
+    def form_valid(self, form):
+        form.instance.company = self.request.user
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(company=self.request.user.id)
+        return queryset
+
+
+class OfferDeleteView(DeleteView):
+    model = Offer
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(company=self.request.user.id)
+        return queryset
+
+
 class CompaniesListView(ListView):
     model = CustomUser
     paginate_by = 10
@@ -113,3 +151,17 @@ class ApplyForOfferView(CreateView):
     def form_valid(self, form):
         form.instance.offer_id = self.kwargs['offer_id']
         return super().form_valid(form)
+
+
+class ApplicationsListView(ListView):
+    model = Application
+    paginate_by = 20
+    template_name = 'applications_list.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        return queryset
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        return context

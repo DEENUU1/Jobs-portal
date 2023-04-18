@@ -52,7 +52,6 @@ class Localization(models.Model):
         return self.city
 
 
-
 class Contract(models.Model):
     contract_type = models.CharField(max_length=50)
 
@@ -60,7 +59,6 @@ class Contract(models.Model):
         ordering = ('contract_type',)
         verbose_name = 'Contract'
         verbose_name_plural = 'Contracts'
-    
 
     def __str__(self):
         return self.contract_type
@@ -73,8 +71,7 @@ class Requirements(models.Model):
         ordering = ('name',)
         verbose_name = 'Requirement'
         verbose_name_plural = 'Requirements'
-    
-    
+
     def __str__(self):
         return self.name 
 
@@ -125,7 +122,6 @@ class Offer(models.Model):
         ordering = ('name',)
         verbose_name = 'Offer'
         verbose_name_plural = 'Offers'
-    
 
     def __str__(self):
         return self.name
@@ -143,3 +139,7 @@ class Application(models.Model):
     portfolio = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)
     cv = models.FileField(upload_to='resumes', null=True, blank=True)
+
+    @property
+    def return_full_name(self):
+        return f"{self.first_name} {self.last_name}"

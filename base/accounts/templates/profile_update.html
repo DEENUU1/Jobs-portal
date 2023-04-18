@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block meta_title%} Jobs portal | Applications {% endblock %}
+
+{% block content %}
+
+<div class="container">
+  {{form|crispy}}
+  <button class="btn btn-primary">Update profile</button>
+</div>
+
+
+{% endblock %}
