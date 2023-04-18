@@ -1,5 +1,5 @@
-from django.views.generic import ListView, DetailView
-from .models import Offer
+from django.views.generic import ListView, DetailView, CreateView
+from .models import Offer, Application
 from typing import Any , Dict 
 from django.db.models import QuerySet
 from .forms import (
@@ -102,3 +102,14 @@ class CompanyDetailView(DetailView):
         context = super().get_context_data(**kwargs)    
         context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])        
         return context
+    
+
+class ApplyForOfferView(CreateView):
+    model = Application
+    fields = ['first_name', 'last_name', 'email', 'phone_number', 'message', 'expected_pay', 'portfolio', 'linkedin', 'cv']
+    template_name = 'apply_for_offer.html'
+    success_url = "/"
+
+    def form_valid(self, form):
+        form.instance.offer_id = self.kwargs['offer_id']
+        return super().form_valid(form)

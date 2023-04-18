@@ -8,5 +8,6 @@ urlpatterns = [
     path('companies/', views.CompaniesListView.as_view(), name='companies'),
     path('offer/<int:pk>/', views.OfferDetailView.as_view(), name='offer'),
     path('company/<int:pk>/', views.CompanyDetailView.as_view(), name='company'),
+    path('apply/<int:offer_id>/', views.ApplyForOfferView.as_view(), name='apply')
 
 ]

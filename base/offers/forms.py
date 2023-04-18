@@ -4,7 +4,9 @@ from .models import (
     Level,
     Localization,
     Contract,
-    Offer
+    Offer,
+    Application,
+
 
 )
 from django.forms import ModelMultipleChoiceField
@@ -74,3 +76,11 @@ class SearchForm(forms.Form):
         self.fields['name'].required = False
         self.fields['name'].label = ""
         self.fields['name'].widget.attrs['placeholder'] = "Search by name"
+
+
+class ApplyForm(forms.ModelForm):
+    offer = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Application
+        fields = '__all__'
