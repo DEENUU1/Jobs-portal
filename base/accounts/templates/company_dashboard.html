@@ -25,7 +25,10 @@
                     <a class="card-text" href="/">Browse candidates</a>
                     <a class="card-text" href="/">All candidates</a>
                     <a class="card-text" href={% url 'offers:edit' object.id %}>Edit</a>
-                    <a class="card-text" href="/">Delete</a>
+                      <form method="POST" action="{% url 'offers:delete' object.id %}">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger">DELETE</button>
+                      </form>
                   </div>
                 </div>
               </div>

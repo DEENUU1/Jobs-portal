@@ -85,6 +85,17 @@ class OfferUpdateView(UpdateView):
         queryset = queryset.filter(company=self.request.user.id)
         return queryset
 
+
+class OfferDeleteView(DeleteView):
+    model = Offer
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(company=self.request.user.id)
+        return queryset
+
+
 class CompaniesListView(ListView):
     model = CustomUser
     paginate_by = 10
