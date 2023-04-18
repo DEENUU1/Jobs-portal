@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block meta_title%} Jobs portal | {{object.name}} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{object.company.name}}</h2>
+    {{object.company.description}} <br>
+    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
+
+</div>
+
+
+
+<div class="container">
+    <h2>{{object.name}}</h2>
+    <a href={% url "offers:apply" object.id %}>Apply</a> <br>
+    {{object.position}} <br>
+    {{object.level}} <br>
+    {% for contract in object.contract.all %}
+        {{ contract.name }}
+    {% endfor %}
+    {% for requirement in object.requirements.all %}
+        {{requirement.name }} <br>
+    {% endfor %}
+    {{object.return_localization}} <br>
+    {{object.salary}} <br>
+    {{object.date_created}} <br>
+    {{object.remote}} <br>
+    <a href={% url "offers:company" object.company.id %}>{{object.company}}</a> <br>
+    {{object.description}} <br>
+</div>
+
+{% endblock %}

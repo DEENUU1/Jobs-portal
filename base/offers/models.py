@@ -94,15 +94,25 @@ class Offer(models.Model):
     company = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     @property
+    def return_requirements(self):
+        count = Offer.requirements.through.objects.filter(offer=self).count()
+        if count >= 1:
+            first_requirements = Offer.requirements.through.objects.filter(
+                offer=self
+                ).first().requirements.name
+            return f"{first_requirements} and {count} other requirement/s"
+        return first_requirements
+    
+    @property
     def salary(self):
         if self.salary_from is None and self.salary_to is None:
             return "Niezdefiniowana"
         elif self.salary_from is None:
-            return f"do {self.salary_to}"
+            return f"do {self.salary_to} PLN"
         elif self.salary_to is None:
-            return f"od {self.salary_from}"
+            return f"od {self.salary_from} PLN"
         else:
-            return f"{self.salary_from} - {self.salary_to}"
+            return f"{self.salary_from} - {self.salary_to} PLN"
     
     @property 
     def return_localization(self):

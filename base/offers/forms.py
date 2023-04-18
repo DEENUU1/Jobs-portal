@@ -4,7 +4,9 @@ from .models import (
     Level,
     Localization,
     Contract,
-    Offer
+    Offer,
+    Application,
+
 
 )
 from django.forms import ModelMultipleChoiceField
@@ -58,6 +60,14 @@ class DateSortingForm(forms.Form):
     )
 
 
+class RemoteFilterForm(forms.Form):
+    remote = forms.BooleanField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['remote'].label = "Remote"
+
+
 class SearchForm(forms.Form):
     name = forms.CharField(required=False)
     
@@ -66,3 +76,11 @@ class SearchForm(forms.Form):
         self.fields['name'].required = False
         self.fields['name'].label = ""
         self.fields['name'].widget.attrs['placeholder'] = "Search by name"
+
+
+class ApplyForm(forms.ModelForm):
+    offer = forms.IntegerField(widget=forms.HiddenInput())
+
+    class Meta:
+        model = Application
+        fields = '__all__'

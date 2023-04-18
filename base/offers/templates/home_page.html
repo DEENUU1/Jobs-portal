@@ -19,6 +19,7 @@
         {{localization_form|crispy}}
         {{contract_form|crispy}}
         {{date_sorting_form|crispy}}
+        {{remote_form|crispy}}
         <button class="btn btn-primary" type="submit">Search</button>
     </form>
     </div>
@@ -49,26 +50,25 @@
     <div class="card mb-5 mt-5" style="max-width: 1400px;">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt="...">
+            {% if object.company.image %}
+            <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
+            {% else %}
+            <img src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="img-fluid rounded-start" alt="no image" />
+            {% endif %}
           </div>
           <div class="col-md-8">
             <div class="card-body">
             <div class="d-flex justify-content-between">    
-              <h2 class="card-title">{{object.name}}</h2>
-              <h5 class="card-title">{{object.salary}}</h5>
+              <a href="/offer/{{object.id}}"><h2 class="card-title">{{object.name}}</h2></a>
+              <h5 class="card-title" style="color: green; font-weight: 800">{{object.salary}}</h5>
             </div>  
               <div class="d-flex justify-content-between">
-                <p class="card-text"><small class="text-body-secondary">{{object.company}}</small></p>
+                <a href="company/{{object.company.id}}"> <p class="card-text"><small class="text-body-secondary">{{object.company}}</small></p> </a>
                 <p class="card-text"><small class="text-body-secondary">{{object.date_created}}</small></p>
                 <p class="card-text"><small class="text-body-secondary">{{object.return_localization}}</small></p>
-                {% comment %} {% if object.remote %}
-                <p class="card-text"><small class="text-body-secondary">Remote</small></p>
-                {% endif %} {% endcomment %}
-                {% for requirement in object.requirements.all %}
-                    {% if forloop.counter <= 2 %}
-                        <p class="card-text"><small class="text-body-secondary">{{requirement.name}}</small></p>
-                    {% endif %}    
-                {% endfor %}
+                {% if object.return_requirements %}
+                    <p class="card-text"><smaill class="text-body-secondary">{{object.return_requirements}}</small></p>
+                {% endif %}
               </div>
             </div>
           </div>

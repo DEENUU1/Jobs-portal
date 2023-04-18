@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block meta_title%} Jobs portal | {{object.username}} {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <h2>{{object.company.name}}</h2>
+    {{object.company.description}} <br>
+    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
+
+</div>
+
+
+
+<div class="container">
+    <h2>{{object.username}}</h2>
+    {{object.description}} <br>
+    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}> <br>
+</div>
+
+<div class="container">
+    {% for object in object_list %}
+        <div class="card mb-5 mt-5" style="max-width: 1400px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                {% if object.company.image %}
+                <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
+                {% else %}
+                <img src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="img-fluid rounded-start" alt="no image" />
+                {% endif %}
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                <div class="d-flex justify-content-between">    
+                  <a href="/offer/{{object.id}}"><h2 class="card-title">{{object.name}}</h2></a>
+                  <h5 class="card-title" style="color: green; font-weight: 800">{{object.salary}}</h5>
+                </div>  
+                  <div class="d-flex justify-content-between">
+                    <p class="card-text"><small class="text-body-secondary">{{object.company}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">{{object.date_created}}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">{{object.return_localization}}</small></p>
+                    {% if object.return_requirements %}
+                        <p class="card-text"><smaill class="text-body-secondary">{{object.return_requirements}}</small></p>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}
