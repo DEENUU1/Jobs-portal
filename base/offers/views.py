@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Offer, Application
 from typing import Any , Dict 
 from django.db.models import QuerySet
@@ -73,6 +73,17 @@ class OfferDetailView(DetailView):
     model = Offer
     template_name = 'offer_detail.html'
 
+
+class OfferUpdateView(UpdateView):
+    model = Offer
+    fields = ['name', 'description', 'level', 'localization', 'contract', 'position', 'salary_from', 'salary_to', 'remote']
+    template_name = 'offer_update.html'
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(company=self.request.user.id)
+        return queryset
 
 class CompaniesListView(ListView):
     model = CustomUser
