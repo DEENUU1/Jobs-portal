@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Login</button>
-</form>
+{% block meta_title%} Jobs portal | Apply {% endblock %}
 
-</body>
-</html>
+{% block content %}
+
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+</div>
+
+{% endblock %}

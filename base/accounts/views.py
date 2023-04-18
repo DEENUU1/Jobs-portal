@@ -4,6 +4,10 @@ from django.views.generic.edit import FormView
 from .forms import CustomUserForm, LoginForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LogoutView
+from django import views
+from django.utils.decorators import method_decorator
+from .auth import company_required
+from offers.models import Offer
 
 
 class RegisterUserView(FormView):
@@ -32,3 +36,21 @@ class LogoutUser(LogoutView):
     def get(self, request):
         logout(request)
         return redirect('offers:home')
+
+
+class CompanyDashboard(views.View):
+
+    @method_decorator(company_required)
+    def get(self, request, *args, **kwargs):
+        company_id = request.user.id
+        offers = Offer.objects.filter(company_id=company_id)
+
+
+        context = {
+            'company':  company_id,
+            'offers': offers,
+        }
+        return render(request,
+                      'company_dashboard.html',
+                      context=context
+                      )
