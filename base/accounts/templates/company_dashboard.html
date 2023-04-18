@@ -7,7 +7,7 @@
 
 
 <div class="container">
-    <a href="/">Add new offer</a>
+    <a href="{% url 'offers:create' %}">Add new offer</a>
     <a href="/">Edit company information</a>
 </div>
 
@@ -23,7 +23,6 @@
                   <div class="d-flex justify-content-between">
                     <p class="card-text"><small class="text-body-secondary">{{object.date_created}}</small></p>
                     <a class="card-text" href="{% url 'offers:applications' object.id %}">Browse candidates</a>
-                    <a class="card-text" href="/">All candidates</a>
                     <a class="card-text" href="{% url 'offers:edit' object.id %}">Edit</a>
                       <form method="POST" action="{% url 'offers:delete' object.id %}">
                           {% csrf_token %}

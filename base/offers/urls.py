@@ -8,6 +8,7 @@ urlpatterns = [
     path('companies/', views.CompaniesListView.as_view(), name='companies'),
     path('offer/<int:pk>/', views.OfferDetailView.as_view(), name='offer'),
     path('offer/edit/<int:pk>/', views.OfferUpdateView.as_view(), name='edit'),
+    path('offer/create/', views.OfferCreateView.as_view(), name='create'),
     path('offer/delete/<int:pk>/', views.OfferDeleteView.as_view(), name='delete'),
     path('company/<int:pk>/', views.CompanyDetailView.as_view(), name='company'),
     path('apply/<int:offer_id>/', views.ApplyForOfferView.as_view(), name='apply'),

@@ -86,6 +86,22 @@ class OfferUpdateView(UpdateView):
         return queryset
 
 
+class OfferCreateView(CreateView):
+    model = Offer
+    fields = ['name', 'description', 'level', 'requirements', 'localization', 'contract', 'position', 'salary_from', 'salary_to', 'remote']
+    template_name = 'offer_create.html'
+    success_url = "/"
+
+    def form_valid(self, form):
+        form.instance.company = self.request.user
+        return super().form_valid(form)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(company=self.request.user.id)
+        return queryset
+
+
 class OfferDeleteView(DeleteView):
     model = Offer
     success_url = "/"
@@ -144,7 +160,6 @@ class ApplicationsListView(ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
-        queryset = queryset.filter(offer_id=self.kwargs['offer_id'])
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:

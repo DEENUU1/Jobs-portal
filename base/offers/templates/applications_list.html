@@ -27,7 +27,7 @@
     <tr>
       <th scope="row">{{object.id}}</th>
       <td>{{object.return_full_name}}</td>
-      <td>{{object.email}}</td>
+      <td><a href=mailto:{{object.email}}>{{object.email}}</a></td>
       <td>{{object.phone_number}}</td>
       {% if object.linkedin %}
       <td><a href={{object.linkedin}}>LinkedIn</a></td>
@@ -47,7 +47,10 @@
       {% else %}
         <td>No resume</td>
       {% endif %}
-
+      <td>
+        <a href="/">Rejected</a>
+        <a href="/">Approved</a>
+      </td>
       {% endfor %}
 
     </tr>

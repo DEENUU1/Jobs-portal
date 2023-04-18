@@ -7,7 +7,7 @@ from django.contrib.auth.views import LogoutView
 from django import views
 from django.utils.decorators import method_decorator
 from .auth import company_required
-from offers.models import Offer
+from offers.models import Offer, Application
 
 
 class RegisterUserView(FormView):
@@ -44,11 +44,12 @@ class CompanyDashboard(views.View):
     def get(self, request, *args, **kwargs):
         company_id = request.user.id
         offers = Offer.objects.filter(company_id=company_id)
-
+        applications_count = Application.objects.filter(offer_id__in=offers).count()
 
         context = {
             'company':  company_id,
             'offers': offers,
+            'applications_count': applications_count
         }
         return render(request,
                       'company_dashboard.html',
