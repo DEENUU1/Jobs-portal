@@ -8,7 +8,7 @@
 
 <div class="container">
     <a href="{% url 'offers:create' %}">Add new offer</a>
-    <a href="/">Edit company information</a>
+    <a href="{% url 'accounts:update_profile' user.id %}">Edit company information</a>
 </div>
 
 <div class="container">

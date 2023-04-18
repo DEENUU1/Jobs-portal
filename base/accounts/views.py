@@ -8,6 +8,8 @@ from django import views
 from django.utils.decorators import method_decorator
 from .auth import company_required
 from offers.models import Offer, Application
+from django.views.generic import UpdateView
+from .models import CustomUser
 
 
 class RegisterUserView(FormView):
@@ -55,3 +57,16 @@ class CompanyDashboard(views.View):
                       'company_dashboard.html',
                       context=context
                       )
+
+
+class ProfileUpdateView(UpdateView):
+    model = CustomUser
+    fields = ['first_name', 'last_name', 'email', 'phone_number', 'description', 'image', 'username']
+    template_name = 'profile_update.html'
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(id=self.request.user.id)
+        return queryset
+
