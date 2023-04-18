@@ -10,6 +10,7 @@ urlpatterns = [
     path('offer/edit/<int:pk>/', views.OfferUpdateView.as_view(), name='edit'),
     path('offer/delete/<int:pk>/', views.OfferDeleteView.as_view(), name='delete'),
     path('company/<int:pk>/', views.CompanyDetailView.as_view(), name='company'),
-    path('apply/<int:offer_id>/', views.ApplyForOfferView.as_view(), name='apply')
+    path('apply/<int:offer_id>/', views.ApplyForOfferView.as_view(), name='apply'),
+    path('applications/<int:offer_id>/', views.ApplicationsListView.as_view(), name='applications'),
 
 ]

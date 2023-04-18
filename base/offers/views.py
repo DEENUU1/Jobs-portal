@@ -135,3 +135,18 @@ class ApplyForOfferView(CreateView):
     def form_valid(self, form):
         form.instance.offer_id = self.kwargs['offer_id']
         return super().form_valid(form)
+
+
+class ApplicationsListView(ListView):
+    model = Application
+    paginate_by = 20
+    template_name = 'applications_list.html'
+
+    def get_queryset(self) -> QuerySet[Any]:
+        queryset = super().get_queryset()
+        queryset = queryset.filter(offer_id=self.kwargs['offer_id'])
+        return queryset
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        return context
