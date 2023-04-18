@@ -40,6 +40,8 @@
             <a href={% url 'accounts:logout' %}>Logout</a>
             {% if user.role == 'company' %}
             <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+            {% elif user.role == 'user' %}
+            <a href="{% url 'accounts:user_profile' %}">Profile</a>
             {% endif %}
           {% else %}
           <a href={% url 'accounts:register' %}>Register</a> 

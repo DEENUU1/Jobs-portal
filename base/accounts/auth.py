@@ -8,3 +8,10 @@ def company_required(view_func):
     )(view_func)
     return decorated_view_func
 
+
+def user_required(view_func):
+    decorated_view_func = user_passes_test(
+        lambda user: user.role == 'user',
+        login_url="accounts:login"
+    )(view_func)
+    return decorated_view_func

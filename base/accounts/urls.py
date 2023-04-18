@@ -9,5 +9,5 @@ urlpatterns = [
     path('logout/', views.LogoutUser.as_view(), name='logout'),
     path('dashboard/', views.CompanyDashboard.as_view(), name='dashboard'),
     path('profile/update/<int:pk>/', views.ProfileUpdateView.as_view(), name='update_profile'),
-
+    path('profile/', views.UserProfileView.as_view(), name='user_profile'),
 ]

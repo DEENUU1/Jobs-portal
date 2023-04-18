@@ -6,7 +6,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.views import LogoutView
 from django import views
 from django.utils.decorators import method_decorator
-from .auth import company_required
+from .auth import company_required, user_required
 from offers.models import Offer, Application
 from django.views.generic import UpdateView
 from .models import CustomUser
@@ -70,3 +70,12 @@ class ProfileUpdateView(UpdateView):
         queryset = queryset.filter(id=self.request.user.id)
         return queryset
 
+
+class UserProfileView(views.View):
+
+    @method_decorator(user_required)
+    def get(self, request, *args, **kwargs):
+
+        return render(request,
+                      'user_profile.html',
+                      )
