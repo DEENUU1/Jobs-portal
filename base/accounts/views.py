@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from .forms import CustomUserForm, LoginForm
+from .forms import CustomUserForm, LoginForm, ChangePasswordForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LogoutView
 from django import views
@@ -33,6 +33,28 @@ class LoginUserView(FormView):
 
     def form_valid(self, form):
         login(self.request, form.get_user())
+        return super().form_valid(form)
+
+
+class ChangePasswordView(FormView):
+    form_class = ChangePasswordForm
+    template_name = "change_password.html"
+    success_url = reverse_lazy("offers:home")
+
+    def form_valid(self, form):
+        try:
+            user = CustomUser.objects.get(email=form.cleaned_data['email'])
+        except CustomUser.DoesNotExist:
+            form.add_error(None, 'User with this email does not exist')
+            return super().form_invalid(form)
+        
+        if not user.check_password(form.cleaned_data['old_password']):
+            form.add_error('old_password', 'Old password is incorrect')
+            return super().form_invalid(form)
+        
+        user.set_password(form.cleaned_data['new_password'])
+        user.save()
+        
         return super().form_valid(form)
 
 
