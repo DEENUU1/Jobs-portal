@@ -90,6 +90,7 @@ class ApplicationsListView(ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
+        queryset = queryset.filter(offer__company=self.kwargs['offer_id'])
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
