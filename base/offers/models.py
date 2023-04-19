@@ -144,7 +144,7 @@ class Application(models.Model):
     portfolio = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)
     cv = models.FileField(upload_to='resumes', null=True, blank=True)
-    status = models.PositiveIntegerField(choices=STATUS)
+    status = models.PositiveIntegerField(choices=STATUS, default=1)
 
     @property
     def return_full_name(self):
