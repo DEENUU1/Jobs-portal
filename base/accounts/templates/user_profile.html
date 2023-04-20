@@ -12,6 +12,76 @@
 </div>
 
 
+<div class="container">
+  {% for application in applications %}
+  
+  {% comment %} OFFERT {% endcomment %}
+
+  <div class="card mb-5 mt-5" style="max-width: 1400px;">
+      <div class="row g-0">
+        <div class="col-md-4">
+          {% if application.offer.company.image %}
+          <img src="http://127.0.0.1:8000/media/{{application.offer.company.image}}" class="img-fluid rounded-start" alt={{application.offer.company.name}}>
+          {% else %}
+          <img src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="img-fluid rounded-start" alt="no image" />
+          {% endif %}
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+          <div class="d-flex justify-content-between">    
+            <a href="/offer/{{application.offer.id}}"><h2 class="card-title">{{application.offer.name}}</h2></a>
+            <h5 class="card-title" style="color: green; font-weight: 800">{{application.offer.salary}}</h5>
+          </div>  
+            <div class="d-flex justify-content-between">
+              <a href="company/{{application.offer.company.id}}"> <p class="card-text"><small class="text-body-secondary">{{application.offer.company}}</small></p> </a>
+              <p class="card-text"><small class="text-body-secondary">{{application.offer.date_created}}</small></p>
+              <p class="card-text"><small class="text-body-secondary">{{application.offer.return_localization}}</small></p>
+              {% if application.offer.return_requirements %}
+                  <p class="card-text"><smaill class="text-body-secondary">{{application.offer.return_requirements}}</small></p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Your data
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>Name:</strong> {{application.return_full_name}} <br>
+              <strong>Email:</strong> <a href="mailto:{{application.email}}">{{application.email}}</a> <br>
+              <strong>Phone number:</strong> {{application.phone_number}} <br>
+              <strong>Message:</strong> {{application.message}} <br>
+              <strong>Expected pay:</strong> {{application.expected_pay}} <br>
+              <strong>Date sent:</strong> {{application.date_created}} <br>
+              {% if application.portfolio %}
+              <strong>Portfolio url:</strong>  <a href={{application.portfolio}}> {{application.portfolio}} </a> <br>
+              {% endif %}
+              {% if application.linkedin %}
+              <strong>Linkedin url:</strong> <a href={{application.linkedin}}> {{application.linkedin}} </a> <br>
+              {% endif %}
+              {% if application.cv %}
+              <strong>Resume:</strong> <a href=http://127.0.0.1:8000/media/{{application.cv}}>Resume</a> <br>
+              {% endif %}
+              {% if application.answer %}
+              <strong>Status:</strong> Feedback sent <br>
+              {% else %}
+              <strong>Status:</strong> Processing 
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+  {% endfor %}
+</div>
 
 
 
