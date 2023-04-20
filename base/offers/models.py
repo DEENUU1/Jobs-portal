@@ -144,3 +144,7 @@ class Application(models.Model):
     @property
     def return_full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def update_answer(self, answer):
+        self.answer = answer
+        self.save()

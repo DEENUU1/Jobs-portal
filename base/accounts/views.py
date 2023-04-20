@@ -140,6 +140,7 @@ class ReturnApplicationFeedbackView(FormView):
         application = Application.objects.get(pk=self.kwargs['application_id'])
         email = application.email
         form.send_email(email)
+        application.update_answer(True)
         return super().form_valid(form)
 
 
