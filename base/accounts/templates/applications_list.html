@@ -18,6 +18,7 @@
       <th scope="col">Expected pay</th>
       <th scope="col">Date</th>
       <th scope="col">Resume</th>
+      <th scope="col">Status</th>
       <th scope="col">Action</th>
     </tr>
   </thead>
@@ -47,6 +48,15 @@
       {% else %}
         <td>No resume</td>
       {% endif %}
+      <td>
+        {% if object.get_status_display == "Accepted" %}
+          <td style="color: green">{{ object.get_status_display }}</td>
+        {% elif object.get_status_display == "Rejected" %}
+          <td style="color: red">{{object.get_status_display}}</td>
+        {% else %}
+          <td>{{object.get_status_display}}</td>
+        {% endif %}
+      </td>
       <td>
         <a href="/">Rejected</a>
         <a href="/">Approved</a>
