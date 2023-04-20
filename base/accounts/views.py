@@ -13,8 +13,7 @@ from django.db.models import QuerySet
 from offers.models import Offer, Application
 from typing import Any , Dict
 from dotenv import load_dotenv
-from .tasks import send_email_task
-from django.http import HttpResponse
+
 
 load_dotenv()
 
@@ -104,9 +103,16 @@ class UserProfileView(views.View):
 
     @method_decorator(user_required)
     def get(self, request, *args, **kwargs):
+        user_id = request.user.email
+        applications = Application.objects.filter(email=user_id)
+
+        context = {
+            'applications': applications
+        }
 
         return render(request,
                       'user_profile.html',
+                      context=context
                       )
 
 
