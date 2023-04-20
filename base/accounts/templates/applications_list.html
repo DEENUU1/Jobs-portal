@@ -20,6 +20,7 @@
       <th scope="col">Resume</th>
       <th scope="col">Answer</th>
       <th scope="col">Send feedback</th>
+      <th scope="col">Delete</th>
     </tr>
   </thead>
   <tbody>
@@ -57,7 +58,13 @@
       </td>
       <td>
         <a href="{% url 'accounts:send_feedback' object.id %}">Send feedback</a>
+      </td>
       <td>
+        <form method="POST" action="{% url 'accounts:delete_application' object.id %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">DELETE</button>
+        </form>
+      </td>
       {% endfor %}
 
     </tr>
