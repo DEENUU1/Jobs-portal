@@ -18,8 +18,8 @@
       <th scope="col">Expected pay</th>
       <th scope="col">Date</th>
       <th scope="col">Resume</th>
-      <th scope="col">Status</th>
-      <th scope="col">Action</th>
+      <th scope="col">Answer</th>
+      <th scope="col">Send feedback</th>
     </tr>
   </thead>
   <tbody>
@@ -49,18 +49,15 @@
         <td>No resume</td>
       {% endif %}
       <td>
-        {% if object.get_status_display == "Accepted" %}
-          <td style="color: green">{{ object.get_status_display }}</td>
-        {% elif object.get_status_display == "Rejected" %}
-          <td style="color: red">{{object.get_status_display}}</td>
+        {%if object.anwer%}
+        Yes 
         {% else %}
-          <td>{{object.get_status_display}}</td>
+        No
         {% endif %}
       </td>
       <td>
-        <a href="/">Rejected</a>
-        <a href="/">Approved</a>
-      </td>
+        <a href="{% url 'accounts:send_feedback' object.id %}">Send feedback</a>
+      <td>
       {% endfor %}
 
     </tr>

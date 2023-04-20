@@ -31,6 +31,15 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
+""" Email configuration for GMAIL """
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("GMAIL_EMAIL")
+EMAIL_HOST_PASSWORD = os.getenv("GMAIL_PASSWORD")
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

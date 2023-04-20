@@ -35,3 +35,10 @@ class ChangePasswordForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput)
     old_password = forms.CharField(widget=forms.PasswordInput)
     new_password = forms.CharField(widget=forms.PasswordInput)
+
+
+class ReturnApplicationFeedback(forms.Form):
+    email = forms.EmailField(widget=forms.EmailInput)
+    subject = forms.CharField(widget=forms.TextInput)
+    message = forms.CharField(widget=forms.Textarea)
+    

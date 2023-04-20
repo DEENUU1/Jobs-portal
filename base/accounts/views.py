@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from .forms import CustomUserForm, LoginForm, ChangePasswordForm
+from .forms import CustomUserForm, LoginForm, ChangePasswordForm, ReturnApplicationFeedback
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LogoutView
 from django import views
@@ -12,6 +12,11 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import QuerySet
 from offers.models import Offer, Application
 from typing import Any , Dict
+from .task import send_email_func
+from dotenv import load_dotenv
+import os 
+
+load_dotenv()
 
 
 class RegisterUserView(FormView):
@@ -120,6 +125,26 @@ class ApplicationsListView(ListView):
         return context
 
 
+class ReturnApplicationFeedbackView(FormView):
+    form_class = ReturnApplicationFeedback
+    template_name = "return_app_feedback.html"
+    success_url = reverse_lazy("offers:home")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        application = Application.objects.get(pk=self.kwargs['application_id'])
+        initial['email'] = application.email
+        return initial
+
+    def form_valid(self, form, **kwargs: Any):
+        application = Application.objects.get(pk=self.kwargs['application_id'])
+        email = application.email
+        subject = form.cleaned_data['subject']  
+        message = form.cleaned_data['message']
+        send_email_func.delay(subject, message, os.getenv("GMAIL_EMAIL"), email)  
+        return super().form_valid(form)
+    
+
 class OfferDeleteView(DeleteView):
     model = Offer
     success_url = "/"
@@ -161,3 +186,4 @@ class OfferUpdateView(UpdateView):
         queryset = super().get_queryset()
         queryset = queryset.filter(company=self.request.user.id)
         return queryset
+    
