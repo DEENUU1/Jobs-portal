@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from .forms import CustomUserForm, LoginForm, ChangePasswordForm
+from .forms import CustomUserForm, LoginForm, ChangePasswordForm, ReturnApplicationFeedbackForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LogoutView
 from django import views
@@ -12,6 +12,10 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import QuerySet
 from offers.models import Offer, Application
 from typing import Any , Dict
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 
 class RegisterUserView(FormView):
@@ -99,9 +103,16 @@ class UserProfileView(views.View):
 
     @method_decorator(user_required)
     def get(self, request, *args, **kwargs):
+        user_id = request.user.email
+        applications = Application.objects.filter(email=user_id)
+
+        context = {
+            'applications': applications
+        }
 
         return render(request,
                       'user_profile.html',
+                      context=context
                       )
 
 
@@ -118,6 +129,35 @@ class ApplicationsListView(ListView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         return context
+
+
+class ReturnApplicationFeedbackView(FormView):
+    form_class = ReturnApplicationFeedbackForm
+    template_name = "return_app_feedback.html"
+    success_url = reverse_lazy("offers:home")
+
+    def get_initial(self):
+        initial = super().get_initial()
+        application = Application.objects.get(pk=self.kwargs['application_id'])
+        initial['email'] = application.email
+        return initial
+
+    def form_valid(self, form):
+        application = Application.objects.get(pk=self.kwargs['application_id'])
+        email = application.email
+        form.send_email(email)
+        application.update_answer(True)
+        return super().form_valid(form)
+
+
+class ApplicationDeleteView(DeleteView):
+    model = Application
+    success_url = "/"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(pk=self.kwargs['pk'])
+        return queryset
 
 
 class OfferDeleteView(DeleteView):
@@ -161,3 +201,4 @@ class OfferUpdateView(UpdateView):
         queryset = super().get_queryset()
         queryset = queryset.filter(company=self.request.user.id)
         return queryset
+    

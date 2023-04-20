@@ -128,11 +128,6 @@ class Offer(models.Model):
 
 
 class Application(models.Model):
-    STATUS = [
-        (1, 'Processed'),
-        (2, 'Rejected'),
-        (3, 'Accepted'),
-    ]
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -144,8 +139,12 @@ class Application(models.Model):
     portfolio = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)
     cv = models.FileField(upload_to='resumes', null=True, blank=True)
-    status = models.PositiveIntegerField(choices=STATUS, default=1)
+    answer = models.BooleanField(default=False)
 
     @property
     def return_full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+    def update_answer(self, answer):
+        self.answer = answer
+        self.save()
