@@ -1,6 +1,7 @@
 from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
+from .tasks import send_email_task
 
 
 class CustomUserForm(forms.ModelForm):
@@ -37,8 +38,14 @@ class ChangePasswordForm(forms.Form):
     new_password = forms.CharField(widget=forms.PasswordInput)
 
 
-class ReturnApplicationFeedback(forms.Form):
+class ReturnApplicationFeedbackForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput)
     subject = forms.CharField(widget=forms.TextInput)
     message = forms.CharField(widget=forms.Textarea)
     
+    def send_email(self, email):
+        send_email_task.delay(
+            email,
+            self.cleaned_data['subject'],
+            self.cleaned_data['message'],
+        )
