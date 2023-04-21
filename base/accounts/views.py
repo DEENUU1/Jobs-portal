@@ -117,10 +117,13 @@ class UserProfileView(views.View):
                       )
 
 
-class ApplicationsListView(ListView):
+class ApplicationsListView(UserPassesTestMixin, ListView):
     model = Application
     paginate_by = 20
     template_name = 'applications_list.html'
+
+    def test_func(self):
+        return self.request.user.role == "company"
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
