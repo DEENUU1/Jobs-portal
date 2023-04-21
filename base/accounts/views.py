@@ -13,6 +13,7 @@ from django.db.models import QuerySet
 from offers.models import Offer, Application
 from typing import Any , Dict
 from dotenv import load_dotenv
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 load_dotenv()
@@ -116,10 +117,13 @@ class UserProfileView(views.View):
                       )
 
 
-class ApplicationsListView(ListView):
+class ApplicationsListView(UserPassesTestMixin, ListView):
     model = Application
     paginate_by = 20
     template_name = 'applications_list.html'
+
+    def test_func(self):
+        return self.request.user.role == "company"
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
@@ -131,10 +135,15 @@ class ApplicationsListView(ListView):
         return context
 
 
-class ReturnApplicationFeedbackView(FormView):
+class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
     form_class = ReturnApplicationFeedbackForm
     template_name = "return_app_feedback.html"
     success_url = reverse_lazy("offers:home")
+
+    def test_func(self):
+        application = Application.objects.get(pk=self.kwargs['application_id'])
+        offer = application.offer
+        return self.request.user.role == "company" and self.request.user == offer.company
 
     def get_initial(self):
         initial = super().get_initial()
@@ -170,7 +179,7 @@ class OfferDeleteView(DeleteView):
         return queryset
 
 
-class OfferCreateView(CreateView):
+class OfferCreateView(UserPassesTestMixin, CreateView):
     model = Offer
     fields = [
         'name', 'description', 'level', 'requirements', 'localization',
@@ -179,13 +188,16 @@ class OfferCreateView(CreateView):
     template_name = 'offer_create.html'
     success_url = "/"
 
+    def test_func(self):
+        return self.request.user.role == "company"
+
     def form_valid(self, form):
         form.instance.company = self.request.user
         return super().form_valid(form)
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(company=self.request.user.id)
+        queryset = queryset.filter(company=self.request.user)
         return queryset
 
 
