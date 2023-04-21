@@ -14,7 +14,8 @@
       <th scope="col">Email</th>
       <th scope="col">Phone number</th>
       <th scope="col">LinkedIn</th>
-      <th scope="col">GitHub</th>
+      <th scope="col">Portfolio</th>
+      <th scope="col">Message</th>
       <th scope="col">Expected pay</th>
       <th scope="col">Date</th>
       <th scope="col">Resume</th>
@@ -42,6 +43,19 @@
       {% else %}
       <td>No portfolio</td>
       {% endif %}
+      <td>
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Message</button>
+
+        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Message</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body small">
+            {{object.message}}
+          </div>
+        </div>
+      </td>
       <td>{{object.expected_pay}}</td>
       <td>{{object.date_created}}</td>
       {% if object.cv %}
