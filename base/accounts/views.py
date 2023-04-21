@@ -13,6 +13,7 @@ from django.db.models import QuerySet
 from offers.models import Offer, Application
 from typing import Any , Dict
 from dotenv import load_dotenv
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 load_dotenv()
@@ -170,7 +171,7 @@ class OfferDeleteView(DeleteView):
         return queryset
 
 
-class OfferCreateView(CreateView):
+class OfferCreateView(UserPassesTestMixin, CreateView):
     model = Offer
     fields = [
         'name', 'description', 'level', 'requirements', 'localization',
@@ -179,13 +180,16 @@ class OfferCreateView(CreateView):
     template_name = 'offer_create.html'
     success_url = "/"
 
+    def test_func(self):
+        return self.request.user.role == "company"
+
     def form_valid(self, form):
         form.instance.company = self.request.user
         return super().form_valid(form)
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        queryset = queryset.filter(company=self.request.user.id)
+        queryset = queryset.filter(company=self.request.user)
         return queryset
 
 
