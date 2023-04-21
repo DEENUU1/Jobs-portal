@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block meta_title%} Jobs portal | Success {% endblock %}
+
+{% block content %}
+
+<section style="min-height: 100vh">
+    <div style="display: flex; alight-items: center; justify-content: center;">
+        <h1>Your application has been successfully submitted!</h1>
+    </div>
+    <div style="display: flex; alight-items: center; justify-content: center;">
+        <a class="btn btn-primary" role="button" href="{% url 'offers:home' %}">See more job offers here</a>
+    </div>
+</section>
+
+{% endblock %}

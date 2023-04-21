@@ -26,6 +26,14 @@ class CustomUserForm(forms.ModelForm):
             raise forms.ValidationError('Email already exists')
         return email
 
+    def send_email(self, message):
+        send_email_task.delay(
+            self.cleaned_data['email'],
+            subject="Activate your account",
+            message=message
+        )
+        
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
@@ -37,6 +45,13 @@ class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput)
     new_password = forms.CharField(widget=forms.PasswordInput)
 
+    def send_email(self, message):
+        send_email_task.delay(
+            self.cleaned_data['email'],
+            subject="Confirm changing your password",
+            message=message
+        )
+        
 
 class ReturnApplicationFeedbackForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput)

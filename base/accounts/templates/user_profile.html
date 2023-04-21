@@ -7,8 +7,8 @@
 
 
 <div class="container">
-    <a href="{% url 'accounts:update_profile' user.id %}">Edit your information</a>
-    <a href="{% url 'accounts:change_password' %}">Change password</a>
+    <a class="btn btn-primary" role="button" href="{% url 'accounts:update_profile' user.id %}">Edit your information</a>
+    <a class="btn btn-primary" role="button" href="{% url 'accounts:change_password' %}">Change password</a>
 </div>
 
 

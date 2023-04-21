@@ -5,31 +5,50 @@
 {% block content %}
 
 <div class="container">
-    <h2>{{object.company.name}}</h2>
-    {{object.company.description}} <br>
+    <a style="text-decoration: none; color: black;"href="{% url "offers:company" object.company.id %}">
+        <h2 style="font-size: 40px; font-weight: 600">{{object.company.username}}</h2>
+    </a>
+    <a href="{% url "offers:company" object.company.id %}">
     <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
-
+    </a>
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Description
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                {{object.company.description}}
+            </div>
+          </div>
+        </div>  
+    </div>    
 </div>
 
 
 
 <div class="container">
-    <h2>{{object.name}}</h2>
-    <a href={% url "offers:apply" object.id %}>Apply</a> <br>
-    {{object.position}} <br>
-    {{object.level}} <br>
-    {% for contract in object.contract.all %}
-        {{ contract.name }}
-    {% endfor %}
-    {% for requirement in object.requirements.all %}
-        {{requirement.name }} <br>
-    {% endfor %}
-    {{object.return_localization}} <br>
-    {{object.salary}} <br>
-    {{object.date_created}} <br>
-    {{object.remote}} <br>
-    <a href={% url "offers:company" object.company.id %}>{{object.company}}</a> <br>
-    {{object.description}} <br>
+    <h2>{{object.name}} |
+        {{object.salary}} <br>
+        <a href={% url "offers:apply" object.id %} class="btn btn-primary" role="button">Apply</a> 
+    </h2> 
+    {{object.date_created}} <br> <br>
+    <strong>Experience: </strong>{{object.level}} <br>
+    <strong>Requirements: </strong>{{object.return_all_requirements}} <br>
+    <strong>Contract: </strong>{{object.return_contract}} <br>
+    <strong>Localization: </strong>{{object.return_localization}} <br>
+    <strong>Language: </strong>{{object.position}} <br>
+    
+   
+    
+
+    
+    
+    {% if object.remote %}
+    <strong>Remote: </strong> Yes <br>
+    {% endif %}
 </div>
 
 {% endblock %}
