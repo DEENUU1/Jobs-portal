@@ -45,6 +45,13 @@ class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(widget=forms.PasswordInput)
     new_password = forms.CharField(widget=forms.PasswordInput)
 
+    def send_email(self, message):
+        send_email_task.delay(
+            self.cleaned_data['email'],
+            subject="Confirm changing your password",
+            message=message
+        )
+        
 
 class ReturnApplicationFeedbackForm(forms.Form):
     email = forms.EmailField(widget=forms.EmailInput)

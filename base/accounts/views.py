@@ -8,7 +8,7 @@ from django import views
 from django.utils.decorators import method_decorator
 from .auth import company_required, user_required
 from .models import CustomUser
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.db.models import QuerySet
 from offers.models import Offer, Application
 from typing import Any , Dict
@@ -28,7 +28,7 @@ load_dotenv()
 class RegisterUserView(FormView):
     template_name = "register_user.html"
     form_class = CustomUserForm
-    success_url = reverse_lazy("offers:home")
+    success_url = reverse_lazy("accounts:success_register")
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -43,10 +43,9 @@ class RegisterUserView(FormView):
                 'token':account_activation_token.make_token(user),
             })
         )
-        
         return super().form_valid(form)
 
-def activate(request, uidb64, token):
+def register_activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = CustomUser.objects.get(pk=uid)
@@ -59,7 +58,11 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
-    
+
+
+class SuccessRegisterView(TemplateView):
+    template_name = "register_success.html"
+
 
 class LoginUserView(FormView):
     template_name = "login.html"
@@ -74,7 +77,7 @@ class LoginUserView(FormView):
 class ChangePasswordView(FormView):
     form_class = ChangePasswordForm
     template_name = "change_password.html"
-    success_url = reverse_lazy("offers:home")
+    success_url = reverse_lazy("accounts:success_password_change")
 
     def form_valid(self, form):
         try:
@@ -91,6 +94,11 @@ class ChangePasswordView(FormView):
         user.save()
         
         return super().form_valid(form)
+
+
+class SuccessPasswordChangeView(TemplateView):
+    template_name = "password_change_success.html"
+
 
 
 class LogoutUser(LogoutView):
