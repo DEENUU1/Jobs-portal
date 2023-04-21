@@ -5,11 +5,33 @@
 {% block content %}
 
 
-{% for object in object_list %}
-    <a href="company/{{object.id}}"><h2>Name: {{object.username}}</h2></a>
-    <img style="width: 50%" src="http://127.0.0.1:8000/media/{{object.image}}"> <br>
-    Description: {{object.description}} <br>
-{% endfor %}
+
+    
+    {% comment %} Description: {{object.description}} <br> {% endcomment %}
+
+
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for object in object_list %}
+    <div class="col">
+      <div class="card">
+        {% if object.image %}
+        <a href="/offer/{{object.id}}">
+            <img style="width: 250px; height: 100px;" class="card-img-top" src="http://127.0.0.1:8000/media/{{object.image}}" class="img-fluid rounded-start" alt={{object.name}}></a>
+        {% else %}
+        <a href="/offer/{{object.id}}">
+            <img style="width: 250px; height: 100px;" class="card-img-top" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="img-fluid rounded-start" alt="no image" /></a>
+        {% endif %}
+
+        <div class="card-body">
+        <a href="company/{{object.id}}">
+          <h5 class="card-title">{{object.username}}</h5>
+        </a>
+          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
 
 {% include "pagination.html" %}
 
