@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
 from .models import Offer, Application
 from typing import Any , Dict 
 from django.db.models import QuerySet
@@ -13,6 +13,7 @@ from .forms import (
 
 )    
 from accounts.models import CustomUser
+from django.urls import reverse_lazy
 
 
 class HomePageView(ListView):
@@ -108,10 +109,12 @@ class ApplyForOfferView(CreateView):
     model = Application
     fields = ['first_name', 'last_name', 'email', 'phone_number', 'message', 'expected_pay', 'portfolio', 'linkedin', 'cv']
     template_name = 'apply_for_offer.html'
-    success_url = "/"
+    success_url = reverse_lazy("offers:apply-success")
 
     def form_valid(self, form):
         form.instance.offer_id = self.kwargs['offer_id']
         return super().form_valid(form)
 
 
+class ApplySuccessView(TemplateView):
+    template_name = 'apply_success.html'
