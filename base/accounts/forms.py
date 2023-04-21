@@ -1,7 +1,7 @@
 from django import forms
 from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
-from .tasks import send_email_task
+from .tasks import activation_email_task
 
 
 class CustomUserForm(forms.ModelForm):
@@ -25,6 +25,13 @@ class CustomUserForm(forms.ModelForm):
         if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError('Email already exists')
         return email
+
+    def send_email(self, message):
+        activation_email_task.delay(
+            to=self.cleaned_data['email'],
+            message=message
+        )
+        
 
 
 class LoginForm(AuthenticationForm):

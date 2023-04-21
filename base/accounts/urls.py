@@ -5,6 +5,7 @@ app_name = "accounts"
 
 urlpatterns = [
     path('register/', views.RegisterUserView.as_view(), name='register'),
+    path('activate/<str:uidb64>/<str:token>/', views.activate, name='activate'),
     path('login/', views.LoginUserView.as_view(), name='login'),
     path('logout/', views.LogoutUser.as_view(), name='logout'),
     path('change-password/', views.ChangePasswordView.as_view(), name='change_password'),
