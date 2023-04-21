@@ -30,18 +30,22 @@
 
 
 <div class="container">
-    <h2>{{object.name}}
+    <h2>{{object.name}} |
+        {{object.salary}} <br>
         <a href={% url "offers:apply" object.id %} class="btn btn-primary" role="button">Apply</a> 
     </h2> 
-    
-    <strong>Language: </strong>{{object.position}} <br>
+    {{object.date_created}} <br> <br>
     <strong>Experience: </strong>{{object.level}} <br>
-
-
-
+    <strong>Requirements: </strong>{{object.return_all_requirements}} <br>
+    <strong>Contract: </strong>{{object.return_contract}} <br>
     <strong>Localization: </strong>{{object.return_localization}} <br>
-    <strong>Salary: </strong>{{object.salary}} <br>
-    <strong>Date created: </strong>{{object.date_created}} <br>
+    <strong>Language: </strong>{{object.position}} <br>
+    
+   
+    
+
+    
+    
     {% if object.remote %}
     <strong>Remote: </strong> Yes <br>
     {% endif %}

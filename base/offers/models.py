@@ -91,7 +91,21 @@ class Offer(models.Model):
     company = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     @property
-    def return_requirements(self):
+    def return_contract(self) -> str:
+        all_contracts = []
+        for contract in self.contract.all():
+            all_contracts.append(contract.contract_type)
+        return ', '.join(all_contracts)
+
+    @property
+    def return_all_requirements(self) -> str:
+        all_requirements = []
+        for requirement in self.requirements.all():
+            all_requirements.append(requirement.name)
+        return ', '.join(all_requirements)
+
+    @property
+    def return_requirements(self) -> str:
         count = Offer.requirements.through.objects.filter(offer=self).count()
         if count >= 1:
             first_requirements = Offer.requirements.through.objects.filter(
@@ -101,7 +115,7 @@ class Offer(models.Model):
         return first_requirements
     
     @property
-    def salary(self):
+    def salary(self) -> str:
         if self.salary_from is None and self.salary_to is None:
             return "Niezdefiniowana"
         elif self.salary_from is None:
@@ -112,7 +126,7 @@ class Offer(models.Model):
             return f"{self.salary_from} - {self.salary_to} PLN"
     
     @property 
-    def return_localization(self):
+    def return_localization(self) -> str:
         if self.remote == True:
             return f"{self.localization} / remote"
         else:
@@ -142,7 +156,7 @@ class Application(models.Model):
     answer = models.BooleanField(default=False)
 
     @property
-    def return_full_name(self):
+    def return_full_name(self) -> str:
         return f"{self.first_name} {self.last_name}"
     
     def update_answer(self, answer):
