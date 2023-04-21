@@ -71,7 +71,7 @@
         {% endif %}
       </td>
       <td>
-        <a href="{% url 'accounts:send_feedback' object.id %}">Send feedback</a>
+        <a class="btn btn-primary" role="button" href="{% url 'accounts:send_feedback' object.id %}">Send feedback</a>
       </td>
       <td>
         <form method="POST" action="{% url 'accounts:delete_application' object.id %}">
