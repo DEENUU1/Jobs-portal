@@ -43,7 +43,6 @@ class RegisterUserView(FormView):
                 'token':account_activation_token.make_token(user),
             })
         )
-        form.send_email.send()
         
         return super().form_valid(form)
 
