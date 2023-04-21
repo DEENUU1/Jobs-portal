@@ -135,10 +135,15 @@ class ApplicationsListView(UserPassesTestMixin, ListView):
         return context
 
 
-class ReturnApplicationFeedbackView(FormView):
+class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
     form_class = ReturnApplicationFeedbackForm
     template_name = "return_app_feedback.html"
     success_url = reverse_lazy("offers:home")
+
+    def test_func(self):
+        application = Application.objects.get(pk=self.kwargs['application_id'])
+        offer = application.offer
+        return self.request.user.role == "company" and self.request.user == offer.company
 
     def get_initial(self):
         initial = super().get_initial()
