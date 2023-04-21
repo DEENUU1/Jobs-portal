@@ -5,21 +5,31 @@
 {% block content %}
 
 <div class="container">
-    <h2>{{object.company.name}}</h2>
-    {{object.company.description}} <br>
-    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
-
+  <a style="text-decoration: none; color: black;"href="{% url "offers:company" object.id %}">
+      <h2 style="font-size: 40px; font-weight: 600">{{object.username}}</h2>
+  </a>
+  <a href="{% url "offers:company" object.id %}">
+  <img src="http://127.0.0.1:8000/media/{{object.image}}" class="img-fluid rounded-start" alt={{object.name}}>
+  </a>
+  <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Description
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+              {{object.description}}
+          </div>
+        </div>
+      </div>  
+  </div>    
 </div>
 
-
-
+{% if object_list %}
 <div class="container">
-    <h2>{{object.username}}</h2>
-    {{object.description}} <br>
-    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}> <br>
-</div>
-
-<div class="container">
+  <h2 class="mt-5">Companies offers</h2>
     {% for object in object_list %}
         <div class="card mb-5 mt-5" style="max-width: 1400px;">
             <div class="row g-0">
@@ -50,5 +60,10 @@
           </div>
     {% endfor %}
     </div>
+{% else %}
+<div class="container">
+  <h2 class="mt-5">This company doesn't have any new offers</h2>
+</div>
+{% endif %}
 
 {% endblock %}
