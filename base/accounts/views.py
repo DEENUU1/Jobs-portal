@@ -20,6 +20,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
 from django.http import HttpResponse
+import csv
 
 
 load_dotenv()
@@ -44,6 +45,7 @@ class RegisterUserView(FormView):
             })
         )
         return super().form_valid(form)
+
 
 def register_activate(request, uidb64, token):
     try:
@@ -165,7 +167,8 @@ class ApplicationsListView(UserPassesTestMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
-        queryset = queryset.filter(offer__company=self.kwargs['offer_id'])
+        # queryset = queryset.filter(offer__company=self.kwargs['offer_id'])
+        queryset = queryset.filter(offer__id=self.kwargs['offer_id'])
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -251,4 +254,18 @@ class OfferUpdateView(UpdateView):
         queryset = super().get_queryset()
         queryset = queryset.filter(company=self.request.user.id)
         return queryset
-    
+
+
+def generate_application_csv(request, pk):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="applications.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Full name', 'Email', 'Expected pay', 'Linkedin', 'Portfolio'])
+
+    application = Application.objects.filter(offer__id=pk)
+
+    for data in application:
+        writer.writerow([data.return_full_name, data.email, data.expected_pay, data.linkedin, data.portfolio])
+
+    return response

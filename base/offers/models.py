@@ -83,12 +83,17 @@ class Offer(models.Model):
     contract = models.ManyToManyField(Contract)
     requirements = models.ManyToManyField(Requirements)
     localization = models.ForeignKey(Localization, on_delete=models.CASCADE)
+    address = models.CharField(max_length=50)
     description = models.CharField(max_length=1000)
     salary_from = models.IntegerField(null=True, blank=True)
     salary_to = models.IntegerField(null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     remote = models.BooleanField(default=False)
     company = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    @property
+    def return_full_address(self) -> str:
+        return f"{self.localization}, {self.address}"
 
     @property
     def return_contract(self) -> str:

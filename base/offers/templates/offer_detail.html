@@ -34,7 +34,9 @@
         {{object.salary}} <br>
         <a href={% url "offers:apply" object.id %} class="btn btn-primary" role="button">Apply</a> 
     </h2> 
-    {{object.date_created}} <br> <br>
+    {{object.date_created}} <br>
+    {{object.return_full_address}}<br> <br>
+
     <strong>Experience: </strong>{{object.level}} <br>
     <strong>Requirements: </strong>{{object.return_all_requirements}} <br>
     <strong>Contract: </strong>{{object.return_contract}} <br>

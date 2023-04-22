@@ -19,6 +19,7 @@ urlpatterns = [
     path('offer/delete/<int:pk>/', views.OfferDeleteView.as_view(), name='delete'),
     path('applications/<int:offer_id>/', views.ApplicationsListView.as_view(), name='applications'),
     path('application/sendfeedback/<int:application_id>/', views.ReturnApplicationFeedbackView.as_view(), name='send_feedback'),
-    path('application/delete/<int:pk>/', views.ApplicationDeleteView.as_view(), name='delete_application')
+    path('application/delete/<int:pk>/', views.ApplicationDeleteView.as_view(), name='delete_application'),
+    path('application/generate-csv/<int:pk>/', views.generate_application_csv, name='generate_csv'),
 
 ]
