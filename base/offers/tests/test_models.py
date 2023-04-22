@@ -16,11 +16,12 @@ class PositionModelTestCase(TestCase):
     """
     Test Case for Position model
     """
+
     def setUp(self) -> None:
         self.position = Position.objects.create(
-            position_name = "Python"
+            position_name="Python"
         )
-    
+
     def test_position_model_creation(self) -> None:
         """
         Test creation object of Position model
@@ -35,11 +36,12 @@ class LevelModelTestCase(TestCase):
     """
     Test Case for Level model
     """
+
     def setUp(self) -> None:
         self.level = Level.objects.create(
-            level_name = "Junior"
+            level_name="Junior"
         )
-    
+
     def test_level_model_creation(self) -> None:
         """
         Test creation object of Level model
@@ -54,11 +56,12 @@ class CountryModelTestCase(TestCase):
     """
     Test Case for Country model
     """
+
     def setUp(self) -> None:
         self.country = Country.objects.create(
-            name = "Poland"
+            name="Poland"
         )
-    
+
     def test_country_model_creation(self) -> None:
         """
         Test creation object of Country model
@@ -73,13 +76,14 @@ class LocalizationModelTestCase(TestCase):
     """
     Test Case for Localization model
     """
+
     def setUp(self) -> None:
         self.country = Country.objects.create(
-            name = "Poland"
+            name="Poland"
         )
         self.localization = Localization.objects.create(
-            country = self.country,
-            city = "Warsaw"
+            country=self.country,
+            city="Warsaw"
         )
 
     def test_localization_model_creation(self) -> None:
@@ -99,11 +103,12 @@ class ContractModelTestCase(TestCase):
     """
     Test Case for Contract model
     """
+
     def setUp(self) -> None:
         self.contract = Contract.objects.create(
-            contract_type = "B2B"
+            contract_type="B2B"
         )
-    
+
     def test_contract_model_creation(self) -> None:
         """
         Test creation object of Contract model
@@ -118,9 +123,10 @@ class RequirementsModelTestCase(TestCase):
     """
     Test Case for Requirements model
     """
+
     def setUp(self) -> None:
         self.requirements = Requirements.objects.create(
-            name = "Git"
+            name="Git"
         )
 
     def test_requirements_model_creation(self) -> None:
@@ -137,52 +143,54 @@ class OfferModelTestCase(TestCase):
     """
     Test case for Offer model
     """
+
     def setUp(self) -> None:
         self.name = "Junior Python Developer"
         self.position = Position.objects.create(
-            position_name = "Python"
+            position_name="Python"
         )
         self.level = Level.objects.create(
-            level_name = "Junior"
+            level_name="Junior"
         )
         self.contract = Contract.objects.create(
-            contract_type = "B2B"
+            contract_type="B2B"
         )
         self.requirements = Requirements.objects.create(
-            name = "Git"
+            name="Git"
         )
         self.country = Country.objects.create(
-            name = "Poland"
+            name="Poland"
         )
         self.localization = Localization.objects.create(
-            country = self.country,
-            city = "Warsaw"
+            country=self.country,
+            city="Warsaw"
         )
         self.description = "Junior Python Developer with 10 years exp"
         self.salary_from = 20000
         self.salary_to = 25000
         self.remote = True
         self.custom_user = CustomUser.objects.create(
-            role = 'company',
-            username = 'Nokia',
+            role='company',
+            username='Nokia',
             email="nokia123@wp.pl",
             password="XXXXXXX"
         )
         self.company = self.custom_user
         self.offer = Offer.objects.create(
-            name = self.name,
-            position = self.position,
-            level = self.level,
-            description = self.description,
-            localization = self.localization,
-            salary_from = self.salary_from,
-            salary_to = self.salary_to,
-            remote = self.remote,
-            company = self.company
+            name=self.name,
+            position=self.position,
+            level=self.level,
+            description=self.description,
+            localization=self.localization,
+            salary_from=self.salary_from,
+            salary_to=self.salary_to,
+            remote=self.remote,
+            company=self.company,
+            address="Zielona 4"
         )
         self.offer.contract.add(self.contract)
         self.offer.requirements.add(self.requirements)
-    
+
     def test_offer_model_creation(self) -> None:
         """
         Test creation object of Offer model
@@ -227,7 +235,31 @@ class OfferModelTestCase(TestCase):
         Test salary method from Offer Model
         """
         self.assertEqual(
-            self.offer.salary, "20000 - 25000"
+            self.offer.salary, "20000 - 25000 PLN"
+        )
+
+    def test_return_full_address(self) -> None:
+        """
+        Test return_full_address method from Offer Model
+        """
+        self.assertEqual(
+            self.offer.return_full_address, "Warsaw, Zielona 4"
+        )
+
+    def test_return_contract(self) -> None:
+        """
+        Test return_contract method from Offer Model
+        """
+        self.assertEqual(
+            self.offer.return_contract, "B2B"
+        )
+
+    def test_return_all_requirements(self) -> None:
+        """
+        Test return_all_requirements method from Offer Model
+        """
+        self.assertEqual(
+            self.offer.return_all_requirements, "Git"
         )
 
 
@@ -235,6 +267,7 @@ class ApplicationTestCase(TestCase):
     """
     Test Case for Application Model
     """
+
     def setUp(self) -> None:
         self.offer_model = OfferModelTestCase()
         self.offer_model.setUp()
@@ -247,17 +280,17 @@ class ApplicationTestCase(TestCase):
         self.expected_pay = 15000
         self.portfolio = "https://www.example.pl/portfolio"
         self.linkedin = "https://www.linkedin.com/in/"
-        
+
         self.application = Application.objects.create(
-            first_name = self.first_name,
-            last_name = self.last_name,
-            email = self.email,
-            phone_number = self.phone_number,
-            message = self.message,
-            offer = self.offer,
-            expected_pay = self.expected_pay,
-            portfolio = self.portfolio,
-            linkedin = self.linkedin
+            first_name=self.first_name,
+            last_name=self.last_name,
+            email=self.email,
+            phone_number=self.phone_number,
+            message=self.message,
+            offer=self.offer,
+            expected_pay=self.expected_pay,
+            portfolio=self.portfolio,
+            linkedin=self.linkedin
         )
 
     def test_application_model_creation(self) -> None:
@@ -293,4 +326,10 @@ class ApplicationTestCase(TestCase):
             self.application.linkedin, self.linkedin
         )
 
-    
+    def test_return_full_name(self) -> None:
+        """
+        Test return_full_name method from Application Model
+        """
+        self.assertEqual(
+            self.application.return_full_name, "Kacper Kowalski"
+        )
