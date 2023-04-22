@@ -20,7 +20,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
 from django.http import HttpResponse
-from .tasks import generate_csv_file
+import csv
 
 
 load_dotenv()
@@ -256,5 +256,15 @@ class OfferUpdateView(UpdateView):
 
 
 def generate_application_csv(request, pk):
-    generate_csv_file.apply_async(args=[pk])
-    return HttpResponse('CSV generation started. You will receive a download link shortly.')
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="applications.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Full name', 'Email', 'Expected pay', 'Linkedin', 'Portfolio'])
+
+    application = Application.objects.filter(offer__id=pk)
+
+    for data in application:
+        writer.writerow([data.return_full_name, data.email, data.expected_pay, data.linkedin, data.portfolio])
+
+    return response
