@@ -46,6 +46,7 @@ class RegisterUserView(FormView):
         )
         return super().form_valid(form)
 
+
 def register_activate(request, uidb64, token):
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
