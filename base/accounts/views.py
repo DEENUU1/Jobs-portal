@@ -20,6 +20,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from .tokens import account_activation_token
 from django.http import HttpResponse
+from .tasks import generate_csv_file
 
 
 load_dotenv()
@@ -165,7 +166,8 @@ class ApplicationsListView(UserPassesTestMixin, ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         queryset = super().get_queryset()
-        queryset = queryset.filter(offer__company=self.kwargs['offer_id'])
+        # queryset = queryset.filter(offer__company=self.kwargs['offer_id'])
+        queryset = queryset.filter(offer__id=self.kwargs['offer_id'])
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -251,4 +253,8 @@ class OfferUpdateView(UpdateView):
         queryset = super().get_queryset()
         queryset = queryset.filter(company=self.request.user.id)
         return queryset
-    
+
+
+def generate_application_csv(request, pk):
+    generate_csv_file.apply_async(args=[pk])
+    return HttpResponse('CSV generation started. You will receive a download link shortly.')
