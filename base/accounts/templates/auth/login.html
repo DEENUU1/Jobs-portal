@@ -5,14 +5,19 @@
 
 {% block content %}
 
+<div class="p-5 mt-5 text-center">
+    <h1 class="mb-5">Login</h1>
+</div>
 
-<div class="container">
+
+<div class="container mt-5 mb-5">
     <form method="post">
         {% csrf_token %}
         {{form|crispy}}
-        <button class="btn btn-primary" type="submit">Login</button>
-        <a href="{% url 'accounts:change_password' %}">Change password</a>
+        <button class="btn btn-success" type="submit">Login</button>
     </form>
+    <a href="{% url 'accounts:change_password' %}">Change password</a> <br>
+    <a href="{% url 'accounts:register' %}">If you do not have an account, you can sign up here</a>
 </div>
 
 {% endblock %}
