@@ -52,7 +52,7 @@ class Country(models.Model):
 
     def __str__(self):
         return self.name
-    
+
 
 class Localization(models.Model):
     """
@@ -103,7 +103,7 @@ class Requirements(models.Model):
         verbose_name_plural = 'Requirements'
 
     def __str__(self):
-        return self.name 
+        return self.name
 
 
 class Offer(models.Model):
@@ -177,10 +177,10 @@ class Offer(models.Model):
         if count >= 1:
             first_requirements = Offer.requirements.through.objects.filter(
                 offer=self
-                ).first().requirements.name
+            ).first().requirements.name
             return f"{first_requirements} and {count} other requirement/s"
         return first_requirements
-    
+
     @property
     def salary(self) -> str:
         """
@@ -194,8 +194,8 @@ class Offer(models.Model):
             return f"od {self.salary_from} PLN"
         else:
             return f"{self.salary_from} - {self.salary_to} PLN"
-    
-    @property 
+
+    @property
     def return_localization(self) -> str:
         """
         A property that returns a string representation of the localization associated with the offer,
@@ -251,10 +251,13 @@ class Application(models.Model):
         Returns the applicant's full name as a string.
         """
         return f"{self.first_name} {self.last_name}"
-    
+
     def update_answer(self, answer):
         """
         Updates the answer flag of the application to the given value.
         """
         self.answer = answer
         self.save()
+
+    def __str__(self) -> str:
+        return self.return_full_name
