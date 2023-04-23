@@ -99,3 +99,11 @@ class OffersViewTestCase(TestCase):
         response = self.client.get(reverse('offers:home'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home_page.html')
+
+    def test_offer_detail_view(self) -> None:
+        """
+        Test that the offer detail view returns a 200 status code and uses the correct template.
+        """
+        response = self.client.get(reverse('offers:offer', kwargs={'pk': self.offer.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'offer_detail.html')
