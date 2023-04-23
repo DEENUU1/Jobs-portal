@@ -5,6 +5,11 @@
 
 {% block content %}
 
+<div class="p-5 mt-5 text-center">
+  <h1 class="mb-5">Edit information</h1>
+  <a class="btn btn-primary" role="button" href="{% url 'accounts:change_password' %}">Change password</a>
+</div>
+
 <div class="container">
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
