@@ -91,3 +91,11 @@ class OffersViewTestCase(TestCase):
             portfolio="https://www.example.com",
             linkedin="https://www.linkedin.com/in/xxxxx",
         )
+
+    def test_home_page_view(self) -> None:
+        """
+        Test that the home page view returns a 200 status code and uses the correct template.
+        """
+        response = self.client.get(reverse('offers:home'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'home_page.html')
