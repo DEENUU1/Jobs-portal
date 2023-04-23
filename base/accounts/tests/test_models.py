@@ -29,4 +29,10 @@ class TestUserModel(TestCase):
         self.assertEqual(self.user.email, "user@example.com")
         self.assertEqual(self.user.role, "user")
 
-
+    def test_company_user_creation(self) -> None:
+        """
+        Test if company user is created correctly.
+        """
+        self.assertEqual(self.company.username, "company")
+        self.assertEqual(self.company.email, "company@example.com")
+        self.assertEqual(self.company.role, "company")
