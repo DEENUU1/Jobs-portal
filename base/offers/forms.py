@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import ModelMultipleChoiceField
+
 from .models import (
     Position,
     Level,
@@ -6,8 +8,6 @@ from .models import (
     Contract,
     Application,
 )
-
-from django.forms import ModelMultipleChoiceField
 
 
 class ChoosePositionsForm(forms.Form):

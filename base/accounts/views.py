@@ -1,27 +1,28 @@
-from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
-from .forms import CustomUserForm, LoginForm, ChangePasswordForm, ReturnApplicationFeedbackForm
-from django.contrib.auth import login, logout
-from django.contrib.auth.views import LogoutView
+import csv
+from typing import Any, Dict
+
 from django import views
-from django.utils.decorators import method_decorator
-from .auth import company_required, user_required
-from .models import CustomUser
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
-from django.db.models import QuerySet
-from offers.models import Offer, Application
-from typing import Any , Dict
-from dotenv import load_dotenv
+from django.contrib.auth import login, logout
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.views import LogoutView
+from django.contrib.sites.shortcuts import get_current_site
+from django.db.models import QuerySet
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.contrib.sites.shortcuts import get_current_site
-from .tokens import account_activation_token
-from django.http import HttpResponse
-import csv
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic.edit import FormView
+from dotenv import load_dotenv
+from offers.models import Offer, Application
 
+from .auth import company_required, user_required
+from .forms import CustomUserForm, LoginForm, ChangePasswordForm, ReturnApplicationFeedbackForm
+from .models import CustomUser
+from .tokens import account_activation_token
 
 load_dotenv()
 

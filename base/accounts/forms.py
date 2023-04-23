@@ -1,6 +1,7 @@
 from django import forms
-from .models import CustomUser
 from django.contrib.auth.forms import AuthenticationForm
+
+from .models import CustomUser
 from .tasks import send_email_task
 
 
