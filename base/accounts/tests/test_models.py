@@ -3,6 +3,9 @@ from django.test import TestCase
 
 
 class TestUserModel(TestCase):
+    """
+    Test if CustomUser object is created correctly.
+    """
     def setUp(self) -> None:
         self.user = CustomUser.objects.create(
             first_name="Kacper",
@@ -19,7 +22,7 @@ class TestUserModel(TestCase):
             role="company"
         )
 
-    def test_user_creation(self):
+    def test_user_creation(self) -> None:
         """
         Test if user is created correctly.
         """
