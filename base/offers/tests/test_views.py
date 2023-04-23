@@ -1,5 +1,5 @@
-from django.test import TestCase, Client
 from accounts.models import CustomUser
+from django.test import TestCase, Client
 from django.urls import reverse
 from offers.models import (
     Level,

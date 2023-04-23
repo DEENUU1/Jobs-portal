@@ -1,19 +1,21 @@
-from django.views.generic import ListView, DetailView, CreateView, TemplateView
-from .models import Offer, Application
-from typing import Any , Dict 
+from typing import Any, Dict
+
+from accounts.models import CustomUser
 from django.db.models import QuerySet
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, TemplateView
+
 from .forms import (
     ChoosePositionsForm,
-    LevelFilterForm, 
-    LocalizationFilterForm, 
+    LevelFilterForm,
+    LocalizationFilterForm,
     ContractFilterForm,
     DateSortingForm,
     SearchForm,
     RemoteFilterForm,
 
-)    
-from accounts.models import CustomUser
-from django.urls import reverse_lazy
+)
+from .models import Offer, Application
 
 
 class HomePageView(ListView):

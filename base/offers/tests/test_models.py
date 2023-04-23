@@ -1,3 +1,4 @@
+from accounts.models import CustomUser
 from django.test import TestCase
 from offers.models import (
     Level,
@@ -9,7 +10,6 @@ from offers.models import (
     Offer,
     Application
 )
-from accounts.models import CustomUser
 
 
 class PositionModelTestCase(TestCase):
