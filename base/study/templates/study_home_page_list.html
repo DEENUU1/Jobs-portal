@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block meta_title%} Jobs portal | Apply {% endblock %}
+
+{% block content %}
+
+<div class="p-5 mt-5 text-center">
+    <h1 class="mb-5">Learn new things with us</h1>
+</div>
+
+
+<div class="container">
+    {% for object in object_list %}
+        <h2>{{object.name}}</h2>
+        {{object.description}} <br>
+        {{object.date_created}} <br>
+        {{object.url}} <br>
+    {% endfor %}
+</div>
+
+{% endblock %}
