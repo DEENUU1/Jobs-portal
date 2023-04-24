@@ -9,6 +9,10 @@
     <h1 class="mb-5">Learn new things with us</h1>
 </div>
 
+<form>
+    {{date_sorting_form|crispy}}
+    <button type="submit" class="btn btn-primary">Sort by date</button>
+</form>
 
 <div class="container">
     {% for object in object_list %}
