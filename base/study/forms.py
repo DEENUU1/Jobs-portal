@@ -1,4 +1,6 @@
 from django import forms
+from django.forms import ModelMultipleChoiceField
+from .models import Category
 
 
 class DateSortingForm(forms.Form):
@@ -17,3 +19,19 @@ class DateSortingForm(forms.Form):
         choices=CHOICES,
         required=False,
     )
+
+
+class ChooseCategoriesForm(forms.Form):
+    """
+    ChoosePositionsForm is a Django form that provides a checkbox for each available
+    Categories object, allowing users to select which positions they are interested in.
+    Attributes:
+        - choose_positions (ModelMultipleChoiceField): A field that represents a multiple-choice selection of objects.
+    """
+    choose_categories = ModelMultipleChoiceField(
+        queryset=Category.objects.all(),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        label="Choose positions"
+    )
+

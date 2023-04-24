@@ -9,10 +9,24 @@
     <h1 class="mb-5">Learn new things with us</h1>
 </div>
 
-<form>
-    {{date_sorting_form|crispy}}
-    <button type="submit" class="btn btn-primary">Sort by date</button>
-</form>
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtr resources</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+    <form method="get" action=".">
+        {{filter_by_categories|crispy}}
+        {{date_sorting_form|crispy}}
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    </div>
+  </div>
+
+    <div class="container">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            filters</button>
+    </div>
 
 <div class="container">
     {% for object in object_list %}

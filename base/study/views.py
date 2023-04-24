@@ -1,8 +1,8 @@
 from typing import Any, Dict
 from django.db.models import QuerySet
 from django.views.generic import ListView
-from .models import Category, Resources
-from .forms import DateSortingForm
+from .models import Resources
+from .forms import DateSortingForm, ChooseCategoriesForm
 
 
 class StudyHomePageListView(ListView):
@@ -26,6 +26,10 @@ class StudyHomePageListView(ListView):
             if order_by == "2":
                 queryset = queryset.order_by('-date_created')
 
+        categories = self.request.GET.get('choose_categories')
+        if categories:
+            queryset = queryset.filter(category__in=categories)
+
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -34,5 +38,6 @@ class StudyHomePageListView(ListView):
         """
         context =super().get_context_data(**kwargs)
         context['date_sorting_form'] = DateSortingForm(self.request.GET)
+        context['filter_by_categories'] = ChooseCategoriesForm(self.request.GET)
 
         return context
