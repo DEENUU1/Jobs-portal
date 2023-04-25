@@ -154,3 +154,9 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "auth/password_change_success.html")
 
+    def test_logout_user(self):
+        """
+        Test the GET request for the logout method and assert the response status.
+        """
+        response = self.client.get(reverse("accounts:logout"))
+        self.assertEqual(response.status_code, 302)
