@@ -176,3 +176,19 @@ class AccountsViewsTestCase(TestCase):
         self.client.login(username="test_user", password="test123@")
         response = self.client.get(reverse("accounts:dashboard"))
         self.assertEqual(response.status_code, 302)
+
+    def test_user_profile_authorized_user(self):
+        """
+        Test the GET request for the user profile view and assert the response status.
+        """
+        self.client.login(username="test_user", password="test123@")
+        response = self.client.get(reverse("accounts:user_profile"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_profile_unauthorized_user(self):
+        """
+        Test the GET request for the user profile view and assert the response status.
+        """
+        self.client.login(username="test_company", password="test123@")
+        response = self.client.get(reverse("accounts:user_profile"))
+        self.assertEqual(response.status_code, 302)
