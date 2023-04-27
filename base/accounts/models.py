@@ -37,3 +37,26 @@ class CustomUser(AbstractUser):
             self.last_name = None
 
         super().save(*args, **kwargs)
+
+
+class CompanyReview(models.Model):
+    """
+    A  model that represents a review of a company.
+    Attributes:
+        choose_rate: A PositiveIntegerField containing the rating of the review.
+        user: A ForeignKey to the CustomUser model.
+        date_created: A DateTimeField containing the date the review was created.
+        short_description: A CharField containing a short description of the review.
+    """
+    RATES = [
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5')
+    ]
+    choose_rate = models.PositiveIntegerField(choices=RATES)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+    short_description = models.CharField(max_length=200)
+
