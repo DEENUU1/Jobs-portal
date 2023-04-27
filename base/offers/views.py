@@ -1,6 +1,6 @@
 from typing import Any, Dict
 
-from accounts.models import CustomUser
+from accounts.models import CustomUser, CompanyReview
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
@@ -171,6 +171,7 @@ class CompanyDetailView(DetailView):
         avg_rating = calculate_avg_rating(self.object)
         context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])
         context['avg_rating'] = avg_rating
+        context['reviews'] = CompanyReview.objects.filter(company=self.kwargs['pk'])
         return context
     
 

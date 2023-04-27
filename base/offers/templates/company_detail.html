@@ -69,4 +69,21 @@
 </div>
 {% endif %}
 
+<div class="container">
+  <h2 class="mt-5">Company reviews</h2>
+  <a type="button" class="btn btn-primary" href="{% url "accounts:add_review" object.id %}">Add new review</a>
+  {% for review in reviews %}
+  <div class="card">
+    <div class="card-header">
+      {{review.return_formatted_rate}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{review.username}} | {{review.date_created}} </h5>
+      <p class="card-text">{{review.short_description}}</p>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+
 {% endblock %}
