@@ -8,6 +8,9 @@
   <a style="text-decoration: none; color: black;"href="{% url "offers:company" object.id %}">
       <h2 style="font-size: 40px; font-weight: 600">{{object.username}}</h2>
   </a>
+  <a href="#">
+      <h6>Company rate {{avg_rating}}/5</h6>
+  </a>
   <a href="{% url "offers:company" object.id %}">
   <img src="http://127.0.0.1:8000/media/{{object.image}}" class="img-fluid rounded-start" alt={{object.name}}>
   </a>
@@ -65,5 +68,22 @@
   <h2 class="mt-5">This company doesn't have any new offers</h2>
 </div>
 {% endif %}
+
+<div class="container">
+  <h2 class="mt-5">Company reviews</h2>
+  <a type="button" class="btn btn-primary" href="{% url "accounts:add_review" object.id %}">Add new review</a>
+  {% for review in reviews %}
+  <div class="card">
+    <div class="card-header">
+      {{review.return_formatted_rate}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{review.username}} | {{review.date_created}} </h5>
+      <p class="card-text">{{review.short_description}}</p>
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
 
 {% endblock %}

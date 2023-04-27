@@ -21,8 +21,9 @@ from offers.models import Offer, Application
 
 from .auth import company_required, user_required
 from .forms import CustomUserForm, LoginForm, ChangePasswordForm, ReturnApplicationFeedbackForm
-from .models import CustomUser
+from .models import CustomUser, CompanyReview
 from .tokens import account_activation_token
+from django.http import Http404
 
 load_dotenv()
 
@@ -51,7 +52,7 @@ class RegisterUserView(FormView):
         user.set_password(form.cleaned_data['password'])
         user.save()
         form.send_email(
-            message = render_to_string('acc_active_email.html', {
+            message = render_to_string('auth/acc_active_email.html', {
                 'user': user,
                 'domain': get_current_site(self.request),
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
@@ -452,3 +453,44 @@ def generate_application_csv(request, pk):
         writer.writerow([data.return_full_name, data.email, data.expected_pay, data.linkedin, data.portfolio])
 
     return response
+
+
+class AddCompanyReviewView(UserPassesTestMixin, CreateView):
+    """
+
+    """
+    template_name = "add_company_review.html"
+    success_url = reverse_lazy("offers:home")
+    model = CompanyReview
+    fields = ('email', 'choose_rate', 'short_description')
+
+    def test_func(self):
+        """
+
+        """
+        company = CustomUser.objects.get(pk=self.kwargs['company_id'])
+        return company.role == "company"
+
+    def get_initial(self):
+        """
+
+        """
+        initial = super().get_initial()
+        initial['email'] = self.request.user.email
+        initial['company'] = self.kwargs['company_id']
+        return initial
+
+    def form_valid(self, form):
+        """
+
+        """
+        form.instance.company_id = self.kwargs['company_id']
+        return super().form_valid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+
+        """
+        if not self.test_func():
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)
