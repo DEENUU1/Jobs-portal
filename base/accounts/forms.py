@@ -98,3 +98,4 @@ class ReturnApplicationFeedbackForm(forms.Form):
             self.cleaned_data['subject'],
             self.cleaned_data['message'],
         )
+

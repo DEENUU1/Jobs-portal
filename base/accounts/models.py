@@ -44,7 +44,7 @@ class CompanyReview(models.Model):
     A  model that represents a review of a company.
     Attributes:
         choose_rate: A PositiveIntegerField containing the rating of the review.
-        user: A ForeignKey to the CustomUser model.
+        email: A EmailField containing the email of the reviewer.
         date_created: A DateTimeField containing the date the review was created.
         short_description: A CharField containing a short description of the review.
     """
@@ -56,7 +56,7 @@ class CompanyReview(models.Model):
         (5, '5')
     ]
     choose_rate = models.PositiveIntegerField(choices=RATES)
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    email = models.EmailField()
     date_created = models.DateTimeField(auto_now_add=True)
     short_description = models.CharField(max_length=200)
-
+    company = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
