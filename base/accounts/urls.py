@@ -90,5 +90,10 @@ urlpatterns = [
         views.generate_application_csv,
         name='generate_csv'
     ),
+    path(
+        'company/add-review/<int:company_id>/',
+        views.AddCompanyReviewView.as_view(),
+        name='add_review'
+    )
 
 ]
