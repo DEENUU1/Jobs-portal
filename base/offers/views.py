@@ -4,6 +4,7 @@ from accounts.models import CustomUser
 from django.db.models import QuerySet
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
+from .report import calculate_avg_rating
 
 from .forms import (
     ChoosePositionsForm,
@@ -101,6 +102,13 @@ class OfferDetailView(DetailView):
     model = Offer
     template_name = 'offer_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = self.object.company
+        avg_rating = calculate_avg_rating(company)
+        context['avg_rating'] = avg_rating
+        return context
+
 
 class CompaniesListView(ListView):
     """
@@ -160,7 +168,9 @@ class CompanyDetailView(DetailView):
         It adds the related Offer objects to the context data.
         """
         context = super().get_context_data(**kwargs)    
-        context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])        
+        avg_rating = calculate_avg_rating(self.object)
+        context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])
+        context['avg_rating'] = avg_rating
         return context
     
 
