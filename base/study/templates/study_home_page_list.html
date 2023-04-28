@@ -28,13 +28,19 @@
             filters</button>
     </div>
 
+
+{% for object in object_list %}
 <div class="container">
-    {% for object in object_list %}
-        <h2>{{object.name}}</h2>
-        {{object.description}} <br>
-        {{object.date_created}} <br>
-        {{object.url}} <br>
-    {% endfor %}
+<div class="card" >
+    <div class="card-body">
+        <h5 style="font-weight: bold" class="card-title">{{object.name}}</h5>
+        <h6 class="card-subtitle mb-2 text-body-decondary">{{object.date_created}}</h6>
+        <p class="card-text">{{object.description}}</p>
+        <a href={{objects.url}} class="card-link">Check here</a>
+    </div>
 </div>
+</div>
+    {% endfor %}
+
 
 {% endblock %}
