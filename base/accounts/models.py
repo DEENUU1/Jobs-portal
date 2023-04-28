@@ -65,10 +65,9 @@ class CompanyReview(models.Model):
     @property
     def return_formatted_rate(self):
         """
-        A property that returns the rating of the review in a formated way.
+        A property that returns the rating of the review in a formatted way.
         """
         return f"{self.choose_rate}/5"
-
 
     class Meta:
         ordering = ('date_created',)
