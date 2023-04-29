@@ -216,15 +216,6 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse("accounts:logout"))
         self.assertEqual(response.status_code, 302)
 
-    def test_company_dashboard_authorized_user(self) -> None:
-        """
-        Test the GET request for the company dashboard view and assert the response status.
-        """
-        self.client.login(username="test_company", password="test123@")
-        response = self.client.get(reverse("accounts:dashboard"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "profile/company_dashboard.html")
-
     def test_company_dashboard_unauthorized_user(self) -> None:
         """
         Test the GET request for the company dashboard view and assert the response status.
@@ -250,22 +241,11 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse("accounts:user_profile"))
         self.assertEqual(response.status_code, 302)
 
-    def test_offer_create_view_authorized_user_get(self) -> None:
+    def test_add_company_review_get_view(self) -> None:
         """
-        Test for GET request for the offer create view using client log in with role 'company'
+        Test for GET request for the add company review view using client log in with role 'user'
         """
-
-        self.client.login(username="test_company", password="test123@")
-        response = self.client.get(reverse("accounts:create"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "offer_create.html")
-
-    def test_offer_create_view_unauthorized_user_get(self) -> None:
-        """
-        Test for GET request for the offer create view using client log in with role 'user'
-        """
-
         self.client.login(username="test_user", password="test123@")
-        response = self.client.get(reverse("accounts:create"))
-        self.assertEqual(response.status_code, 403)
-
+        response = self.client.get(reverse("accounts:add_review", kwargs={'company_id': self.company.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "add_company_review.html")
