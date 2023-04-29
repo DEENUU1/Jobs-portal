@@ -139,3 +139,22 @@ class OffersViewTestCase(TestCase):
         response = self.client.get(reverse('offers:apply-success'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'apply_success.html')
+
+    def test_offer_create_view_authorized_user_get(self) -> None:
+        """
+        Test for GET request for the offer create view using client log in with role 'company'
+        """
+
+        self.client.login(username="test_company", password="test123@")
+        response = self.client.get(reverse("offers:create"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "offer_create.html")
+
+    def test_offer_create_view_unauthorized_user_get(self) -> None:
+        """
+        Test for GET request for the offer create view using client log in with role 'user'
+        """
+
+        self.client.login(username="test_user", password="test123@")
+        response = self.client.get(reverse("offers:create"))
+        self.assertEqual(response.status_code, 403)
