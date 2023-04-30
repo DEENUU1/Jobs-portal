@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'accounts',
     'offers',
     'study',
+    'dashboard',
 
     "phonenumber_field",
     "crispy_forms",
