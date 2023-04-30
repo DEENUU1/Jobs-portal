@@ -5,15 +5,12 @@
 {% block content %}
 
 <div class="container">
-  <a style="text-decoration: none; color: black;"href="{% url "offers:company" object.id %}">
-      <h2 style="font-size: 40px; font-weight: 600">{{object.username}}</h2>
-  </a>
+  <h2 style="font-size: 40px; font-weight: 600">{{object.username}}</h2>
+
   <a href="#">
       <h6>Company rate {{avg_rating}}/5</h6>
   </a>
-  <a href="{% url "offers:company" object.id %}">
   <img src="http://127.0.0.1:8000/media/{{object.image}}" class="img-fluid rounded-start" alt={{object.name}}>
-  </a>
   <div class="accordion" id="accordionExample">
       <div class="accordion-item">
         <h2 class="accordion-header">
@@ -71,7 +68,7 @@
 
 <div class="container">
   <h2 class="mt-5">Company reviews</h2>
-  <a type="button" class="btn btn-primary" href="{% url "accounts:add_review" object.id %}">Add new review</a>
+  <a type="button" class="btn btn-primary" href="{% url 'offers:add-review' object.id %}">Add new review</a>
   {% for review in reviews %}
   <div class="card">
     <div class="card-header">

@@ -1,8 +1,10 @@
 from typing import Any, Dict
+
 from django.db.models import QuerySet
 from django.views.generic import ListView
-from .models import Resources
+
 from .forms import DateSortingForm, ChooseCategoriesForm
+from .models import Resources
 
 
 class StudyHomePageListView(ListView):

@@ -1,7 +1,5 @@
 from accounts.models import CustomUser
-from django.test import TestCase, Client
-from django.urls import reverse
-from offers.models import (
+from dashboard.models import (
     Level,
     Position,
     Country,
@@ -10,6 +8,8 @@ from offers.models import (
     Requirements,
     Offer
 )
+from django.test import TestCase, Client
+from django.urls import reverse
 
 
 class AccountsViewsTestCase(TestCase):
@@ -216,14 +216,6 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse("accounts:logout"))
         self.assertEqual(response.status_code, 302)
 
-    def test_company_dashboard_unauthorized_user(self) -> None:
-        """
-        Test the GET request for the company dashboard view and assert the response status.
-        """
-        self.client.login(username="test_user", password="test123@")
-        response = self.client.get(reverse("accounts:dashboard"))
-        self.assertEqual(response.status_code, 302)
-
     def test_user_profile_authorized_user(self) -> None:
         """
         Test the GET request for the user profile view and assert the response status.
@@ -241,11 +233,3 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse("accounts:user_profile"))
         self.assertEqual(response.status_code, 302)
 
-    def test_add_company_review_get_view(self) -> None:
-        """
-        Test for GET request for the add company review view using client log in with role 'user'
-        """
-        self.client.login(username="test_user", password="test123@")
-        response = self.client.get(reverse("accounts:add_review", kwargs={'company_id': self.company.id}))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_company_review.html")

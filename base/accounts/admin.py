@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CustomUser, CompanyReview
+from .models import CustomUser
 
 
 @admin.register(CustomUser)
@@ -20,17 +20,3 @@ class ProductAdmin(admin.ModelAdmin):
         'is_active'
     ]
 
-@admin.register(CompanyReview)
-class CompanyReviewAdmin(admin.ModelAdmin):
-    list_display = [
-        'company',
-        'email',
-        'choose_rate',
-        'date_created'
-    ]
-
-    list_filter = [
-        'company',
-        'choose_rate',
-        'date_created'
-    ]

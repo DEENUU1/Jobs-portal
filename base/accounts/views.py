@@ -1,8 +1,6 @@
-
-
+from dashboard.models import Application
 from django import views
 from django.contrib.auth import login, logout
-from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.views import LogoutView
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
@@ -12,16 +10,14 @@ from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic import CreateView, UpdateView, TemplateView
+from django.views.generic import UpdateView, TemplateView
 from django.views.generic.edit import FormView
 from dotenv import load_dotenv
-from offers.models import Offer, Application
+from offers.models import CustomUser
 
-from .auth import company_required, user_required
+from .auth import user_required
 from .forms import CustomUserForm, LoginForm, ChangePasswordForm
-from .models import CustomUser, CompanyReview
 from .tokens import account_activation_token
-from django.http import Http404
 
 load_dotenv()
 
@@ -170,33 +166,6 @@ class LogoutUser(LogoutView):
         return redirect('offers:home')
 
 
-class CompanyDashboard(views.View):
-    """
-    The class CompanyDashboard extends the built-in Django View class
-    and is used to display a dashboard for a company user.
-    """
-    @method_decorator(company_required)
-    def get(self, request, *args, **kwargs):
-        """
-        Retrieves the company ID from the logged-in user's request,
-        filters the offers that belong to that company, counts the number of applications for those offers,
-        and returns a rendered dashboard template with the retrieved data.
-        """
-        company_id = request.user.id
-        offers = Offer.objects.filter(company_id=company_id)
-        applications_count = Application.objects.filter(offer_id__in=offers).count()
-
-        context = {
-            'company':  company_id,
-            'offers': offers,
-            'applications_count': applications_count
-        }
-        return render(request,
-                      'profile/company_dashboard.html',
-                      context=context
-                      )
-
-
 class ProfileUpdateView(UpdateView):
     """
     The class ProfileUpdateView extends the built-in Django UpdateView class
@@ -243,44 +212,3 @@ class UserProfileView(views.View):
                       'profile/user_profile.html',
                       context=context
                       )
-
-
-class AddCompanyReviewView(UserPassesTestMixin, CreateView):
-    """
-
-    """
-    template_name = "add_company_review.html"
-    success_url = reverse_lazy("offers:home")
-    model = CompanyReview
-    fields = ('email', 'choose_rate', 'short_description')
-
-    def test_func(self):
-        """
-
-        """
-        company = CustomUser.objects.get(pk=self.kwargs['company_id'])
-        return company.role == "company"
-
-    def get_initial(self):
-        """
-
-        """
-        initial = super().get_initial()
-        initial['email'] = self.request.user.email
-        initial['company'] = self.kwargs['company_id']
-        return initial
-
-    def form_valid(self, form):
-        """
-
-        """
-        form.instance.company_id = self.kwargs['company_id']
-        return super().form_valid(form)
-
-    def dispatch(self, request, *args, **kwargs):
-        """
-
-        """
-        if not self.test_func():
-            raise Http404
-        return super().dispatch(request, *args, **kwargs)

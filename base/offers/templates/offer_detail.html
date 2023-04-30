@@ -5,14 +5,14 @@
 {% block content %}
 
 <div class="container">
-    <a style="text-decoration: none; color: black;"href="{% url "offers:company" object.company.id %}">
+    <a style="text-decoration: none; color: black;" href="{% url 'offers:company-detail' object.company.id %}">
         <h2 style="font-size: 40px; font-weight: 600">{{object.company.username}}</h2>
     </a>
     <a href="#">
         <h6>Company rate {{avg_rating}}/5</h6>
     </a>
-    <a href="{% url "offers:company" object.company.id %}">
-    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{pbject.company.name}}>
+    <a href="{% url 'offers:company-detail' object.company.id %}">
+    <img src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{object.company.name}}>
     </a>
     <div class="accordion" id="accordionExample">
         <div class="accordion-item">
@@ -35,7 +35,7 @@
 <div class="container">
     <h2>{{object.name}} |
         {{object.salary}} <br>
-        <a href={% url "offers:apply" object.id %} class="btn btn-primary" role="button">Apply</a> 
+        <a href="{% url 'offers:apply-offer' object.id %}" class="btn btn-primary" role="button">Apply</a>
     </h2> 
     {{object.date_created}} <br>
     {{object.return_full_address}}<br> <br>

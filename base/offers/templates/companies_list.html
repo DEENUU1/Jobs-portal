@@ -10,10 +10,10 @@
           <div class="row g-0">
             <div class="col-md-4">
               {% if object.image %}
-              <a href="/offer/{{object.id}}">
+              <a href="{% url 'offers:company-detail' object.id %}">
               <img style="width: 250px; height: 120px;" class="mx-auto d-block pt-3 pb-3" src="http://127.0.0.1:8000/media/{{object.image}}" class="img-fluid rounded-start" alt={{object.name}}></a>
               {% else %}
-              <a href="/offer/{{object.id}}">
+              <a href="{% url 'offers:company-detail' object.id %}">
               <img style="width: 320px; height: 300px;" class="mx-auto d-block pt-3 pb-3" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="img-fluid rounded-start" alt="no image" /></a>
               {% endif %}
             </div>
