@@ -1,7 +1,5 @@
 from accounts.models import CustomUser
-from django.test import TestCase, Client
-from django.urls import reverse
-from offers.models import (
+from dashboard.models import (
     Level,
     Position,
     Country,
@@ -10,6 +8,8 @@ from offers.models import (
     Requirements,
     Offer
 )
+from django.test import TestCase, Client
+from django.urls import reverse
 
 
 class AccountsViewsTestCase(TestCase):
@@ -216,23 +216,6 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse("accounts:logout"))
         self.assertEqual(response.status_code, 302)
 
-    def test_company_dashboard_authorized_user(self) -> None:
-        """
-        Test the GET request for the company dashboard view and assert the response status.
-        """
-        self.client.login(username="test_company", password="test123@")
-        response = self.client.get(reverse("accounts:dashboard"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "profile/company_dashboard.html")
-
-    def test_company_dashboard_unauthorized_user(self) -> None:
-        """
-        Test the GET request for the company dashboard view and assert the response status.
-        """
-        self.client.login(username="test_user", password="test123@")
-        response = self.client.get(reverse("accounts:dashboard"))
-        self.assertEqual(response.status_code, 302)
-
     def test_user_profile_authorized_user(self) -> None:
         """
         Test the GET request for the user profile view and assert the response status.
@@ -249,23 +232,4 @@ class AccountsViewsTestCase(TestCase):
         self.client.login(username="test_company", password="test123@")
         response = self.client.get(reverse("accounts:user_profile"))
         self.assertEqual(response.status_code, 302)
-
-    def test_offer_create_view_authorized_user_get(self) -> None:
-        """
-        Test for GET request for the offer create view using client log in with role 'company'
-        """
-
-        self.client.login(username="test_company", password="test123@")
-        response = self.client.get(reverse("accounts:create"))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "offer_create.html")
-
-    def test_offer_create_view_unauthorized_user_get(self) -> None:
-        """
-        Test for GET request for the offer create view using client log in with role 'user'
-        """
-
-        self.client.login(username="test_user", password="test123@")
-        response = self.client.get(reverse("accounts:create"))
-        self.assertEqual(response.status_code, 403)
 

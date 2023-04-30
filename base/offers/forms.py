@@ -1,13 +1,12 @@
-from django import forms
-from django.forms import ModelMultipleChoiceField
-
-from .models import (
+from dashboard.models import (
     Position,
     Level,
     Localization,
     Contract,
     Application,
 )
+from django import forms
+from django.forms import ModelMultipleChoiceField
 
 
 class ChoosePositionsForm(forms.Form):
@@ -136,3 +135,5 @@ class ApplyForm(forms.ModelForm):
     class Meta:
         model = Application
         fields = '__all__'
+
+

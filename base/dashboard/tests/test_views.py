@@ -13,7 +13,7 @@ from django.test import TestCase, Client
 from django.urls import reverse
 
 
-class OffersViewTestCase(TestCase):
+class DashboardViewTestCase(TestCase):
     """
     Test case for views related to job offers.
     """
@@ -92,59 +92,29 @@ class OffersViewTestCase(TestCase):
             linkedin="https://www.linkedin.com/in/xxxxx",
         )
 
-    def test_home_page_view(self) -> None:
+    def test_offer_create_view_authorized_user_get(self) -> None:
         """
-        Test that the home page view returns a 200 status code and uses the correct template.
+        Test for GET request for the offer create view using client log in with role 'company'
         """
-        response = self.client.get(reverse('offers:home'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home_page.html')
 
-    def test_offer_detail_view(self) -> None:
-        """
-        Test that the offer detail view returns a 200 status code and uses the correct template.
-        """
-        response = self.client.get(reverse('offers:offer-detail', kwargs={'pk': self.offer.id}))
+        self.client.login(username="company", password="Test123@")
+        response = self.client.get(reverse("dashboard:create-offer"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'offer_detail.html')
+        self.assertTemplateUsed(response, "offer_create.html")
 
-    def test_companies_list_view(self):
+    def test_offer_create_view_unauthorized_user_get(self) -> None:
         """
-        Test that the companies list view returns a 200 status code and uses the correct template.
+        Test for GET request for the offer create view using client log in with role 'user'
         """
-        response = self.client.get(reverse('offers:companies-list'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'companies_list.html')
 
-    def test_company_detail_view(self):
-        """
-        Test that the company detail view returns a 200 status code and uses the correct template.
-        """
-        response = self.client.get(reverse('offers:company-detail', kwargs={'pk': self.company.id}))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'company_detail.html')
+        self.client.login(username="user", password="Test123@")
+        response = self.client.get(reverse("dashboard:create-offer"))
+        self.assertEqual(response.status_code, 403)
 
-    def test_apply_for_offer_get_view(self):
+    def test_company_dashboard_unauthorized_user(self) -> None:
         """
-        Test that the apply for offer GET view returns a 200 status code and uses the correct template.
-        """
-        response = self.client.get(reverse('offers:apply-offer', kwargs={'offer_id': self.offer.id}, ))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'apply_for_offer.html')
-
-    def test_apply_success_view(self):
-        """
-        Test that the apply success view returns a 200 status code and uses the correct template.
-        """
-        response = self.client.get(reverse('offers:apply-success'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'apply_success.html')
-
-    def test_add_company_review_get_view(self) -> None:
-        """
-        Test for GET request for the add company review view using client log in with role 'user'
+        Test the GET request for the company dashboard view and assert the response status.
         """
         self.client.login(username="user", password="Test123@")
-        response = self.client.get(reverse("offers:add-review", kwargs={'company_id': self.company.id}))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "add_company_review.html")
+        response = self.client.get(reverse("dashboard:dashboard"))
+        self.assertEqual(response.status_code, 302)

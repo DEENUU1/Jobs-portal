@@ -41,11 +41,6 @@ urlpatterns = [
         name='success_password_change'
     ),
     path(
-        'dashboard/',
-        views.CompanyDashboard.as_view(),
-        name='dashboard'
-    ),
-    path(
         'profile/update/<int:pk>/',
         views.ProfileUpdateView.as_view(),
         name='update_profile'
@@ -55,45 +50,7 @@ urlpatterns = [
         views.UserProfileView.as_view(),
         name='user_profile'
     ),
-    path(
-        'offer/edit/<int:pk>/',
-        views.OfferUpdateView.as_view(),
-        name='edit'
-    ),
-    path(
-        'offer/create/',
-        views.OfferCreateView.as_view(),
-        name='create'
-    ),
-    path(
-        'offer/delete/<int:pk>/',
-        views.OfferDeleteView.as_view(),
-        name='delete'
-    ),
-    path(
-        'applications/<int:offer_id>/',
-        views.ApplicationsListView.as_view(),
-        name='applications'
-    ),
-    path(
-        'application/sendfeedback/<int:application_id>/',
-        views.ReturnApplicationFeedbackView.as_view(),
-        name='send_feedback'
-    ),
-    path(
-        'application/delete/<int:pk>/',
-        views.ApplicationDeleteView.as_view(),
-        name='delete_application'
-    ),
-    path(
-        'application/generate-csv/<int:pk>/',
-        views.generate_application_csv,
-        name='generate_csv'
-    ),
-    path(
-        'company/add-review/<int:company_id>/',
-        views.AddCompanyReviewView.as_view(),
-        name='add_review'
-    )
+
+
 
 ]

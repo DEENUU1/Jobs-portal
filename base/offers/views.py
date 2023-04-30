@@ -1,10 +1,12 @@
 from typing import Any, Dict
 
-from accounts.models import CustomUser, CompanyReview
+from accounts.models import CustomUser
+from dashboard.models import Offer, Application
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import QuerySet
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, TemplateView
-from .report import calculate_avg_rating
 
 from .forms import (
     ChoosePositionsForm,
@@ -16,7 +18,8 @@ from .forms import (
     RemoteFilterForm,
 
 )
-from .models import Offer, Application
+from .models import CompanyReview
+from .report import calculate_avg_rating
 
 
 class HomePageView(ListView):
@@ -209,3 +212,44 @@ class ApplySuccessView(TemplateView):
         - template_name (str): The name of the template that will be used to render the view.
     """
     template_name = 'apply_success.html'
+
+
+class AddCompanyReviewView(UserPassesTestMixin, CreateView):
+    """
+
+    """
+    template_name = "add_company_review.html"
+    success_url = reverse_lazy("offers:home")
+    model = CompanyReview
+    fields = ('email', 'choose_rate', 'short_description')
+
+    def test_func(self):
+        """
+
+        """
+        company = CustomUser.objects.get(pk=self.kwargs['company_id'])
+        return company.role == "company"
+
+    def get_initial(self):
+        """
+
+        """
+        initial = super().get_initial()
+        initial['email'] = self.request.user.email
+        initial['company'] = self.kwargs['company_id']
+        return initial
+
+    def form_valid(self, form):
+        """
+
+        """
+        form.instance.company_id = self.kwargs['company_id']
+        return super().form_valid(form)
+
+    def dispatch(self, request, *args, **kwargs):
+        """
+
+        """
+        if not self.test_func():
+            raise Http404
+        return super().dispatch(request, *args, **kwargs)

@@ -13,27 +13,32 @@ urlpatterns = [
     path(
         'companies/',
         views.CompaniesListView.as_view(),
-        name='companies'
+        name='companies-list'
     ),
     path(
         'offer/<int:pk>/',
         views.OfferDetailView.as_view(),
-        name='offer'
+        name='offer-detail'
     ),
     path(
         'company/<int:pk>/',
         views.CompanyDetailView.as_view(),
-        name='company'
+        name='company-detail'
     ),
     path(
         'apply/<int:offer_id>/',
         views.ApplyForOfferView.as_view(),
-        name='apply'
+        name='apply-offer'
     ),
     path(
         'apply/success',
         views.ApplySuccessView.as_view(),
         name='apply-success'
     ),
+    path(
+        'company/add-review/<int:company_id>/',
+        views.AddCompanyReviewView.as_view(),
+        name='add-review'
+    )
 
 ]
