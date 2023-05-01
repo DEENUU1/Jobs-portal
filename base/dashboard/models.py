@@ -136,7 +136,7 @@ class Offer(models.Model):
     description = models.CharField(max_length=1000)
     salary_from = models.IntegerField(null=True, blank=True)
     salary_to = models.IntegerField(null=True, blank=True)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateField(auto_now_add=True)
     remote = models.BooleanField(default=False)
     company = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
