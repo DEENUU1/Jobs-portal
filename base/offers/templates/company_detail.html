@@ -10,11 +10,6 @@
   <a href="#">
       <h6>Company rate {{avg_rating}}/5</h6>
   </a>
-  {% if object.image %}
-  <img src="http://127.0.0.1:8000/media/{{object.image}}" class="img-fluid rounded-start" alt={{object.name}}>
-  {% else %}
-  <img  class="img-fluid rounded-start" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png"  alt="no image" />
-  {% endif %}
 
   {% if object.description %}
   <div class="accordion" id="accordionExample">
