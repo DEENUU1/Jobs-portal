@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="row">
-            <button class="btn btn-primary" type="button"      data-bs-toggle="offcanvas"data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
                 More filters</button>
         </div>
     </form>   
@@ -52,7 +52,7 @@
           <div class="col-md-4">
             {% if object.company.image %}
             <a href="/offer/{{object.id}}">
-            <img style="width: 250px; height: 120px;" class="mx-auto d-block pt-3 pb-3" src="http://127.0.0.1:8000/media/{{object.company.image}}" class="img-fluid rounded-start" alt={{object.company.name}}></a>
+            <img style="width: 250px; height: 120px;" class="mx-auto d-block pt-3 pb-3" src="http://127.0.0.1:8000/media/{{object.company.image}}"  alt={{object.company.name}}></a>
             {% else %}
             <a href="/offer/{{object.id}}">
             <img style="width: 320px; height: 300px;" class="mx-auto d-block pt-3 pb-3" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="img-fluid rounded-start" alt="no image" /></a>
@@ -65,11 +65,11 @@
               <h5 class="card-title" style="color: green; font-weight: 800">{{object.salary}}</h5>
             </div>  
               <div class="d-flex justify-content-between">
-                <a href="company/{{object.company.id}}"> <p class="card-text"><small class="text-body-secondary">{{object.company}}</small></p> </a>
-                <p class="card-text"><small class="text-body-secondary">{{object.date_created}}</small></p>
-                <p class="card-text"><small class="text-body-secondary">{{object.return_localization}}</small></p>
+                <a style="margin-right: 10px" href="company/{{object.company.id}}"> <p class="card-text"><small class="text-body-secondary">{{object.company}}</small></p> </a>
+                <p style="margin-right: 10px" class="card-text"><small class="text-body-secondary">{{object.date_created}}</small></p>
+                <p style="margin-right: 10px" class="card-text"><small class="text-body-secondary">{{object.return_localization}}</small></p>
                 {% if object.return_requirements %}
-                    <p class="card-text"><smaill class="text-body-secondary">{{object.return_requirements}}</small></p>
+                    <p style="margin-right: 10px"  class="card-text"><smaill class="text-body-secondary">{{object.return_requirements}}</small></p>
                 {% endif %}
               </div>
             </div>
