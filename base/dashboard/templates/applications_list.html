@@ -5,7 +5,7 @@
 
 {% block content %}
 
-<div class="table-responsive">
+<div class="table-responsive" style="height: 750px">
   <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -71,10 +71,10 @@
         {% endif %}
       </td>
       <td>
-        <a class="btn btn-primary" role="button" href="{% url 'accounts:send_feedback' object.id %}">Send feedback</a>
+        <a class="btn btn-primary" role="button" href="{% url 'dashboard:send-feedback' object.id %}">Send feedback</a>
       </td>
       <td>
-        <form method="POST" action="{% url 'accounts:delete_application' object.id %}">
+        <form method="POST" action="{% url 'dashboard:delete-application' object.id %}">
           {% csrf_token %}
           <button type="submit" class="btn btn-danger">DELETE</button>
         </form>

@@ -4,35 +4,15 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5 mb-5">
   <h2 style="font-size: 40px; font-weight: 600">{{object.username}}</h2>
 
   <a href="#">
       <h6>Company rate {{avg_rating}}/5</h6>
   </a>
 
-  {% if object.description %}
-  <div class="accordion" id="accordionExample">
-      <div class="accordion-item">
-        <h2 class="accordion-header">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Description
-          </button>
-        </h2>
+    {{object.description}}
 
-        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-
-          <div class="accordion-body">
-              {{object.description}}
-          </div>
-          {% else %}
-
-        </div>
-
-      </div>  
-  </div>
-  {% endif %}
-</div>
 
 {% if object_list %}
 <div class="container">
@@ -42,9 +22,9 @@
             <div class="row g-0">
               <div class="col-md-4">
                 {% if object.company.image %}
-                <img style="width: 250px; height: 120px;" src="http://127.0.0.1:8000/media/{{object.company.image}}" class="mx-auto d-block pt-3 pb-3" alt={{object.company.name}}>
+                <img style="width: 250px; height: 120px; object-fit: contain;" src="http://127.0.0.1:8000/media/{{object.company.image}}" class="mx-auto d-block pt-3 pb-3" alt={{object.company.name}}>
                 {% else %}
-                <img style="width: 250px; height: 120px;" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="mx-auto d-block pt-3 pb-3" alt="no image" />
+                <img style="width: 250px; height: 120px; object-fit: contain;" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png" class="mx-auto d-block pt-3 pb-3" alt="no image" />
                 {% endif %}
               </div>
               <div class="col-md-8">
@@ -73,8 +53,8 @@
 </div>
 {% endif %}
 
-<div class="container">
-  <h2 class="mt-5">Company reviews</h2>
+<div class="container mt-5 mb-5">
+  <h2>Company reviews</h2>
   <a type="button" class="btn btn-primary" href="{% url 'offers:add-review' object.id %}">Add new review</a>
   {% for review in reviews %}
   <div class="card">
@@ -89,5 +69,5 @@
   {% endfor %}
 
 </div>
-
+</div>
 {% endblock %}

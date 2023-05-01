@@ -9,6 +9,7 @@
     <h1 class="mb-5">Learn new things with us</h1>
 </div>
 
+{% if object_list %}
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasExampleLabel">Filtr resources</h5>
@@ -29,18 +30,22 @@
     </div>
 
 
-{% for object in object_list %}
-<div class="container">
-<div class="card" >
-    <div class="card-body">
-        <h5 style="font-weight: bold" class="card-title">{{object.name}}</h5>
-        <h6 class="card-subtitle mb-2 text-body-secondary">{{object.date_created}}</h6>
-        <p class="card-text">{{object.description}}</p>
-        <a href="{{object.url}}" class="card-link">Check here</a>
+    {% for object in object_list %}
+    <div class="container">
+    <div class="card" >
+        <div class="card-body">
+            <h5 style="font-weight: bold" class="card-title">{{object.name}}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{object.date_created}}</h6>
+            <p class="card-text">{{object.description}}</p>
+            <a href="{{object.url}}" class="card-link">Check here</a>
+        </div>
     </div>
-</div>
-</div>
+    </div>
     {% endfor %}
-
+{% else %}
+<div class="container" style="height: 600px">
+    <h2 class="text-center">There is no any resources yet</h2>
+</div>
+{% endif %}
 
 {% endblock %}

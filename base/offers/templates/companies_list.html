@@ -4,6 +4,7 @@
 
 {% block content %}
 
+{% if object_list %}
 {% for object in object_list %}
 <div class="container">
       <div class="card mb-5 mt-5" style="max-width: 1400px;">
@@ -11,10 +12,10 @@
             <div class="col-md-4">
               {% if object.image %}
               <a href="{% url 'offers:company-detail' object.id %}">
-              <img style="width: 250px; height: 120px;" class="mx-auto d-block pt-3 pb-3" src="http://127.0.0.1:8000/media/{{object.image}}"  alt={{object.name}}></a>
+              <img style="width: 250px; height: 120px; object-fit: contain;" class="mx-auto d-block pt-3 pb-3" src="http://127.0.0.1:8000/media/{{object.image}}"  alt={{object.name}}></a>
               {% else %}
               <a href="{% url 'offers:company-detail' object.id %}">
-              <img style="width: 320px; height: 300px;" class="mx-auto d-block pt-3 pb-3" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png"  alt="no image" /></a>
+              <img style="width: 250px; height: 120px; object-fit: contain;" class="mx-auto d-block pt-3 pb-3" src="https://www.allianceplast.com/wp-content/uploads/no-image-1024x1024.png"  alt="no image" /></a>
               {% endif %}
             </div>
             <div class="col-md-8">
@@ -34,7 +35,11 @@
         </div>
   </div>
 {% endfor %}
-
+{% else %}
+<div class="container" style="height: 600px">
+    <h2 class="text-center">There is no any resources yet</h2>
+</div>
+{% endif %}
     
 
 {% include "pagination.html" %}

@@ -4,7 +4,7 @@
 
 {% block content %}
 
-<div class="container mb-5">
+<div class="container mb-5 mt-5">
     <a style="text-decoration: none; color: black;" href="{% url 'offers:company-detail' object.company.id %}">
         <h2 style="font-size: 40px; font-weight: 600">{{object.company.username}}</h2>
     </a>
@@ -12,28 +12,25 @@
 
 
 
-<div class="container">
+<div class="container mt-5">
     <h2>{{object.name}} |
         {{object.salary}} <br>
         <a href="{% url 'offers:apply-offer' object.id %}" class="btn btn-primary" role="button">Apply</a>
     </h2> 
     {{object.date_created}} <br>
     {{object.return_full_address}}<br> <br>
-
+    <p class="mt-5 mb-5">{{object.description}}</p> <br> <br>
     <strong>Experience: </strong>{{object.level}} <br>
     <strong>Requirements: </strong>{{object.return_all_requirements}} <br>
     <strong>Contract: </strong>{{object.return_contract}} <br>
     <strong>Localization: </strong>{{object.return_localization}} <br>
     <strong>Language: </strong>{{object.position}} <br>
     
-   
-    
-
-    
-    
     {% if object.remote %}
     <strong>Remote: </strong> Yes <br>
     {% endif %}
 </div>
+
+
 
 {% endblock %}
