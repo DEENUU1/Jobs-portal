@@ -5,7 +5,11 @@
 
 {% block content %}
 
-<div class="container">
+<div class="p-5 mt-5 text-center">
+    <h1 class="mb-5">Tell us about your experience with that company.</h1>
+</div>
+
+<div class="container" style="height: 600px">
     <form method="post">
         {% csrf_token %}
         {{form|crispy}}

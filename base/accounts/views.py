@@ -3,7 +3,7 @@ from django import views
 from django.contrib.auth import login, logout
 from django.contrib.auth.views import LogoutView
 from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
@@ -42,21 +42,21 @@ class RegisterUserView(FormView):
         sends an activation email to the user, and redirects to the success_url.
         """
         user = form.save(commit=False)
-        user.is_active = False 
+        user.is_active = False
         user.set_password(form.cleaned_data['password'])
         user.save()
         form.send_email(
-            message = render_to_string('auth/acc_active_email.html', {
+            message=render_to_string('auth/acc_active_email.html', {
                 'user': user,
                 'domain': get_current_site(self.request),
-                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-                'token':account_activation_token.make_token(user),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
             })
         )
         return super().form_valid(form)
 
 
-def register_activate(request, uidb64, token):
+def register_activate(request: HttpRequest, uidb64: str, token: str) -> HttpResponse:
     """
     The function register_activate() takes in three arguments:
     - request: the request object sent by the user to activate their account
@@ -133,14 +133,14 @@ class ChangePasswordView(FormView):
         except CustomUser.DoesNotExist:
             form.add_error(None, 'User with this email does not exist')
             return super().form_invalid(form)
-        
+
         if not user.check_password(form.cleaned_data['old_password']):
             form.add_error('old_password', 'Old password is incorrect')
             return super().form_invalid(form)
-        
+
         user.set_password(form.cleaned_data['new_password'])
         user.save()
-        
+
         return super().form_valid(form)
 
 
@@ -158,6 +158,7 @@ class LogoutUser(LogoutView):
     """
     The class LogoutUser extends the built-in Django LogoutView class and is used to log out the user from their account
     """
+
     def get(self, request):
         """
         Overrides the parent class method to log the user out and redirect them to the homepage URL.
@@ -195,6 +196,7 @@ class UserProfileView(views.View):
     The class UserProfileView extends the built-in Django View class
     and is used to display the user's profile information.
     """
+
     @method_decorator(user_required)
     def get(self, request, *args, **kwargs):
         """

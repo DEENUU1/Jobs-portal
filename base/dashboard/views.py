@@ -4,6 +4,7 @@ from typing import Any, Dict
 from accounts.auth import company_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -147,7 +148,8 @@ class OfferCreateView(UserPassesTestMixin, CreateView):
     model = Offer
     fields = [
         'name', 'description', 'level', 'requirements', 'localization',
-        'contract', 'position', 'salary_from', 'salary_to', 'remote'
+        'contract', 'position', 'salary_from', 'salary_to', 'remote',
+        'address'
     ]
     template_name = 'offer_create.html'
     success_url = "/"
@@ -186,7 +188,9 @@ class OfferUpdateView(UpdateView):
     """
     model = Offer
     fields = [
-        'name', 'description', 'level', 'localization', 'contract', 'position', 'salary_from', 'salary_to', 'remote'
+        'name', 'description', 'level', 'requirements', 'localization',
+        'contract', 'position', 'salary_from', 'salary_to', 'remote',
+        'address'
     ]
     template_name = 'offer_update.html'
     success_url = "/"
