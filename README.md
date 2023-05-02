@@ -1,11 +1,39 @@
+<div align="center">
+
+<img style="max-width:150px" src="images/1690006.png"> 
 
 # Jobs portal
-### Django web application with IT Jobs Offers
- 
-<img src="images/homepage.png">
-<img src="images/homepagefilters.png">
+### Django Web Application with IT Jobs Offers content to learn new technologies.
+### Table of content
+[Key Features](#key-features) •
+[Description](#description) •
+[Technologies](#technologies) •
+[Tests](#tests) •
+[Installation](#installation) •
+[Author](#authors)
 
-This project allows companies to add job offers and manage applications from candidates.The company can also generate reports in the form of a .csv file for each offer. 
+<img src="images/main.gif">
+
+</div>
+
+## Key Features
+### Company:
+  - Creating, editing and deleting offers
+  - Managing the applications from users
+  - Sending Feedback thanks to Celery and Redis
+  - Downloading candidates' data to CSV format
+### User:
+  - Applying for offers
+  - Browsing learning resources 
+
+### Other:
+  - Sending activation link after registration
+  - Email and password changes 
+  - Filtering offers via date, languages, localization and more 
+
+## Description
+
+This project allows companies to add job offers and manage applications from candidates. The company can also generate reports in the form of a .csv file for each offer. 
 
 On the other hand, users can filter, search, and apply for jobs, as well as rate companies and write reviews.
 
@@ -27,20 +55,16 @@ def send_email_task(email, subject, message):
 <img src="images/activaationlink.png">
 
 ## Technologies:
-- Python 
-- Django 
-- Celery 
-- Redis 
-- Docker
-- HTML & Bootstrap
-
-## Ideas for development
-- Google / Github registration 
-- More details and information about company (team, tech stack, integration with social media and more)
+- **Python** 
+- **Django** 
+- **Celery** 
+- **Redis** 
+- **Docker**
+- **HTML & Bootstrap**
 
 
 ## Tests 
-To run unit tests you need to this command
+To run unit tests you need to use this command
 ```bash
 python manage.py test <APPLICATION_NAME>.tests
 ```
@@ -49,6 +73,8 @@ You can run tests for applications:
 - dashboard
 - accounts
 - study
+
+
 ## Installation
 
 
@@ -56,13 +82,13 @@ You can run tests for applications:
 ```bash
 git clone <link>
 ```
-2. Andd .env file in base directory (there where settings.py)
+2. Andd .env file in the base directory (there were settings.py)
 ```bash
 SECURITY_CODE=<DJANGO-SECURITY-CODE-HERE>
 GMAIL_PASSWORD=<YOUR-GMAIL-PASSWORD-HERE>
 GMAIL_EMAIL=<YOUR-GMAIL-EMAIL-HERE>
 ```
-3. Go to main directory
+3. Go to the main directory
 ```bash
 cd base
 ```
@@ -87,7 +113,6 @@ docker-compose up
 
 
 
-## Authors
+## Author
 
 - [@DEENUU1](https://www.github.com/DEENUU1)
-
