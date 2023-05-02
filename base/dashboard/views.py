@@ -68,7 +68,7 @@ class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
 
     def test_func(self):
         """
-        A function that checks whether the logged in user is a company user and is associated
+        A function that checks whether the logged-in user is a company user and is associated
         with the offer for the application in question.
         """
         application = Application.objects.get(pk=self.kwargs['application_id'])
@@ -100,7 +100,8 @@ class ApplicationDeleteView(DeleteView):
     """
     ApplicationDeleteView is a view that allows a user to delete a specific job application.
     Attributes:
-        - model (Application): The model associated with this view, used to retrieve the application instance to be deleted.
+        - model (Application): The model associated with this view, used to retrieve the application instance to be
+        deleted.
         - success_url (str): The URL to redirect to after successfully deleting the application.
     """
     model = Application
