@@ -2,6 +2,8 @@
 # Jobs portal
 ### Django web application with IT Jobs Offers
  
+<img src="images/homepage.png">
+<img src="images/homepagefilters.png">
 
 This project allows companies to add job offers and manage applications from candidates.The company can also generate reports in the form of a .csv file for each offer. 
 
@@ -21,6 +23,8 @@ def send_email_task(email, subject, message):
     """
     send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
 ```
+
+<img src="images/activaationlink.png">
 
 ## Technologies:
 - Python 
