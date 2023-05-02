@@ -4,6 +4,7 @@ from typing import Any, Dict
 from accounts.auth import company_required
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db.models import QuerySet
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -67,7 +68,7 @@ class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
 
     def test_func(self):
         """
-        A function that checks whether the logged in user is a company user and is associated
+        A function that checks whether the logged-in user is a company user and is associated
         with the offer for the application in question.
         """
         application = Application.objects.get(pk=self.kwargs['application_id'])
@@ -99,7 +100,8 @@ class ApplicationDeleteView(DeleteView):
     """
     ApplicationDeleteView is a view that allows a user to delete a specific job application.
     Attributes:
-        - model (Application): The model associated with this view, used to retrieve the application instance to be deleted.
+        - model (Application): The model associated with this view, used to retrieve the application instance to be
+        deleted.
         - success_url (str): The URL to redirect to after successfully deleting the application.
     """
     model = Application
@@ -147,7 +149,8 @@ class OfferCreateView(UserPassesTestMixin, CreateView):
     model = Offer
     fields = [
         'name', 'description', 'level', 'requirements', 'localization',
-        'contract', 'position', 'salary_from', 'salary_to', 'remote'
+        'contract', 'position', 'salary_from', 'salary_to', 'remote',
+        'address'
     ]
     template_name = 'offer_create.html'
     success_url = "/"
@@ -186,7 +189,9 @@ class OfferUpdateView(UpdateView):
     """
     model = Offer
     fields = [
-        'name', 'description', 'level', 'localization', 'contract', 'position', 'salary_from', 'salary_to', 'remote'
+        'name', 'description', 'level', 'requirements', 'localization',
+        'contract', 'position', 'salary_from', 'salary_to', 'remote',
+        'address'
     ]
     template_name = 'offer_update.html'
     success_url = "/"

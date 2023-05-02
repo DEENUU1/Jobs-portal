@@ -9,7 +9,14 @@ from .models import Resources
 
 class StudyHomePageListView(ListView):
     """
-
+    A class-based view for displaying a list of study resources on the homepage.
+    Attributes:
+        model (django.db.models.Model): The model to use for the list view.
+        template_name (str): The name of the template to render for the view.
+        paginate_by (int): The number of items to display per page.
+    Methods:
+        get_queryset(): Retrieves the queryset for the view and applies filtering based on user input.
+        get_context_data(): Adds additional context data to be passed to the template.
     """
     model = Resources
     template_name = 'study_home_page_list.html'
@@ -17,7 +24,9 @@ class StudyHomePageListView(ListView):
 
     def get_queryset(self) -> QuerySet[Any]:
         """
-
+        Retrieves the queryset for the view and applies filtering based on user input.
+        Returns:
+            django.db.models.QuerySet: The queryset to use for the view.
         """
         queryset = super().get_queryset()
 
@@ -36,9 +45,13 @@ class StudyHomePageListView(ListView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         """
-
+        Adds additional context data to be passed to the template.
+        Args:
+            **kwargs: Arbitrary keyword arguments.
+        Returns:
+            dict: A dictionary of context data to pass to the template.
         """
-        context =super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['date_sorting_form'] = DateSortingForm(self.request.GET)
         context['filter_by_categories'] = ChooseCategoriesForm(self.request.GET)
 

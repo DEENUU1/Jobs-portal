@@ -81,7 +81,7 @@ class HomePageView(ListView):
         Returns the context data that will be used to render the template.
         It adds different forms for filtering and searching the queryset to the context data.
         """
-        context =super().get_context_data(**kwargs)            
+        context = super().get_context_data(**kwargs)
 
         context['positions_form'] = ChoosePositionsForm(self.request.GET)
         context['level_form'] = LevelFilterForm(self.request.GET)
@@ -140,9 +140,9 @@ class CompaniesListView(ListView):
         """
         Returns the context data that will be used to render the template.
         """
-        context = super().get_context_data(**kwargs)            
+        context = super().get_context_data(**kwargs)
         return context
-    
+
 
 class CompanyDetailView(DetailView):
     """
@@ -170,13 +170,13 @@ class CompanyDetailView(DetailView):
         Returns the context data that will be used to render the template.
         It adds the related Offer objects to the context data.
         """
-        context = super().get_context_data(**kwargs)    
+        context = super().get_context_data(**kwargs)
         avg_rating = calculate_avg_rating(self.object)
         context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])
         context['avg_rating'] = avg_rating
         context['reviews'] = CompanyReview.objects.filter(company=self.kwargs['pk'])
         return context
-    
+
 
 class ApplyForOfferView(CreateView):
     """
@@ -216,7 +216,7 @@ class ApplySuccessView(TemplateView):
 
 class AddCompanyReviewView(UserPassesTestMixin, CreateView):
     """
-
+    View that handles the creation of a new company review by a user.
     """
     template_name = "add_company_review.html"
     success_url = reverse_lazy("offers:home")
@@ -225,14 +225,14 @@ class AddCompanyReviewView(UserPassesTestMixin, CreateView):
 
     def test_func(self):
         """
-
+        Tests if the user is authorized to create a review for the company.
         """
         company = CustomUser.objects.get(pk=self.kwargs['company_id'])
         return company.role == "company"
 
     def get_initial(self):
         """
-
+        Returns the initial data to use for the form.
         """
         initial = super().get_initial()
         initial['email'] = self.request.user.email
@@ -241,14 +241,14 @@ class AddCompanyReviewView(UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         """
-
+        Saves the form instance and returns the response for a valid form.
         """
         form.instance.company_id = self.kwargs['company_id']
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         """
-
+        Dispatches the request to the appropriate handler method.
         """
         if not self.test_func():
             raise Http404
