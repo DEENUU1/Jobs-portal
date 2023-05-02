@@ -1,6 +1,6 @@
 <div align="center">
 
-<img style="max-width:150px" src="images/1690006.png"> 
+<img style="max-width:70px" src="images/1690006.png"> 
 
 # Jobs portal
 ### Django Web Application with IT Jobs Offers content to learn new technologies.
