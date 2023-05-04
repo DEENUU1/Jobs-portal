@@ -92,7 +92,7 @@ class OffersViewTestCase(TestCase):
             linkedin="https://www.linkedin.com/in/xxxxx",
         )
 
-    def test_home_page_view(self) -> None:
+    def test_home_page_view_get_method_returns_200_status_code(self) -> None:
         """
         Test that the home page view returns a 200 status code and uses the correct template.
         """
@@ -100,7 +100,7 @@ class OffersViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'home_page.html')
 
-    def test_offer_detail_view(self) -> None:
+    def test_offer_detail_view_get_method_returns_200_status_code(self) -> None:
         """
         Test that the offer detail view returns a 200 status code and uses the correct template.
         """
@@ -108,7 +108,7 @@ class OffersViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'offer_detail.html')
 
-    def test_companies_list_view(self):
+    def test_companies_list_view_get_method_returns_200_status_code(self):
         """
         Test that the companies list view returns a 200 status code and uses the correct template.
         """
@@ -116,7 +116,7 @@ class OffersViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'companies_list.html')
 
-    def test_company_detail_view(self):
+    def test_company_detail_view_get_method_returns_200_status_code(self):
         """
         Test that the company detail view returns a 200 status code and uses the correct template.
         """
@@ -124,7 +124,7 @@ class OffersViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'company_detail.html')
 
-    def test_apply_for_offer_get_view(self):
+    def test_apply_for_offer_view_get_method_returns_200_status_code(self):
         """
         Test that the apply for offer GET view returns a 200 status code and uses the correct template.
         """
@@ -132,7 +132,7 @@ class OffersViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'apply_for_offer.html')
 
-    def test_apply_success_view(self):
+    def test_user_apply_for_an_offer_success_view_get_method(self):
         """
         Test that the apply success view returns a 200 status code and uses the correct template.
         """
@@ -140,7 +140,7 @@ class OffersViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'apply_success.html')
 
-    def test_add_company_review_get_view(self) -> None:
+    def test_login_user_add_company_review_view_get_method_returns_200_status_code(self) -> None:
         """
         Test for GET request for the add company review view using client log in with role 'user'
         """

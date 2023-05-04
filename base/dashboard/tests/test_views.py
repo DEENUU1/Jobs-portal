@@ -92,7 +92,7 @@ class DashboardViewTestCase(TestCase):
             linkedin="https://www.linkedin.com/in/xxxxx",
         )
 
-    def test_offer_create_view_authorized_user_get(self) -> None:
+    def test_offer_create_view_authorized_user_get_method_returns_200_status_code(self) -> None:
         """
         Test for GET request for the offer create view using client log in with role 'company'
         """
@@ -102,7 +102,7 @@ class DashboardViewTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "offer_create.html")
 
-    def test_offer_create_view_unauthorized_user_get(self) -> None:
+    def test_offer_create_view_unauthorized_user_get_method_returns_403_status_code(self) -> None:
         """
         Test for GET request for the offer create view using client log in with role 'user'
         """
@@ -111,7 +111,7 @@ class DashboardViewTestCase(TestCase):
         response = self.client.get(reverse("dashboard:create-offer"))
         self.assertEqual(response.status_code, 403)
 
-    def test_company_dashboard_unauthorized_user(self) -> None:
+    def test_company_dashboard_unauthorized_user_get_method_returns_302_status_code(self) -> None:
         """
         Test the GET request for the company dashboard view and assert the response status.
         """

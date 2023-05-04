@@ -23,7 +23,7 @@ class PositionModelTestCase(TestCase):
             position_name="Python"
         )
 
-    def test_position_model_creation(self) -> None:
+    def test_position_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Position model
         :return: None
@@ -43,7 +43,7 @@ class LevelModelTestCase(TestCase):
             level_name="Junior"
         )
 
-    def test_level_model_creation(self) -> None:
+    def test_level_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Level model
         :return: None
@@ -63,7 +63,7 @@ class CountryModelTestCase(TestCase):
             name="Poland"
         )
 
-    def test_country_model_creation(self) -> None:
+    def test_country_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Country model
         :return: None
@@ -87,7 +87,7 @@ class LocalizationModelTestCase(TestCase):
             city="Warsaw"
         )
 
-    def test_localization_model_creation(self) -> None:
+    def test_localization_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Localization model
         :return: None
@@ -110,7 +110,7 @@ class ContractModelTestCase(TestCase):
             contract_type="B2B"
         )
 
-    def test_contract_model_creation(self) -> None:
+    def test_contract_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Contract model
         :return: None
@@ -130,7 +130,7 @@ class RequirementsModelTestCase(TestCase):
             name="Git"
         )
 
-    def test_requirements_model_creation(self) -> None:
+    def test_requirements_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Requirements model
         :return: None
@@ -192,7 +192,7 @@ class OfferModelTestCase(TestCase):
         self.offer.contract.add(self.contract)
         self.offer.requirements.add(self.requirements)
 
-    def test_offer_model_creation(self) -> None:
+    def test_offer_model_new_object_creation_successfully(self) -> None:
         """
         Test creation object of Offer model
         :return: None
@@ -231,7 +231,7 @@ class OfferModelTestCase(TestCase):
             self.offer.company, self.company
         )
 
-    def test_salary_format(self) -> None:
+    def test_offer_model_salary_format_method_returns_correct_value_for_specified_object(self) -> None:
         """
         Test salary method from Offer Model
         """
@@ -239,7 +239,7 @@ class OfferModelTestCase(TestCase):
             self.offer.salary, "20000 - 25000 PLN"
         )
 
-    def test_return_full_address(self) -> None:
+    def test_offer_model_return_full_address_method_returns_correct_value_for_specified_object(self) -> None:
         """
         Test return_full_address method from Offer Model
         """
@@ -247,7 +247,7 @@ class OfferModelTestCase(TestCase):
             self.offer.return_full_address, "Warsaw, Zielona 4"
         )
 
-    def test_return_contract(self) -> None:
+    def test_offer_model_return_contract_method_returns_correct_value_for_specified_object(self) -> None:
         """
         Test return_contract method from Offer Model
         """
@@ -255,7 +255,7 @@ class OfferModelTestCase(TestCase):
             self.offer.return_contract, "B2B"
         )
 
-    def test_return_all_requirements(self) -> None:
+    def test_offer_model_return_all_requirements_method_returns_correct_value_for_specified_object(self) -> None:
         """
         Test return_all_requirements method from Offer Model
         """
@@ -294,7 +294,7 @@ class ApplicationTestCase(TestCase):
             linkedin=self.linkedin
         )
 
-    def test_application_model_creation(self) -> None:
+    def test_application_model_new_object_successfully_creation(self) -> None:
         """
         Test creation object of Application model
         :return: None
@@ -327,7 +327,7 @@ class ApplicationTestCase(TestCase):
             self.application.linkedin, self.linkedin
         )
 
-    def test_return_full_name(self) -> None:
+    def test_application_model_return_full_name_method_returns_correct_value_for_specified_object(self) -> None:
         """
         Test return_full_name method from Application Model
         """
@@ -352,7 +352,7 @@ class CompanyReviewTestCase(TestCase):
             company=self.company
         )
 
-    def test_company_review_creation(self) -> None:
+    def test_company_review_model_new_object_successfully_creation(self) -> None:
         """
         Test if company review is created correctly.
         """
@@ -362,7 +362,7 @@ class CompanyReviewTestCase(TestCase):
         self.assertEqual(self.company_review.short_description, "Test description")
         self.assertEqual(self.company_review.company, self.company)
 
-    def test_return_formatted_rate(self):
+    def test_company_review_model_return_formatted_rate_method_returns_correct_value_for_specified_object(self):
         """
         Test if return_formatted_rate() method returns correct value.
         """
