@@ -13,10 +13,10 @@ class StudyModelsTestCase(TestCase):
             category=self.category,
         )
 
-    def test_category_object_creation(self):
+    def test_category_model_new_object_creation(self):
         self.assertEqual(self.category.name, "test")
 
-    def test_resources_object_creation(self):
+    def test_resources_model_new_object_creation(self):
         self.assertEqual(self.resources.name, "test")
         self.assertEqual(self.resources.description, "Simple test description")
         self.assertEqual(self.resources.url, "https://google.com")

@@ -84,7 +84,7 @@ class AccountsViewsTestCase(TestCase):
         self.offer.contract.add(self.contract)
         self.offer.requirements.add(self.requirements)
 
-    def test_register_get_view(self) -> None:
+    def test_register_view_returns_get_method_status_code(self) -> None:
         """
         Tests the GET request for the register view and asserts that the response code is 200 and the correct template
         is used.
@@ -93,7 +93,7 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "auth/register_user.html")
 
-    def test_user_register_post_view(self) -> None:
+    def test_user_register_view_post_method_returns_200_status_code_after_success_registration(self) -> None:
         """
         Tests the POST request for the user register view and asserts that the response code is 200.
         """
@@ -106,7 +106,7 @@ class AccountsViewsTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
 
-    def test_company_register_post_view(self) -> None:
+    def test_company_register_view_post_method_returns_200_status_code_after_success_registration(self) -> None:
         """
         Tests the POST request for the company register view and asserts that the response code is 200.
         """
@@ -119,7 +119,7 @@ class AccountsViewsTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
 
-    def test_success_register_view(self) -> None:
+    def test_success_register_view_get_method_returns_200_status_code_after_success_registration(self) -> None:
         """
         Tests the GET request for the success register view and asserts that the response code is 200 and the correct
         template is used.
@@ -128,7 +128,7 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "auth/register_success.html")
 
-    def test_login_get_view(self) -> None:
+    def test_login_view_get_method_returns_200_status_code_for_anonymous_user(self) -> None:
         """
         Tests the GET request for the login view and asserts that the response code is 200 and the correct template is
         used.
@@ -137,7 +137,7 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "auth/login.html")
 
-    def test_user_login_post_view(self) -> None:
+    def test_login_view_post_method_user_login_success_returns_200_status_code(self) -> None:
         """
         Tests the POST request for the user login view with correct credentials and asserts that the response code is
         302.
@@ -148,7 +148,7 @@ class AccountsViewsTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 302)
 
-    def test_user_login_post_view_wrong_password(self) -> None:
+    def test_login_view_post_method_user_login_failure_invalid_password_returns_200_status_code(self) -> None:
         """
         Tests the POST request for the user login view with incorrect credentials and asserts that the response code is
         200.
@@ -159,7 +159,7 @@ class AccountsViewsTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
 
-    def test_logout_view(self) -> None:
+    def test_logout_view_for_login_user_returns_302_status_code_after_success_logout(self) -> None:
         """
         Tests the GET request for the logout view and asserts that the response code is 302.
         """
@@ -167,7 +167,7 @@ class AccountsViewsTestCase(TestCase):
         response = self.client.get(reverse("accounts:logout"))
         self.assertEqual(response.status_code, 302)
 
-    def test_change_password_get_view(self) -> None:
+    def test_change_password_view_get_method_returns_200_status_code_for_anonymous_user(self) -> None:
         """
         Tests the GET request for the change password view and asserts that the response code is 200 and the correct
         template is used.
@@ -176,7 +176,7 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "auth/change_password.html")
 
-    def test_change_password_post_view(self) -> None:
+    def test_change_password_view_post_method_returns_302_status_code_for_success_operation(self) -> None:
         """
         Tests the POST request for the change password view with correct credentials and asserts that the response code
         is 302.
@@ -188,7 +188,8 @@ class AccountsViewsTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 302)
 
-    def test_change_password_post_view_wrong_password(self) -> None:
+    def test_change_password_view_post_method_returns_200_status_code_for_failure_operation_invalid_second_password(
+            self) -> None:
         """
         Tests the POST request for the change password view with incorrect credentials and asserts that the response
         code is 200.
@@ -200,7 +201,7 @@ class AccountsViewsTestCase(TestCase):
         })
         self.assertEqual(response.status_code, 200)
 
-    def test_change_password_success_view(self) -> None:
+    def test_success_template_view_after_successfully_password_change(self) -> None:
         """
         Tests the GET request for the success password change view and asserts that the response code is 200 and the
         correct template is used.
@@ -209,14 +210,7 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "auth/password_change_success.html")
 
-    def test_logout_user(self) -> None:
-        """
-        Test the GET request for the logout method and assert the response status.
-        """
-        response = self.client.get(reverse("accounts:logout"))
-        self.assertEqual(response.status_code, 302)
-
-    def test_user_profile_authorized_user(self) -> None:
+    def test_user_profile_view_returns_200_status_code_for_login_user(self) -> None:
         """
         Test the GET request for the user profile view and assert the response status.
         """
@@ -225,7 +219,7 @@ class AccountsViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "profile/user_profile.html")
 
-    def test_user_profile_unauthorized_user(self) -> None:
+    def test_user_profile_view_returns_302_status_code_for_unauthorized_user(self) -> None:
         """
         Test the GET request for the user profile view and assert the response status.
         """

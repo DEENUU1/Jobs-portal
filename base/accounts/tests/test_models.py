@@ -22,7 +22,7 @@ class TestUserModel(TestCase):
             role="company"
         )
 
-    def test_user_creation(self) -> None:
+    def test_custom_user_model_new_object_with_role_user_successfully_creation(self) -> None:
         """
         Test if user is created correctly.
         """
@@ -32,7 +32,7 @@ class TestUserModel(TestCase):
         self.assertEqual(self.user.email, "user@example.com")
         self.assertEqual(self.user.role, "user")
 
-    def test_company_user_creation(self) -> None:
+    def test_custom_user_model_new_object_with_role_company_successfully_creation(self) -> None:
         """
         Test if company user is created correctly.
         """
