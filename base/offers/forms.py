@@ -16,11 +16,12 @@ class ChoosePositionsForm(forms.Form):
     Attributes:
         - choose_positions (ModelMultipleChoiceField): A field that represents a multiple-choice selection of objects.
     """
-    choose_positions = ModelMultipleChoiceField(   
+
+    choose_positions = ModelMultipleChoiceField(
         queryset=Position.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
-        label="Choose positions"
+        label="Choose positions",
     )
 
 
@@ -31,11 +32,12 @@ class LevelFilterForm(forms.Form):
     Attributes:
         - level (ModelChoiceField): A field that represents a dropdown menu selection of Level objects.
     """
+
     level = forms.ModelChoiceField(
         queryset=Level.objects.all(),
         widget=forms.Select(),
         required=False,
-        label="Choose level"
+        label="Choose level",
     )
 
 
@@ -46,6 +48,7 @@ class LocalizationFilterForm(forms.Form):
     Attributes:
         - localization (ModelChoiceField): A field that represents a dropdown menu selection of Localization objects.
     """
+
     localization = forms.ModelChoiceField(
         queryset=Localization.objects.all(),
         widget=forms.Select(),
@@ -61,11 +64,12 @@ class ContractFilterForm(forms.Form):
     Attributes:
         - contract (ModelChoiceField): A field that represents a dropdown menu selection of Contract objects.
     """
+
     contract = forms.ModelChoiceField(
         queryset=Contract.objects.all(),
         widget=forms.Select(),
         required=False,
-        label="Choose contract"
+        label="Choose contract",
     )
 
 
@@ -76,10 +80,8 @@ class DateSortingForm(forms.Form):
     Attributes:
         - order_by (ChoiceField): A field that represents a dropdown menu selection of sorting order.
     """
-    CHOICES = (
-        ("1", "Newest"),
-        ("2", "Oldest")
-    )
+
+    CHOICES = (("1", "Newest"), ("2", "Oldest"))
 
     order_by = forms.ChoiceField(
         choices=CHOICES,
@@ -93,11 +95,12 @@ class RemoteFilterForm(forms.Form):
     Attributes:
         - remote (BooleanField): A field that represents a checkbox selection for remote work availability.
     """
+
     remote = forms.BooleanField(required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['remote'].label = "Remote"
+        self.fields["remote"].label = "Remote"
 
 
 class SearchForm(forms.Form):
@@ -106,8 +109,9 @@ class SearchForm(forms.Form):
     Fields:
         - name: a CharField for the search query, with an optional label and placeholder text.
     """
+
     name = forms.CharField(required=False)
-    
+
     def __init__(self, *args, **kwargs):
         """
         Initializes the form and overrides the default settings for the 'name' field.
@@ -116,9 +120,9 @@ class SearchForm(forms.Form):
             - kwargs: the keyword arguments to be passed to the parent constructor.
         """
         super().__init__(*args, **kwargs)
-        self.fields['name'].required = False
-        self.fields['name'].label = ""
-        self.fields['name'].widget.attrs['placeholder'] = "Search by name"
+        self.fields["name"].required = False
+        self.fields["name"].label = ""
+        self.fields["name"].widget.attrs["placeholder"] = "Search by name"
 
 
 class ApplyForm(forms.ModelForm):
@@ -130,10 +134,9 @@ class ApplyForm(forms.ModelForm):
         - model (Application): The model to which the form is associated.
         - fields (str): The fields to include in the form. In this case, it includes all fields in model.
     """
+
     offer = forms.IntegerField(widget=forms.HiddenInput())
 
     class Meta:
         model = Application
-        fields = '__all__'
-
-
+        fields = "__all__"

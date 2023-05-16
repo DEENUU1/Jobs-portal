@@ -6,6 +6,7 @@ class TestUserModel(TestCase):
     """
     Test if CustomUser object is created correctly.
     """
+
     def setUp(self) -> None:
         self.user = CustomUser.objects.create(
             first_name="Kacper",
@@ -13,16 +14,18 @@ class TestUserModel(TestCase):
             username="test",
             email="user@example.com",
             password="test123@",
-            role="user"
+            role="user",
         )
         self.company = CustomUser.objects.create(
             username="company",
             email="company@example.com",
             password="test123@",
-            role="company"
+            role="company",
         )
 
-    def test_custom_user_model_new_object_with_role_user_successfully_creation(self) -> None:
+    def test_custom_user_model_new_object_with_role_user_successfully_creation(
+        self,
+    ) -> None:
         """
         Test if user is created correctly.
         """
@@ -32,7 +35,9 @@ class TestUserModel(TestCase):
         self.assertEqual(self.user.email, "user@example.com")
         self.assertEqual(self.user.role, "user")
 
-    def test_custom_user_model_new_object_with_role_company_successfully_creation(self) -> None:
+    def test_custom_user_model_new_object_with_role_company_successfully_creation(
+        self,
+    ) -> None:
         """
         Test if company user is created correctly.
         """

@@ -9,12 +9,13 @@ class Position(models.Model):
     Attributes:
         - position_name (CharField): A character field that represents the name of the position.
     """
+
     position_name = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('position_name',)
-        verbose_name = 'Position'
-        verbose_name_plural = 'Positions'
+        ordering = ("position_name",)
+        verbose_name = "Position"
+        verbose_name_plural = "Positions"
 
     def __str__(self):
         return self.position_name
@@ -26,12 +27,13 @@ class Level(models.Model):
     Attributes:
         - level_name (CharField): A character field that represents the name of the level.
     """
+
     level_name = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('level_name',)
-        verbose_name = 'Level'
-        verbose_name_plural = 'Levels'
+        ordering = ("level_name",)
+        verbose_name = "Level"
+        verbose_name_plural = "Levels"
 
     def __str__(self):
         return self.level_name
@@ -43,12 +45,13 @@ class Country(models.Model):
     Attributes:
         - name (CharField): A character field that represents the name of the country.
     """
+
     name = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = 'Country'
-        verbose_name_plural = 'Countries'
+        ordering = ("name",)
+        verbose_name = "Country"
+        verbose_name_plural = "Countries"
 
     def __str__(self):
         return self.name
@@ -60,13 +63,14 @@ class Localization(models.Model):
     Attributes:
         - city (CharField): A character field that represents the name of the position.
     """
+
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     city = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('city',)
-        verbose_name = 'Localization'
-        verbose_name_plural = 'Localizations'
+        ordering = ("city",)
+        verbose_name = "Localization"
+        verbose_name_plural = "Localizations"
 
     def __str__(self):
         return self.city
@@ -78,12 +82,13 @@ class Contract(models.Model):
     Attributes:
         - contract_type (CharField): A character field that represents the name of contract type.
     """
+
     contract_type = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('contract_type',)
-        verbose_name = 'Contract'
-        verbose_name_plural = 'Contracts'
+        ordering = ("contract_type",)
+        verbose_name = "Contract"
+        verbose_name_plural = "Contracts"
 
     def __str__(self):
         return self.contract_type
@@ -95,12 +100,13 @@ class Requirements(models.Model):
     Attributes:
         - name (CharField): A character field that represents the name of the requirement.
     """
+
     name = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = 'Requirement'
-        verbose_name_plural = 'Requirements'
+        ordering = ("name",)
+        verbose_name = "Requirement"
+        verbose_name_plural = "Requirements"
 
     def __str__(self):
         return self.name
@@ -126,6 +132,7 @@ class Offer(models.Model):
         - remote (BooleanField): A boolean field that represents whether the offer is remote.
         - company (ForeignKey): A foreign key that represents the company associated with the offer.
     """
+
     name = models.CharField(max_length=50)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
@@ -155,7 +162,7 @@ class Offer(models.Model):
         all_contracts = []
         for contract in self.contract.all():
             all_contracts.append(contract.contract_type)
-        return ', '.join(all_contracts)
+        return ", ".join(all_contracts)
 
     @property
     def return_all_requirements(self) -> str:
@@ -165,7 +172,7 @@ class Offer(models.Model):
         all_requirements = []
         for requirement in self.requirements.all():
             all_requirements.append(requirement.name)
-        return ', '.join(all_requirements)
+        return ", ".join(all_requirements)
 
     @property
     def return_requirements(self) -> str:
@@ -175,9 +182,11 @@ class Offer(models.Model):
         """
         count = Offer.requirements.through.objects.filter(offer=self).count()
         if count >= 1:
-            first_requirements = Offer.requirements.through.objects.filter(
-                offer=self
-            ).first().requirements.name
+            first_requirements = (
+                Offer.requirements.through.objects.filter(offer=self)
+                .first()
+                .requirements.name
+            )
             return f"{first_requirements} and {count} other requirement/s"
         return first_requirements
 
@@ -207,9 +216,9 @@ class Offer(models.Model):
             return f"{self.localization}"
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = 'Offer'
-        verbose_name_plural = 'Offers'
+        ordering = ("name",)
+        verbose_name = "Offer"
+        verbose_name_plural = "Offers"
 
     def __str__(self):
         return self.name
@@ -232,6 +241,7 @@ class Application(models.Model):
         - cv (django.core.files.File, optional): A file upload of the applicant's CV/resume.
         - answer (bool): A flag indicating whether the application has been answered by the employer.
     """
+
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -242,7 +252,7 @@ class Application(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     portfolio = models.URLField(null=True, blank=True)
     linkedin = models.URLField(null=True, blank=True)
-    cv = models.FileField(upload_to='resumes', null=True, blank=True)
+    cv = models.FileField(upload_to="resumes", null=True, blank=True)
     answer = models.BooleanField(default=False)
 
     @property

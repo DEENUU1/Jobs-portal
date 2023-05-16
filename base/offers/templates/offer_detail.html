@@ -16,7 +16,7 @@
     <h2>{{object.name}} |
         {{object.salary}} <br>
         <a href="{% url 'offers:apply-offer' object.id %}" class="btn btn-primary" role="button">Apply</a>
-    </h2> 
+    </h2>
     {{object.date_created}} <br>
     {{object.return_full_address}}<br> <br>
     <p class="mt-5 mb-5">{{object.description}}</p> <br> <br>
@@ -25,7 +25,7 @@
     <strong>Contract: </strong>{{object.return_contract}} <br>
     <strong>Localization: </strong>{{object.return_localization}} <br>
     <strong>Language: </strong>{{object.position}} <br>
-    
+
     {% if object.remote %}
     <strong>Remote: </strong> Yes <br>
     {% endif %}

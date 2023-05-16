@@ -12,8 +12,7 @@ def company_required(view_func):
         If the user does not have the required role, they are redirected to the login page specified in the decorator.
     """
     decorated_view_func = user_passes_test(
-        lambda user: user.role == 'company',
-        login_url="accounts:login"
+        lambda user: user.role == "company", login_url="accounts:login"
     )(view_func)
     return decorated_view_func
 
@@ -29,7 +28,6 @@ def user_required(view_func):
         If the user does not have the required role, they are redirected to the login page specified in the decorator.
     """
     decorated_view_func = user_passes_test(
-        lambda user: user.role == 'user',
-        login_url="accounts:login"
+        lambda user: user.role == "user", login_url="accounts:login"
     )(view_func)
     return decorated_view_func

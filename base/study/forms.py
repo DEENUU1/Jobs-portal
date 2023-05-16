@@ -11,10 +11,8 @@ class DateSortingForm(forms.Form):
     Attributes:
         - order_by (ChoiceField): A field that represents a dropdown menu selection of sorting order.
     """
-    CHOICES = (
-        ("1", "Newest"),
-        ("2", "Oldest")
-    )
+
+    CHOICES = (("1", "Newest"), ("2", "Oldest"))
 
     order_by = forms.ChoiceField(
         choices=CHOICES,
@@ -29,10 +27,10 @@ class ChooseCategoriesForm(forms.Form):
     Attributes:
         - choose_positions (ModelMultipleChoiceField): A field that represents a multiple-choice selection of objects.
     """
+
     choose_categories = ModelMultipleChoiceField(
         queryset=Category.objects.all(),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
-        label="Choose positions"
+        label="Choose positions",
     )
-

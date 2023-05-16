@@ -7,7 +7,7 @@ from dashboard.models import (
     Contract,
     Requirements,
     Offer,
-    Application
+    Application,
 )
 from django.test import TestCase, Client
 from django.urls import reverse
@@ -17,6 +17,7 @@ class OffersViewTestCase(TestCase):
     """
     Test case for views related to job offers.
     """
+
     def setUp(self) -> None:
         """
         Set up the test case by creating users, positions, levels, contracts, requirements, offers, and applications.
@@ -28,43 +29,29 @@ class OffersViewTestCase(TestCase):
             last_name="user",
             username="user",
             email="user@example.com",
-            password="Test123@"
+            password="Test123@",
         )
         self.company = CustomUser.objects.create_user(
             role="company",
             username="company",
             email="company@example.com",
-            password="Test123@"
+            password="Test123@",
         )
         self.name = "Junior Python Developer"
-        self.position = Position.objects.create(
-            position_name="Python"
-        )
-        self.level = Level.objects.create(
-            level_name="Junior"
-        )
-        self.contract = Contract.objects.create(
-            contract_type="B2B"
-        )
-        self.requirements = Requirements.objects.create(
-            name="Git"
-        )
-        self.country = Country.objects.create(
-            name="Poland"
-        )
+        self.position = Position.objects.create(position_name="Python")
+        self.level = Level.objects.create(level_name="Junior")
+        self.contract = Contract.objects.create(contract_type="B2B")
+        self.requirements = Requirements.objects.create(name="Git")
+        self.country = Country.objects.create(name="Poland")
         self.localization = Localization.objects.create(
-            country=self.country,
-            city="Warsaw"
+            country=self.country, city="Warsaw"
         )
         self.description = "Junior Python Developer with 10 years exp"
         self.salary_from = 20000
         self.salary_to = 25000
         self.remote = True
         self.custom_user = CustomUser.objects.create(
-            role='company',
-            username='Nokia',
-            email="nokia123@wp.pl",
-            password="XXXXXXX"
+            role="company", username="Nokia", email="nokia123@wp.pl", password="XXXXXXX"
         )
         self.company = self.custom_user
         self.offer = Offer.objects.create(
@@ -77,7 +64,7 @@ class OffersViewTestCase(TestCase):
             salary_to=self.salary_to,
             remote=self.remote,
             company=self.company,
-            address="Zielona 4"
+            address="Zielona 4",
         )
         self.offer.contract.add(self.contract)
         self.offer.requirements.add(self.requirements)
@@ -96,55 +83,68 @@ class OffersViewTestCase(TestCase):
         """
         Test that the home page view returns a 200 status code and uses the correct template.
         """
-        response = self.client.get(reverse('offers:home'))
+        response = self.client.get(reverse("offers:home"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'home_page.html')
+        self.assertTemplateUsed(response, "home_page.html")
 
     def test_offer_detail_view_get_method_returns_200_status_code(self) -> None:
         """
         Test that the offer detail view returns a 200 status code and uses the correct template.
         """
-        response = self.client.get(reverse('offers:offer-detail', kwargs={'pk': self.offer.id}))
+        response = self.client.get(
+            reverse("offers:offer-detail", kwargs={"pk": self.offer.id})
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'offer_detail.html')
+        self.assertTemplateUsed(response, "offer_detail.html")
 
     def test_companies_list_view_get_method_returns_200_status_code(self):
         """
         Test that the companies list view returns a 200 status code and uses the correct template.
         """
-        response = self.client.get(reverse('offers:companies-list'))
+        response = self.client.get(reverse("offers:companies-list"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'companies_list.html')
+        self.assertTemplateUsed(response, "companies_list.html")
 
     def test_company_detail_view_get_method_returns_200_status_code(self):
         """
         Test that the company detail view returns a 200 status code and uses the correct template.
         """
-        response = self.client.get(reverse('offers:company-detail', kwargs={'pk': self.company.id}))
+        response = self.client.get(
+            reverse("offers:company-detail", kwargs={"pk": self.company.id})
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'company_detail.html')
+        self.assertTemplateUsed(response, "company_detail.html")
 
     def test_apply_for_offer_view_get_method_returns_200_status_code(self):
         """
         Test that the apply for offer GET view returns a 200 status code and uses the correct template.
         """
-        response = self.client.get(reverse('offers:apply-offer', kwargs={'offer_id': self.offer.id}, ))
+        response = self.client.get(
+            reverse(
+                "offers:apply-offer",
+                kwargs={"offer_id": self.offer.id},
+            )
+        )
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'apply_for_offer.html')
+        self.assertTemplateUsed(response, "apply_for_offer.html")
 
     def test_user_apply_for_an_offer_success_view_get_method(self):
         """
         Test that the apply success view returns a 200 status code and uses the correct template.
         """
-        response = self.client.get(reverse('offers:apply-success'))
+        response = self.client.get(reverse("offers:apply-success"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'apply_success.html')
+        self.assertTemplateUsed(response, "apply_success.html")
 
-    def test_login_user_add_company_review_view_get_method_returns_200_status_code(self) -> None:
+    def test_login_user_add_company_review_view_get_method_returns_200_status_code(
+        self,
+    ) -> None:
         """
         Test for GET request for the add company review view using client log in with role 'user'
         """
         self.client.login(username="user", password="Test123@")
-        response = self.client.get(reverse("offers:add-review", kwargs={'company_id': self.company.id}))
+        response = self.client.get(
+            reverse("offers:add-review", kwargs={"company_id": self.company.id})
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "add_company_review.html")

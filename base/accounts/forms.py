@@ -15,6 +15,7 @@ class CustomUserForm(forms.ModelForm):
         email: An EmailField containing the email address of the user.
         password: A CharField containing the password of the user.
     """
+
     username = forms.CharField(widget=forms.TextInput)
     email = forms.EmailField(widget=forms.EmailInput)
     password = forms.CharField(widget=forms.PasswordInput)
@@ -22,12 +23,12 @@ class CustomUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = (
-            'role',
-            'first_name',
-            'last_name',
-            'username',
-            'email',
-            'password',
+            "role",
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "password",
         )
 
     def clean_email(self):
@@ -35,9 +36,9 @@ class CustomUserForm(forms.ModelForm):
         A method to validate if the provided email already exists in
         CustomUser database, and raises a validation error if it does.
         """
-        email = self.cleaned_data['email']
+        email = self.cleaned_data["email"]
         if CustomUser.objects.filter(email=email).exists():
-            raise forms.ValidationError('Email already exists')
+            raise forms.ValidationError("Email already exists")
         return email
 
     def send_email(self, message):
@@ -45,9 +46,7 @@ class CustomUserForm(forms.ModelForm):
         A method that sends an activation email to the user's provided email address, using an asynchronous task.
         """
         send_email_task.delay(
-            self.cleaned_data['email'],
-            subject="Activate your account",
-            message=message
+            self.cleaned_data["email"], subject="Activate your account", message=message
         )
 
 
@@ -59,8 +58,17 @@ class LoginForm(AuthenticationForm):
         username: A CharField containing the username of the user.
         password: A CharField containing the password of the user.
     """
-    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'}))
+
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"class": "form-control", "placeholder": "Username"}
+        )
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={"class": "form-control", "placeholder": "Password"}
+        )
+    )
 
 
 class ChangePasswordForm(forms.Form):
@@ -71,9 +79,7 @@ class ChangePasswordForm(forms.Form):
         old_password: A CharField containing the old password of the user.
         new_password: A CharField containing the new password of the user.
     """
+
     email = forms.EmailField(widget=forms.EmailInput)
     old_password = forms.CharField(widget=forms.PasswordInput)
     new_password = forms.CharField(widget=forms.PasswordInput)
-
-
-

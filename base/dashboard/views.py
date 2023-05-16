@@ -8,11 +8,17 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView, CreateView, FormView, DeleteView, UpdateView, View
+from django.views.generic import (
+    ListView,
+    CreateView,
+    FormView,
+    DeleteView,
+    UpdateView,
+    View,
+)
 
 from .forms import (
     ReturnApplicationFeedbackForm,
-
 )
 from .models import Offer, Application
 
@@ -26,9 +32,10 @@ class ApplicationsListView(UserPassesTestMixin, ListView):
         - paginate_by: The number of items to include in each page of results.
         - template_name: The name of the template to use for rendering the view.
     """
+
     model = Application
     paginate_by = 20
-    template_name = 'applications_list.html'
+    template_name = "applications_list.html"
 
     def test_func(self):
         """
@@ -42,7 +49,7 @@ class ApplicationsListView(UserPassesTestMixin, ListView):
         """
         queryset = super().get_queryset()
         # queryset = queryset.filter(offer__company=self.kwargs['offer_id'])
-        queryset = queryset.filter(offer__id=self.kwargs['offer_id'])
+        queryset = queryset.filter(offer__id=self.kwargs["offer_id"])
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -62,6 +69,7 @@ class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
         - template_name (str): A string representing the HTML template to be rendered.
         - success_url (reverse_lazy): A URL to redirect to after successfully submitting the feedback.
     """
+
     form_class = ReturnApplicationFeedbackForm
     template_name = "return_app_feedback.html"
     success_url = reverse_lazy("offers:home")
@@ -71,17 +79,19 @@ class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
         A function that checks whether the logged-in user is a company user and is associated
         with the offer for the application in question.
         """
-        application = Application.objects.get(pk=self.kwargs['application_id'])
+        application = Application.objects.get(pk=self.kwargs["application_id"])
         offer = application.offer
-        return self.request.user.role == "company" and self.request.user == offer.company
+        return (
+            self.request.user.role == "company" and self.request.user == offer.company
+        )
 
     def get_initial(self):
         """
         A function that pre-populates the feedback form with the email address of the applicant.
         """
         initial = super().get_initial()
-        application = Application.objects.get(pk=self.kwargs['application_id'])
-        initial['email'] = application.email
+        application = Application.objects.get(pk=self.kwargs["application_id"])
+        initial["email"] = application.email
         return initial
 
     def form_valid(self, form):
@@ -89,7 +99,7 @@ class ReturnApplicationFeedbackView(UserPassesTestMixin, FormView):
         A function that sends an email with the feedback to the applicant and updates the application status
         to reflect the feedback was returned.
         """
-        application = Application.objects.get(pk=self.kwargs['application_id'])
+        application = Application.objects.get(pk=self.kwargs["application_id"])
         email = application.email
         form.send_email(email)
         application.update_answer(True)
@@ -104,6 +114,7 @@ class ApplicationDeleteView(DeleteView):
         deleted.
         - success_url (str): The URL to redirect to after successfully deleting the application.
     """
+
     model = Application
     success_url = "/"
 
@@ -113,7 +124,7 @@ class ApplicationDeleteView(DeleteView):
         It filters the queryset to only include the application with the primary key specified in the URL.
         """
         queryset = super().get_queryset()
-        queryset = queryset.filter(pk=self.kwargs['pk'])
+        queryset = queryset.filter(pk=self.kwargs["pk"])
         return queryset
 
 
@@ -124,6 +135,7 @@ class OfferDeleteView(DeleteView):
         - model (Offer): The model associated with this view, used to retrieve the offer instance to be deleted.
         - success_url (str): The URL to redirect to after successfully deleting the offer.
     """
+
     model = Offer
     success_url = "/"
 
@@ -146,13 +158,22 @@ class OfferCreateView(UserPassesTestMixin, CreateView):
         - template_name (str): A string representing the HTML template to be rendered.
         - success_url (str): The URL to redirect to after successfully creating the offer.
     """
+
     model = Offer
     fields = [
-        'name', 'description', 'level', 'requirements', 'localization',
-        'contract', 'position', 'salary_from', 'salary_to', 'remote',
-        'address'
+        "name",
+        "description",
+        "level",
+        "requirements",
+        "localization",
+        "contract",
+        "position",
+        "salary_from",
+        "salary_to",
+        "remote",
+        "address",
     ]
-    template_name = 'offer_create.html'
+    template_name = "offer_create.html"
     success_url = "/"
 
     def test_func(self):
@@ -187,13 +208,22 @@ class OfferUpdateView(UpdateView):
         - template_name (str): A string representing the HTML template to be rendered.
         - success_url (str): The URL to redirect to after successfully updating the offer.
     """
+
     model = Offer
     fields = [
-        'name', 'description', 'level', 'requirements', 'localization',
-        'contract', 'position', 'salary_from', 'salary_to', 'remote',
-        'address'
+        "name",
+        "description",
+        "level",
+        "requirements",
+        "localization",
+        "contract",
+        "position",
+        "salary_from",
+        "salary_to",
+        "remote",
+        "address",
     ]
-    template_name = 'offer_update.html'
+    template_name = "offer_update.html"
     success_url = "/"
 
     def get_queryset(self):
@@ -215,16 +245,24 @@ def generate_application_csv(request, pk):
     Returns:
         - HttpResponse: An HTTP response object.
     """
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="applications.csv"'
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="applications.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(['Full name', 'Email', 'Expected pay', 'Linkedin', 'Portfolio'])
+    writer.writerow(["Full name", "Email", "Expected pay", "Linkedin", "Portfolio"])
 
     application = Application.objects.filter(offer__id=pk)
 
     for data in application:
-        writer.writerow([data.return_full_name, data.email, data.expected_pay, data.linkedin, data.portfolio])
+        writer.writerow(
+            [
+                data.return_full_name,
+                data.email,
+                data.expected_pay,
+                data.linkedin,
+                data.portfolio,
+            ]
+        )
 
     return response
 
@@ -234,6 +272,7 @@ class CompanyDashboard(View):
     The class CompanyDashboard extends the built-in Django View class
     and is used to display a dashboard for a company user.
     """
+
     @method_decorator(company_required)
     def get(self, request, *args, **kwargs):
         """
@@ -246,11 +285,8 @@ class CompanyDashboard(View):
         applications_count = Application.objects.filter(offer_id__in=offers).count()
 
         context = {
-            'company':  company_id,
-            'offers': offers,
-            'applications_count': applications_count
+            "company": company_id,
+            "offers": offers,
+            "applications_count": applications_count,
         }
-        return render(request,
-                      'company_dashboard.html',
-                      context=context
-                      )
+        return render(request, "company_dashboard.html", context=context)

@@ -7,7 +7,6 @@ class StudyViewsTestCase(TestCase):
         self.client = Client()
 
     def test_study_list_view_get_method_returns_200_status_code(self):
-        response = self.client.get(reverse('study:study_list'))
+        response = self.client.get(reverse("study:study_list"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'study_home_page_list.html')
-
+        self.assertTemplateUsed(response, "study_home_page_list.html")

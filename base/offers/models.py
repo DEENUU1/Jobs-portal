@@ -11,13 +11,8 @@ class CompanyReview(models.Model):
         date_created: A DateTimeField containing the date the review was created.
         short_description: A CharField containing a short description of the review.
     """
-    RATES = [
-        (1, '1'),
-        (2, '2'),
-        (3, '3'),
-        (4, '4'),
-        (5, '5')
-    ]
+
+    RATES = [(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")]
     choose_rate = models.PositiveIntegerField(choices=RATES)
     email = models.EmailField()
     username = models.CharField(max_length=30, default="Anonimous")
@@ -33,9 +28,9 @@ class CompanyReview(models.Model):
         return f"{self.choose_rate}/5"
 
     class Meta:
-        ordering = ('date_created',)
-        verbose_name = 'Review'
-        verbose_name_plural = 'Reviews'
+        ordering = ("date_created",)
+        verbose_name = "Review"
+        verbose_name_plural = "Reviews"
 
     def __str__(self):
         return self.choose_rate

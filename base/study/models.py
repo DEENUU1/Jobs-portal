@@ -5,12 +5,13 @@ class Category(models.Model):
     """
     A category for organizing resources.
     """
+
     name = models.CharField(max_length=50)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = 'Category'
-        verbose_name_plural = 'Categories'
+        ordering = ("name",)
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         """
@@ -23,6 +24,7 @@ class Resources(models.Model):
     """
     A resource that can be shared within a category
     """
+
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
     url = models.URLField()
@@ -30,9 +32,9 @@ class Resources(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     class Meta:
-        ordering = ('name',)
-        verbose_name = 'Resource'
-        verbose_name_plural = 'Resources'
+        ordering = ("name",)
+        verbose_name = "Resource"
+        verbose_name_plural = "Resources"
 
     def __str__(self):
         """

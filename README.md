@@ -77,12 +77,12 @@ Thanks to the use of Celery and Redis technologies, the application can send an 
   - Downloading candidates' data to CSV format
 ### User:
   - Applying for offers
-  - Browsing learning resources 
+  - Browsing learning resources
 
 ### Other:
   - Sending activation link after registration
-  - Email and password changes 
-  - Filtering offers via date, languages, localization and more 
+  - Email and password changes
+  - Filtering offers via date, languages, localization and more
 
 ```python
 @shared_task()
@@ -124,11 +124,11 @@ GMAIL_EMAIL=<YOUR-GMAIL-EMAIL-HERE>
 ```bash
 cd base
 ```
-3. Then install all requirements 
+3. Then install all requirements
 ```bash
 pip install -r requirements.txt
 ```
-4. Make migrations 
+4. Make migrations
 ```bash
 python manage.py makemigrations
 python manage.py migrate

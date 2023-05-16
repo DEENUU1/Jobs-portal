@@ -16,7 +16,6 @@ from .forms import (
     DateSortingForm,
     SearchForm,
     RemoteFilterForm,
-
 )
 from .models import CompanyReview
 from .report import calculate_avg_rating
@@ -31,8 +30,9 @@ class HomePageView(ListView):
         - template_name (str): The name of the template that will be used to render the view.
         - paginate_by (int): The number of objects to display per page.
     """
+
     model = Offer
-    template_name = 'home_page.html'
+    template_name = "home_page.html"
     paginate_by = 10
 
     def get_queryset(self) -> QuerySet[Any]:
@@ -43,36 +43,36 @@ class HomePageView(ListView):
         """
         queryset = super().get_queryset()
 
-        name = self.request.GET.get('name')
+        name = self.request.GET.get("name")
         if name:
             queryset = queryset.filter(name__icontains=name)
 
-        remote = self.request.GET.get('remote')
+        remote = self.request.GET.get("remote")
         if remote:
             queryset = queryset.filter(remote=True)
 
-        positions = self.request.GET.getlist('choose_positions')
+        positions = self.request.GET.getlist("choose_positions")
         if positions:
             queryset = queryset.filter(position__in=positions)
 
-        level = self.request.GET.get('level')
+        level = self.request.GET.get("level")
         if level:
             queryset = queryset.filter(level=level)
 
-        localization = self.request.GET.get('localization')
+        localization = self.request.GET.get("localization")
         if localization:
             queryset = queryset.filter(localization=localization)
 
-        contract = self.request.GET.get('contract')
+        contract = self.request.GET.get("contract")
         if contract:
             queryset = queryset.filter(contract=contract)
 
-        order_by = self.request.GET.get('order_by')
+        order_by = self.request.GET.get("order_by")
         if order_by:
             if order_by == "1":
-                queryset = queryset.order_by('date_created')
+                queryset = queryset.order_by("date_created")
             if order_by == "2":
-                queryset = queryset.order_by('-date_created')
+                queryset = queryset.order_by("-date_created")
 
         return queryset
 
@@ -83,13 +83,13 @@ class HomePageView(ListView):
         """
         context = super().get_context_data(**kwargs)
 
-        context['positions_form'] = ChoosePositionsForm(self.request.GET)
-        context['level_form'] = LevelFilterForm(self.request.GET)
-        context['localization_form'] = LocalizationFilterForm(self.request.GET)
-        context['contract_form'] = ContractFilterForm(self.request.GET)
-        context['date_sorting_form'] = DateSortingForm(self.request.GET)
-        context['search_form'] = SearchForm(self.request.GET)
-        context['remote_form'] = RemoteFilterForm(self.request.GET)
+        context["positions_form"] = ChoosePositionsForm(self.request.GET)
+        context["level_form"] = LevelFilterForm(self.request.GET)
+        context["localization_form"] = LocalizationFilterForm(self.request.GET)
+        context["contract_form"] = ContractFilterForm(self.request.GET)
+        context["date_sorting_form"] = DateSortingForm(self.request.GET)
+        context["search_form"] = SearchForm(self.request.GET)
+        context["remote_form"] = RemoteFilterForm(self.request.GET)
 
         return context
 
@@ -102,14 +102,15 @@ class OfferDetailView(DetailView):
         - model (Offer): The model that the view is based on.
         - template_name (str): The name of the template that will be used to render the view.
     """
+
     model = Offer
-    template_name = 'offer_detail.html'
+    template_name = "offer_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = self.object.company
         avg_rating = calculate_avg_rating(company)
-        context['avg_rating'] = avg_rating
+        context["avg_rating"] = avg_rating
         return context
 
 
@@ -123,9 +124,10 @@ class CompaniesListView(ListView):
         - paginate_by (int): The number of objects to display per page.
         - template_name (str): The name of the template that will be used to render the view.
     """
+
     model = CustomUser
     paginate_by = 10
-    template_name = 'companies_list.html'
+    template_name = "companies_list.html"
 
     def get_queryset(self) -> QuerySet[Any]:
         """
@@ -133,7 +135,7 @@ class CompaniesListView(ListView):
         It filters the queryset to only include objects with a role of 'company'.
         """
         queryset = super().get_queryset()
-        queryset = queryset.filter(role='company')
+        queryset = queryset.filter(role="company")
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -153,8 +155,9 @@ class CompanyDetailView(DetailView):
         - model (CustomUser): The model that the view is based on.
         - template_name (str): The name of the template that will be used to render the view.
     """
+
     model = CustomUser
-    template_name = 'company_detail.html'
+    template_name = "company_detail.html"
 
     def get_queryset(self) -> QuerySet[Any]:
         """
@@ -162,7 +165,7 @@ class CompanyDetailView(DetailView):
         It filters the queryset to only include objects with a role of 'company'.
         """
         queryset = super().get_queryset()
-        queryset = queryset.filter(role='company')
+        queryset = queryset.filter(role="company")
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -172,9 +175,9 @@ class CompanyDetailView(DetailView):
         """
         context = super().get_context_data(**kwargs)
         avg_rating = calculate_avg_rating(self.object)
-        context['object_list'] = Offer.objects.filter(company=self.kwargs['pk'])
-        context['avg_rating'] = avg_rating
-        context['reviews'] = CompanyReview.objects.filter(company=self.kwargs['pk'])
+        context["object_list"] = Offer.objects.filter(company=self.kwargs["pk"])
+        context["avg_rating"] = avg_rating
+        context["reviews"] = CompanyReview.objects.filter(company=self.kwargs["pk"])
         return context
 
 
@@ -188,11 +191,20 @@ class ApplyForOfferView(CreateView):
         - template_name (str): The name of the template that will be used to render the view.
         - success_url (str): The URL to redirect to upon successful submission of the form.
     """
+
     model = Application
     fields = [
-        'first_name', 'last_name', 'email', 'phone_number', 'message', 'expected_pay', 'portfolio', 'linkedin', 'cv'
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "message",
+        "expected_pay",
+        "portfolio",
+        "linkedin",
+        "cv",
     ]
-    template_name = 'apply_for_offer.html'
+    template_name = "apply_for_offer.html"
     success_url = reverse_lazy("offers:apply-success")
 
     def form_valid(self, form):
@@ -200,7 +212,7 @@ class ApplyForOfferView(CreateView):
         Called when the form is submitted with valid data. This method saves the form data to the database
         and sets the offer_id to the value passed in the URL parameters. It returns an HTTP response to the success URL.
         """
-        form.instance.offer_id = self.kwargs['offer_id']
+        form.instance.offer_id = self.kwargs["offer_id"]
         return super().form_valid(form)
 
 
@@ -211,23 +223,25 @@ class ApplySuccessView(TemplateView):
     Attributes:
         - template_name (str): The name of the template that will be used to render the view.
     """
-    template_name = 'apply_success.html'
+
+    template_name = "apply_success.html"
 
 
 class AddCompanyReviewView(UserPassesTestMixin, CreateView):
     """
     View that handles the creation of a new company review by a user.
     """
+
     template_name = "add_company_review.html"
     success_url = reverse_lazy("offers:home")
     model = CompanyReview
-    fields = ('email', 'choose_rate', 'short_description')
+    fields = ("email", "choose_rate", "short_description")
 
     def test_func(self):
         """
         Tests if the user is authorized to create a review for the company.
         """
-        company = CustomUser.objects.get(pk=self.kwargs['company_id'])
+        company = CustomUser.objects.get(pk=self.kwargs["company_id"])
         return company.role == "company"
 
     def get_initial(self):
@@ -235,15 +249,15 @@ class AddCompanyReviewView(UserPassesTestMixin, CreateView):
         Returns the initial data to use for the form.
         """
         initial = super().get_initial()
-        initial['email'] = self.request.user.email
-        initial['company'] = self.kwargs['company_id']
+        initial["email"] = self.request.user.email
+        initial["company"] = self.kwargs["company_id"]
         return initial
 
     def form_valid(self, form):
         """
         Saves the form instance and returns the response for a valid form.
         """
-        form.instance.company_id = self.kwargs['company_id']
+        form.instance.company_id = self.kwargs["company_id"]
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):

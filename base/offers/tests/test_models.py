@@ -11,17 +11,19 @@ class CompanyReviewTestCase(TestCase):
             username="CompanyX",
             email="company@example.com",
             password="Test123@",
-            role="company"
+            role="company",
         )
         self.company_review = CompanyReview.objects.create(
             choose_rate=5,
             email="testuser@example.com",
             username="XXXXXXXX",
             short_description="Test description",
-            company=self.company
+            company=self.company,
         )
 
-    def test_company_review_model_object_is_created_correctly_after_model_is_saved(self) -> None:
+    def test_company_review_model_object_is_created_correctly_after_model_is_saved(
+        self,
+    ) -> None:
         """
         Test if company review is created correctly.
         """

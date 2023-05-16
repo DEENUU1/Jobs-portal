@@ -10,6 +10,7 @@ class ReturnApplicationFeedbackForm(forms.Form):
         subject: A CharField containing the subject of the feedback message.
         message: A CharField containing the feedback message.
     """
+
     email = forms.EmailField(widget=forms.EmailInput)
     subject = forms.CharField(widget=forms.TextInput)
     message = forms.CharField(widget=forms.Textarea)
@@ -21,6 +22,6 @@ class ReturnApplicationFeedbackForm(forms.Form):
         """
         send_email_task.delay(
             email,
-            self.cleaned_data['subject'],
-            self.cleaned_data['message'],
+            self.cleaned_data["subject"],
+            self.cleaned_data["message"],
         )

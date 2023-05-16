@@ -30,6 +30,7 @@ class RegisterUserView(FormView):
         form_class: A reference to the form class to be used for the registration form.
         success_url: A URL to redirect to upon successful user registration.
     """
+
     template_name = "auth/register_user.html"
     form_class = CustomUserForm
     success_url = reverse_lazy("accounts:success_register")
@@ -43,15 +44,18 @@ class RegisterUserView(FormView):
         """
         user = form.save(commit=False)
         user.is_active = False
-        user.set_password(form.cleaned_data['password'])
+        user.set_password(form.cleaned_data["password"])
         user.save()
         form.send_email(
-            message=render_to_string('auth/acc_active_email.html', {
-                'user': user,
-                'domain': get_current_site(self.request),
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            })
+            message=render_to_string(
+                "auth/acc_active_email.html",
+                {
+                    "user": user,
+                    "domain": get_current_site(self.request),
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    "token": account_activation_token.make_token(user),
+                },
+            )
         )
         return super().form_valid(form)
 
@@ -71,15 +75,17 @@ def register_activate(request: HttpRequest, uidb64: str, token: str) -> HttpResp
     try:
         uid = force_str(urlsafe_base64_decode(uidb64))
         user = CustomUser.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         login(request, user)
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return HttpResponse(
+            "Thank you for your email confirmation. Now you can login your account."
+        )
     else:
-        return HttpResponse('Activation link is invalid!')
+        return HttpResponse("Activation link is invalid!")
 
 
 class SuccessRegisterView(TemplateView):
@@ -87,6 +93,7 @@ class SuccessRegisterView(TemplateView):
     The class SuccessRegisterView extends the TemplateView class and is used to display a success message to the
     user after they have successfully registered for an account.
     """
+
     template_name = "auth/register_success.html"
 
 
@@ -98,6 +105,7 @@ class LoginUserView(FormView):
         - form_class (Form): The class of the form that will be used to authenticate the user's login credentials.
         - success_url (str): The URL that the user will be redirected to upon successful authentication.
     """
+
     template_name = "auth/login.html"
     form_class = LoginForm
     success_url = reverse_lazy("offers:home")
@@ -119,6 +127,7 @@ class ChangePasswordView(FormView):
         - template_name (str): The name of the template that will be rendered to display the change password form.
         - success_url (str): The URL that the user will be redirected to upon successful password change.
     """
+
     form_class = ChangePasswordForm
     template_name = "auth/change_password.html"
     success_url = reverse_lazy("accounts:success_password_change")
@@ -129,16 +138,16 @@ class ChangePasswordView(FormView):
         set and save the new password, and redirect the user to the success URL.
         """
         try:
-            user = CustomUser.objects.get(email=form.cleaned_data['email'])
+            user = CustomUser.objects.get(email=form.cleaned_data["email"])
         except CustomUser.DoesNotExist:
-            form.add_error(None, 'User with this email does not exist')
+            form.add_error(None, "User with this email does not exist")
             return super().form_invalid(form)
 
-        if not user.check_password(form.cleaned_data['old_password']):
-            form.add_error('old_password', 'Old password is incorrect')
+        if not user.check_password(form.cleaned_data["old_password"]):
+            form.add_error("old_password", "Old password is incorrect")
             return super().form_invalid(form)
 
-        user.set_password(form.cleaned_data['new_password'])
+        user.set_password(form.cleaned_data["new_password"])
         user.save()
 
         return super().form_valid(form)
@@ -151,6 +160,7 @@ class SuccessPasswordChangeView(TemplateView):
     Attributes:
         - template_name (str): The name of the template that will be rendered to display the success message.
     """
+
     template_name = "auth/password_change_success.html"
 
 
@@ -164,7 +174,7 @@ class LogoutUser(LogoutView):
         Overrides the parent class method to log the user out and redirect them to the homepage URL.
         """
         logout(request)
-        return redirect('offers:home')
+        return redirect("offers:home")
 
 
 class ProfileUpdateView(UpdateView):
@@ -177,9 +187,18 @@ class ProfileUpdateView(UpdateView):
         - template_name (str): The name of the template that will be rendered to display the update profile form.
         - success_url (str): The URL that the user will be redirected to upon successful profile update.
     """
+
     model = CustomUser
-    fields = ['first_name', 'last_name', 'email', 'phone_number', 'description', 'image', 'username']
-    template_name = 'profile/profile_update.html'
+    fields = [
+        "first_name",
+        "last_name",
+        "email",
+        "phone_number",
+        "description",
+        "image",
+        "username",
+    ]
+    template_name = "profile/profile_update.html"
     success_url = "/"
 
     def get_queryset(self):
@@ -206,11 +225,6 @@ class UserProfileView(views.View):
         user_id = request.user.email
         applications = Application.objects.filter(email=user_id)
 
-        context = {
-            'applications': applications
-        }
+        context = {"applications": applications}
 
-        return render(request,
-                      'profile/user_profile.html',
-                      context=context
-                      )
+        return render(request, "profile/user_profile.html", context=context)

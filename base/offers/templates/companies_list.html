@@ -20,7 +20,7 @@
             </div>
             <div class="col-md-8">
               <div class="card-body">
-              <div class="d-flex justify-content-between">    
+              <div class="d-flex justify-content-between">
                 <a style="text-decoration: none; color: black;" href="{% url 'offers:company-detail' object.id %}"><h2 class="card-title">{{object.username}}</h2></a>
               </div>
                 {% if object.description %}
@@ -40,7 +40,7 @@
     <h2 class="text-center">There is no any resources yet</h2>
 </div>
 {% endif %}
-    
+
 
 {% include "pagination.html" %}
 
